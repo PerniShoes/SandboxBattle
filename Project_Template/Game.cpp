@@ -4,7 +4,7 @@
 #include "Time.h"
 #include "Texture.h"
 #include "OrientationManager.h"
-#include "ProjectName.h" // Project
+#include "SandoxBattler.h" // Project
 
 #include <iostream>
 #include <cmath>
@@ -28,7 +28,7 @@ void Game::Initialize()
 
 
 	// Default
-	m_ProjectName = std::make_unique<ProjectName>(); // Project
+	m_SandoxBattler = std::make_unique<SandoxBattler>(); // Project
 	m_FPSCounter = std::make_unique<Texture>("placeHolder","../Resources/Fonts/consola.ttf",16,Color4f{1,1,1,1});
 	m_TargetFPS = 60.0f;
 	m_Time = std::make_unique<Time>(0.0f);
@@ -73,7 +73,7 @@ void Game::Update(float elapsedSec)
 	// Limits the frequency of code inside   // Put this into a separate function?
 	if (m_AccumulatedTime->GetTime() >= frameDuration)
 	{
-		m_ProjectName->Update(elapsedSec);
+		m_SandoxBattler->Update(elapsedSec);
 		m_AccumulatedTime->Restart();
 		UpdateTextures();
 	}
@@ -86,7 +86,7 @@ void Game::UpdateTextures()
 	m_FPSCounter = std::make_unique<Texture>("FPS: " + std::to_string(m_FPS),"../Resources/Fonts/consola.ttf",16,Color4f{1,1,1,1}); // Has to be better
 
 	UpdatePausedText();
-	m_ProjectName->UpdateTextures();
+	m_SandoxBattler->UpdateTextures();
 }
 void Game::UpdatePausedText()
 {
@@ -120,7 +120,7 @@ void Game::Draw() const
 	{
 		PushCameraMatrix();
 		glScalef(m_ScaleFactor,m_ScaleFactor,0);
-		m_ProjectName->Draw();
+		m_SandoxBattler->Draw();
 
 		/*utils::SetColor(PrettyColors::GetColor(PrettyColors::rose));
 		utils::FillRect(100.0f,100.0f,10.0f,10.0f); DEBUG*/
@@ -128,7 +128,7 @@ void Game::Draw() const
 	glPopMatrix();
 
 	DrawUI(); // FIX VVV
-	m_ProjectName->DrawUI(GetViewPort());
+	m_SandoxBattler->DrawUI(GetViewPort());
 	m_FPSCounter->Draw(Point2f{10.0f, GetViewPort().height - m_FPSCounter->GetHeight() - 4.0f},Rectf{});
 
 }
@@ -348,7 +348,7 @@ void Game::ProcessMouseMotionEvent(const SDL_MouseMotionEvent& e)
 {
 	m_LastMousePos = Point2f{ float(e.x),float(e.y) };
 
-	m_ProjectName->OnMouseMotion(m_LastMousePos);
+	m_SandoxBattler->OnMouseMotion(m_LastMousePos);
 }
 void Game::ProcessMouseDownEvent(const SDL_MouseButtonEvent& e)
 {
@@ -363,7 +363,7 @@ void Game::ProcessMouseDownEvent(const SDL_MouseButtonEvent& e)
 		break;
 	}
 
-	m_ProjectName->OnMouseDown();
+	m_SandoxBattler->OnMouseDown();
 }
 void Game::ProcessMouseUpEvent(const SDL_MouseButtonEvent& e)
 {
@@ -380,7 +380,7 @@ void Game::ProcessMouseUpEvent(const SDL_MouseButtonEvent& e)
 		
 		break;
 	}
-	m_ProjectName->OnMouseUp();
+	m_SandoxBattler->OnMouseUp();
 }
 void Game::ProcessMouseWheelEvent(const SDL_MouseWheelEvent& e)
 {

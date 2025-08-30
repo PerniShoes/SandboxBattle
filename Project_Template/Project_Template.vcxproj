@@ -134,14 +134,14 @@
     <ClCompile Include="Game.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="OrientationManager.cpp" />
-    <ClCompile Include="ProjectName.cpp" />
+    <ClCompile Include="SandoxBattler.cpp" />
     <ClCompile Include="Time.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Game.h" />
     <ClInclude Include="OrientationManager.h" />
     <ClInclude Include="PrettyColors.h" />
-    <ClInclude Include="ProjectName.h" />
+    <ClInclude Include="SandoxBattler.h" />
     <ClInclude Include="Time.h" />
   </ItemGroup>
   <ItemGroup>

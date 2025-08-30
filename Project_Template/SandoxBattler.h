@@ -8,26 +8,26 @@
 #include "PrettyColors.h"
 
 // HOW TO CHANGE PROJECT NAME:
-// -Replace all "ProjectName" in ProjectName.h and in ProjectName.cpp (make sure #include in .cpp changes too)
+// -Replace all "SandoxBattler" in SandoxBattler.h and in SandoxBattler.cpp (make sure #include in .cpp changes too)
 // -Rename both files 
-// -Replace all "ProjectName" in Game.h and in Game.cpp             .h->(Forward declaration, unique_ptr<ProjectName>) .cpp->(#include, make_unique<ProjectName>)
-// -Replace all "m_ProjectName" in Game.h and in Game.cpp (optional)
+// -Replace all "SandoxBattler" in Game.h and in Game.cpp             .h->(Forward declaration, unique_ptr<SandoxBattler>) .cpp->(#include, make_unique<SandoxBattler>)
+// -Replace all "m_SandoxBattler" in Game.h and in Game.cpp (optional)
 // In case of issues all relevant lines, in Game.h/cpp files, are marked with "// Project"
 
 class Time;
 class Texture;
 
-class ProjectName
+class SandoxBattler
 {
 
 public:
-    ProjectName();
-    ProjectName(const ProjectName& gol) = delete;
-    ProjectName& operator=(const ProjectName& gol) = delete;
-    ProjectName(ProjectName&& gol) = delete;
-    ProjectName& operator=(ProjectName&& gol) = delete;
+    SandoxBattler();
+    SandoxBattler(const SandoxBattler& gol) = delete;
+    SandoxBattler& operator=(const SandoxBattler& gol) = delete;
+    SandoxBattler(SandoxBattler&& gol) = delete;
+    SandoxBattler& operator=(SandoxBattler&& gol) = delete;
 
-    ~ProjectName();
+    ~SandoxBattler();
 
     void Draw() const;
     void DrawUI(Rectf viewport) const; 

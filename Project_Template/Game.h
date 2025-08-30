@@ -5,7 +5,7 @@
 
 class Time;
 class Texture;
-class ProjectName; // Project
+class SandoxBattler; // Project
 
 class Game : public BaseGame
 {
@@ -49,7 +49,7 @@ private:
 
 
 	// Default Game members:
-	std::unique_ptr<ProjectName> m_ProjectName; // Project
+	std::unique_ptr<SandoxBattler> m_SandoxBattler; // Project
 	const Window m_Window;
 
 	// Mouse

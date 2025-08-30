@@ -6,25 +6,25 @@
 #include "Texture.h"
 #include "OrientationManager.h"
 
-#include "ProjectName.h" // Project
+#include "SandoxBattler.h" // Project
 
-ProjectName::ProjectName()
+SandoxBattler::SandoxBattler()
     :m_LastMousePos{0.0f,0.0f}
     ,m_LBHeldTimer{std::make_unique<Time>(0.1f)}
 {
 
 }
 
-ProjectName::~ProjectName()
+SandoxBattler::~SandoxBattler()
 {
     Cleanup();
 }
-void ProjectName::Cleanup()
+void SandoxBattler::Cleanup()
 {
 
 }
 
-void ProjectName::Draw() const
+void SandoxBattler::Draw() const
 {
     glPushMatrix();
 
@@ -34,32 +34,32 @@ void ProjectName::Draw() const
 
     glPopMatrix();
 }
-void ProjectName::DrawUI(Rectf viewport) const
+void SandoxBattler::DrawUI(Rectf viewport) const
 {
 
 }
 
-void ProjectName::Update(float elapsedTime)
+void SandoxBattler::Update(float elapsedTime)
 {
     m_LBHeldTimer->Update(elapsedTime);
    
 }
-void ProjectName::UpdateTextures() 
+void SandoxBattler::UpdateTextures() 
 {
 
 }
 
-void ProjectName::OnMouseDown()
+void SandoxBattler::OnMouseDown()
 {
     m_LBHeldTimer->Start();
 
 }
-void ProjectName::OnMouseUp()
+void SandoxBattler::OnMouseUp()
 {
     m_LBHeldTimer->RestartAndPause();
 
 }
-void ProjectName::OnMouseMotion(const Point2f& mousePos)
+void SandoxBattler::OnMouseMotion(const Point2f& mousePos)
 {
     m_LastMousePos = mousePos;
 

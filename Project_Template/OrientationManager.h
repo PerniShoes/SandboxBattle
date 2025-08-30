@@ -2,6 +2,7 @@
 #include <SDL.h>
 #include "utils.h"
 
+// LOOK HOW TO IMPROVE IT
 class OrientationManager final
 {
 public:
