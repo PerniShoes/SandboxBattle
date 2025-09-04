@@ -4,7 +4,7 @@
 #include "Time.h"
 #include "Texture.h"
 #include "OrientationManager.h"
-#include "SandoxBattler.h" // Project
+#include "SandboxBattler.h" // Project
 
 #include <iostream>
 #include <cmath>
@@ -12,8 +12,10 @@
 
 Game::Game(const Window& window)
 	:BaseGame(window)
+	,m_UnitManager{}
 	,m_Window{ window }
 	,m_RenderedFrames{0}
+	
 {
 	Initialize();
 }
@@ -25,10 +27,16 @@ Game::~Game()
 
 void Game::Initialize()
 {
-
+	// UnitManager
+	int unitAmount{20};
+	for (int i{0}; i < unitAmount; ++i)
+	{
+		m_UnitManager.AddUnit(std::make_unique<Unit>(Point2f{50.0f, 50.0f+25.0f*i}));
+	}
+	
 
 	// Default
-	m_SandoxBattler = std::make_unique<SandoxBattler>(); // Project
+	m_SandboxBattler = std::make_unique<SandboxBattler>(); // Project
 	m_FPSCounter = std::make_unique<Texture>("placeHolder","../Resources/Fonts/consola.ttf",16,Color4f{1,1,1,1});
 	m_TargetFPS = 60.0f;
 	m_Time = std::make_unique<Time>(0.0f);
@@ -64,16 +72,18 @@ void Game::Update(float elapsedSec)
 	}
 
 	OrientationManager::UpdateCamera(m_CameraPos);
-	//
+	// FIX PUT IN SEPARATE CLASS
 
 	m_Time->Update(elapsedSec);
 	m_AccumulatedTime->Update(elapsedSec); // void UpdateTimers(float elapsedSec)????
-	
+
 	const float frameDuration{1.0f / m_TargetFPS};
 	// Limits the frequency of code inside   // Put this into a separate function?
 	if (m_AccumulatedTime->GetTime() >= frameDuration)
 	{
-		m_SandoxBattler->Update(elapsedSec);
+
+		m_UnitManager.UpdateAll(elapsedSec);
+		m_SandboxBattler->Update(elapsedSec);
 		m_AccumulatedTime->Restart();
 		UpdateTextures();
 	}
@@ -83,16 +93,16 @@ void Game::Update(float elapsedSec)
 void Game::UpdateTextures()
 {
 	int m_FPS = int((float)m_RenderedFrames / m_Time->GetTime());
-	m_FPSCounter = std::make_unique<Texture>("FPS: " + std::to_string(m_FPS),"../Resources/Fonts/consola.ttf",16,Color4f{1,1,1,1}); // Has to be better
+	m_FPSCounter = std::make_unique<Texture>("FPS: " + std::to_string(m_FPS),"../Resources/Fonts/consola.ttf",16,Color4f{0,0,0,1}); // Has to be better
 
 	UpdatePausedText();
-	m_SandoxBattler->UpdateTextures();
+	m_SandboxBattler->UpdateTextures();
 }
 void Game::UpdatePausedText()
 {
 	using namespace PrettyColors;
 	int ptSize{24};
-	Color4f color{GetColor(white)};
+	Color4f color{GetColor(black)};
 	const char* path{"../Resources/Fonts/consola.ttf"};
 	const char* text{"No state"};
 	if (m_Paused == true)
@@ -119,8 +129,9 @@ void Game::Draw() const
 	glPushMatrix();
 	{
 		PushCameraMatrix();
-		glScalef(m_ScaleFactor,m_ScaleFactor,0);
-		m_SandoxBattler->Draw();
+
+		m_UnitManager.DrawAll();
+		m_SandboxBattler->Draw();
 
 		/*utils::SetColor(PrettyColors::GetColor(PrettyColors::rose));
 		utils::FillRect(100.0f,100.0f,10.0f,10.0f); DEBUG*/
@@ -128,7 +139,7 @@ void Game::Draw() const
 	glPopMatrix();
 
 	DrawUI(); // FIX VVV
-	m_SandoxBattler->DrawUI(GetViewPort());
+	m_SandboxBattler->DrawUI(GetViewPort());
 	m_FPSCounter->Draw(Point2f{10.0f, GetViewPort().height - m_FPSCounter->GetHeight() - 4.0f},Rectf{});
 
 }
@@ -173,7 +184,7 @@ void Game::ProcessKeyDownEvent(const SDL_KeyboardEvent& e)
 
 		break;
 	case SDLK_u:
-		ResetZoom();
+		m_UnitManager.DeSellectAll();
 		break;
 	case SDLK_i:
 
@@ -348,7 +359,9 @@ void Game::ProcessMouseMotionEvent(const SDL_MouseMotionEvent& e)
 {
 	m_LastMousePos = Point2f{ float(e.x),float(e.y) };
 
-	m_SandoxBattler->OnMouseMotion(m_LastMousePos);
+	m_SandboxBattler->OnMouseMotion(m_LastMousePos);
+	m_UnitManager.OnMouseMotion(m_LastMousePos);
+
 }
 void Game::ProcessMouseDownEvent(const SDL_MouseButtonEvent& e)
 {
@@ -356,14 +369,16 @@ void Game::ProcessMouseDownEvent(const SDL_MouseButtonEvent& e)
 	{
 	case SDL_BUTTON_LEFT:
 		m_LeftClickHeld = true;
+		m_UnitManager.OnLeftButtonDown();
 		break;
 	case SDL_BUTTON_RIGHT:
+		m_UnitManager.OnRightButtonDown();
 		break;
 	case SDL_BUTTON_MIDDLE:
 		break;
 	}
 
-	m_SandoxBattler->OnMouseDown();
+	m_SandboxBattler->OnMouseDown();
 }
 void Game::ProcessMouseUpEvent(const SDL_MouseButtonEvent& e)
 {
@@ -380,7 +395,7 @@ void Game::ProcessMouseUpEvent(const SDL_MouseButtonEvent& e)
 		
 		break;
 	}
-	m_SandoxBattler->OnMouseUp();
+	m_SandboxBattler->OnMouseUp();
 }
 void Game::ProcessMouseWheelEvent(const SDL_MouseWheelEvent& e)
 {
@@ -437,6 +452,6 @@ float Game::GetScale() const
 
 void Game::ClearBackground() const
 {
-	glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
+	glClearColor(0.4f, 0.4f, 0.5f, 1.0f);
 	glClear(GL_COLOR_BUFFER_BIT);
 }

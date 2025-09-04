@@ -24,6 +24,7 @@
     <ProjectGuid>{843579aa-7a9c-4631-9e2a-eb3b1ae2749d}</ProjectGuid>
     <RootNamespace>ProjectTemplate</RootNamespace>
     <WindowsTargetPlatformVersion>10.0</WindowsTargetPlatformVersion>
+    <ProjectName>SandboxBattler</ProjectName>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
@@ -131,18 +132,31 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="Command.cpp" />
     <ClCompile Include="Game.cpp" />
     <ClCompile Include="main.cpp" />
+    <ClCompile Include="MoveCommand.cpp" />
     <ClCompile Include="OrientationManager.cpp" />
-    <ClCompile Include="SandoxBattler.cpp" />
+    <ClCompile Include="SandboxBattler.cpp" />
+    <ClCompile Include="Stats.cpp" />
     <ClCompile Include="Time.cpp" />
+    <ClCompile Include="Transform.cpp" />
+    <ClCompile Include="Unit.cpp" />
+    <ClCompile Include="UnitManager.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="AllUnitCommands.h" />
+    <ClInclude Include="Command.h" />
     <ClInclude Include="Game.h" />
+    <ClInclude Include="MoveCommand.h" />
     <ClInclude Include="OrientationManager.h" />
     <ClInclude Include="PrettyColors.h" />
-    <ClInclude Include="SandoxBattler.h" />
+    <ClInclude Include="SandboxBattler.h" />
+    <ClInclude Include="Stats.h" />
     <ClInclude Include="Time.h" />
+    <ClInclude Include="Transform.h" />
+    <ClInclude Include="Unit.h" />
+    <ClInclude Include="UnitManager.h" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Engine\Engine.vcxproj">
@@ -151,5 +165,12 @@
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
+    <Import Project="..\packages\gmock.1.11.0\build\native\gmock.targets" Condition="Exists('..\packages\gmock.1.11.0\build\native\gmock.targets')" />
   </ImportGroup>
+  <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
+    <PropertyGroup>
+      <ErrorText>This project references NuGet package(s) that are missing on this computer. Use NuGet Package Restore to download them.  For more information, see http://go.microsoft.com/fwlink/?LinkID=322105. The missing file is {0}.</ErrorText>
+    </PropertyGroup>
+    <Error Condition="!Exists('..\packages\gmock.1.11.0\build\native\gmock.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\gmock.1.11.0\build\native\gmock.targets'))" />
+  </Target>
 </Project>

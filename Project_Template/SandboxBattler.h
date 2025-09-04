@@ -7,27 +7,20 @@
 #include "utils.h"
 #include "PrettyColors.h"
 
-// HOW TO CHANGE PROJECT NAME:
-// -Replace all "SandoxBattler" in SandoxBattler.h and in SandoxBattler.cpp (make sure #include in .cpp changes too)
-// -Rename both files 
-// -Replace all "SandoxBattler" in Game.h and in Game.cpp             .h->(Forward declaration, unique_ptr<SandoxBattler>) .cpp->(#include, make_unique<SandoxBattler>)
-// -Replace all "m_SandoxBattler" in Game.h and in Game.cpp (optional)
-// In case of issues all relevant lines, in Game.h/cpp files, are marked with "// Project"
-
 class Time;
 class Texture;
 
-class SandoxBattler
+class SandboxBattler
 {
 
 public:
-    SandoxBattler();
-    SandoxBattler(const SandoxBattler& gol) = delete;
-    SandoxBattler& operator=(const SandoxBattler& gol) = delete;
-    SandoxBattler(SandoxBattler&& gol) = delete;
-    SandoxBattler& operator=(SandoxBattler&& gol) = delete;
+    SandboxBattler();
+    SandboxBattler(const SandboxBattler& other) = delete;
+    SandboxBattler& operator=(const SandboxBattler& other) = delete;
+    SandboxBattler(SandboxBattler&& other) = delete;
+    SandboxBattler& operator=(SandboxBattler&& other) = delete;
 
-    ~SandoxBattler();
+    ~SandboxBattler();
 
     void Draw() const;
     void DrawUI(Rectf viewport) const; 
@@ -51,6 +44,10 @@ private:
     // Mouse
     Point2f m_LastMousePos; 
     std::unique_ptr<Time> m_LBHeldTimer; 
+
+
+    // New code
+
 
 };
 

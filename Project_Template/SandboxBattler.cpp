@@ -6,60 +6,61 @@
 #include "Texture.h"
 #include "OrientationManager.h"
 
-#include "SandoxBattler.h" // Project
+#include "SandboxBattler.h" // Project
 
-SandoxBattler::SandoxBattler()
+SandboxBattler::SandboxBattler()
     :m_LastMousePos{0.0f,0.0f}
     ,m_LBHeldTimer{std::make_unique<Time>(0.1f)}
 {
 
 }
 
-SandoxBattler::~SandoxBattler()
+SandboxBattler::~SandboxBattler()
 {
     Cleanup();
 }
-void SandoxBattler::Cleanup()
+void SandboxBattler::Cleanup()
 {
 
 }
 
-void SandoxBattler::Draw() const
+void SandboxBattler::Draw() const
 {
     glPushMatrix();
-
     glTranslatef(0.0f,0.0f,0.0f);
     glScalef(1.0f,1.0f,0.0f);
 
 
+
     glPopMatrix();
 }
-void SandoxBattler::DrawUI(Rectf viewport) const
+void SandboxBattler::DrawUI(Rectf viewport) const
 {
 
 }
 
-void SandoxBattler::Update(float elapsedTime)
+void SandboxBattler::Update(float elapsedTime)
 {
+
     m_LBHeldTimer->Update(elapsedTime);
    
 }
-void SandoxBattler::UpdateTextures() 
+void SandboxBattler::UpdateTextures() 
 {
 
 }
 
-void SandoxBattler::OnMouseDown()
+void SandboxBattler::OnMouseDown()
 {
     m_LBHeldTimer->Start();
 
 }
-void SandoxBattler::OnMouseUp()
+void SandboxBattler::OnMouseUp()
 {
     m_LBHeldTimer->RestartAndPause();
 
 }
-void SandoxBattler::OnMouseMotion(const Point2f& mousePos)
+void SandboxBattler::OnMouseMotion(const Point2f& mousePos)
 {
     m_LastMousePos = mousePos;
 
