@@ -27,8 +27,15 @@
 #pragma warning(disable : 4820)
 
 // MINE CHAOS
-//#define GLEW_STATIC     
-//#include <GL/glew.h>  
+#ifdef _WIN32
+#define WIN32_LEAN_AND_MEAN
+#define NOMINMAX          // Prevent macro collision with std::min / std::max
+#include <windows.h>
+#endif
+#define GLEW_STATIC     
+#include <GL/glew.h>  
+//
+
 #include <SDL.h>
 #include <SDL_opengl.h>
 #include <SDL_ttf.h> 
@@ -38,6 +45,3 @@
 #pragma warning(default : 26812)
 #include "structs.h"
 
-//#ifdef _WIN32
-//#include <windows.h>
-//#endif
