@@ -3,6 +3,7 @@
 #include <algorithm>
 #include <chrono>
 #include "BaseGame.h"
+#include "FileUtils.h"
 
 BaseGame::BaseGame(const Window& window)
 	: m_Window{ window }
@@ -99,6 +100,18 @@ void BaseGame::InitializeGameEngine()
 
 	// Vsync on/off:
 	SDL_GL_SetSwapInterval(1);
+
+
+	// ADDED CODE
+	char buffer[MAX_PATH];
+	GetCurrentDirectoryA(MAX_PATH,buffer);
+	std::cout << "Current working directory: " << buffer << std::endl;
+
+	std::string vertSource = ReadFile("../Shaders/simple.vert");
+	std::string fragSource = ReadFile("../Shaders/replace_white.frag");
+
+
+
 
 
 	// Initialize PNG loading

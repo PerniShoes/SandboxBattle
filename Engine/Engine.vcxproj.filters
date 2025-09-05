@@ -28,6 +28,9 @@
     <ClCompile Include="Vector2f.cpp">
       <Filter>Source files</Filter>
     </ClCompile>
+    <ClCompile Include="FileUtils.cpp">
+      <Filter>MyCode</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="base.h">
@@ -60,6 +63,9 @@
     <ClInclude Include="Vector2f.h">
       <Filter>Header files</Filter>
     </ClInclude>
+    <ClInclude Include="FileUtils.h">
+      <Filter>MyCode</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Header files">
@@ -70,6 +76,9 @@
     </Filter>
     <Filter Include="Resource files">
       <UniqueIdentifier>{e5bcd3d3-5484-412a-8fb8-49384cee1bba}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="MyCode">
+      <UniqueIdentifier>{66d3506d-ee3c-4400-bc36-800e302f5e0f}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
 </Project>
