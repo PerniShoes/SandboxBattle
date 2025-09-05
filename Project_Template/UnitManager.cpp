@@ -111,7 +111,10 @@ void UnitManager::DeSellectAll()
 }
 void UnitManager::IssueCommand(Unit* unit, CommandPtr command)
 {
-    m_Queues[unit].emplace(std::move(command));
+    if (m_QueuingEnabled)
+    {
+        m_Queues[unit].emplace(std::move(command));
+    }
 
 }
 void UnitManager::EnableQueuing()

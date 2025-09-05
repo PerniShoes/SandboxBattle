@@ -259,6 +259,9 @@ void Game::ProcessKeyDownEvent(const SDL_KeyboardEvent& e)
 	case SDLK_LALT:
 		m_AltHeld = true;
 		break;
+	case SDLK_LSHIFT:
+		m_UnitManager.EnableQueuing();
+		break;
 	case SDLK_ESCAPE:
 		// Not sure about this, but works ¯\_(^^)_/¯
 		SDL_Event e{SDL_QUIT};
@@ -351,6 +354,9 @@ void Game::ProcessKeyUpEvent(const SDL_KeyboardEvent& e)
 		break;
 	case SDLK_LALT:
 		m_AltHeld = false;
+		break;
+	case SDLK_LSHIFT:
+		m_UnitManager.DisableQueuing();
 		break;
 	}
 	
