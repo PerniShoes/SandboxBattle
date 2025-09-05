@@ -85,4 +85,14 @@ namespace PrettyColors
 		return int(ColorsList::AllColors);
 	}
 
+	static Color4f RGBtoColor4f(int r,int g,int b,int a = 255)
+	{
+		return Color4f{
+			float(r) / 255.0f,
+			float(g) / 255.0f,
+			float(b) / 255.0f,
+			float(a) / 255.0f
+		};
+	}
+
 };

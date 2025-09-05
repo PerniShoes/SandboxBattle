@@ -355,7 +355,7 @@ void Texture::InitShader()
 	glDeleteShader(fragmentShader);
 }
 
-void Texture::DrawShade(const Rectf& dstRect,const Rectf& srcRect,const Color4f& targetColor,const Color4f& replacementColor) const
+void Texture::DrawShade(const Rectf& dstRect,const Rectf& srcRect,std::initializer_list<std::pair<Color4f,Color4f>> colorPairs) const
 {
 	if (!m_CreationOk)
 	{
@@ -363,12 +363,11 @@ void Texture::DrawShade(const Rectf& dstRect,const Rectf& srcRect,const Color4f&
 		return;
 	}
 
-	const float epsilon{0.001f};
+	const float epsilon = 0.001f;
 
 	// --- Texture coordinates ---
 	float textLeft{},textRight{},textTop{},textBottom{};
 	float defaultDestWidth{},defaultDestHeight{};
-
 	if (!(srcRect.width > epsilon && srcRect.height > epsilon))
 	{
 		textLeft = 0.0f; textRight = 1.0f;
@@ -392,34 +391,60 @@ void Texture::DrawShade(const Rectf& dstRect,const Rectf& srcRect,const Color4f&
 	float vertexRight = (dstRect.width > epsilon) ? vertexLeft + dstRect.width : vertexLeft + defaultDestWidth;
 	float vertexTop = (dstRect.height > epsilon) ? vertexBottom + dstRect.height : vertexBottom + defaultDestHeight;
 
-	// --- Bind shader program ---
+	// --- Bind shader ---
 	glUseProgram(shaderProgram);
 
-	// --- Set uniforms ---
 	GLint texLoc = glGetUniformLocation(shaderProgram,"uTexture");
-	GLint targetLoc = glGetUniformLocation(shaderProgram,"uTargetColor");
-	GLint replacementLoc = glGetUniformLocation(shaderProgram,"uReplacementColor");
+	GLint numLoc = glGetUniformLocation(shaderProgram,"uNumColors");
+	GLint targetLoc = glGetUniformLocation(shaderProgram,"uTargetColors");
+	GLint replacementLoc = glGetUniformLocation(shaderProgram,"uReplacementColors");
 
-	glUniform1i(texLoc,0); // Texture unit 0
-	glUniform4f(targetLoc,targetColor.r,targetColor.g,targetColor.b,targetColor.a);
-	glUniform4f(replacementLoc,replacementColor.r,replacementColor.g,replacementColor.b,replacementColor.a);
+	glUniform1i(texLoc,0); // texture unit 0
 
-	// --- Bind texture ---
+	// --- Prepare color arrays ---
+	int numColors = std::min((int)colorPairs.size(),8); // max 8
+	glUniform1i(numLoc,numColors);
+
+	float targetData[32] = {0};
+	float replacementData[32] = {0};
+
+	int i = 0;
+	for (const auto& pair : colorPairs)
+	{
+		if (i >= 8) break;
+
+		targetData[i * 4 + 0] = pair.first.r;
+		targetData[i * 4 + 1] = pair.first.g;
+		targetData[i * 4 + 2] = pair.first.b;
+		targetData[i * 4 + 3] = pair.first.a;
+
+		replacementData[i * 4 + 0] = pair.second.r;
+		replacementData[i * 4 + 1] = pair.second.g;
+		replacementData[i * 4 + 2] = pair.second.b;
+		replacementData[i * 4 + 3] = pair.second.a;
+
+		++i;
+	}
+
+	glUniform4fv(targetLoc,numColors,targetData);
+	glUniform4fv(replacementLoc,numColors,replacementData);
+
+	// --- Bind texture and draw quad ---
 	glActiveTexture(GL_TEXTURE0);
 	glBindTexture(GL_TEXTURE_2D,m_Id);
-
-	// --- Draw quad ---
 	glEnable(GL_TEXTURE_2D);
+
 	glBegin(GL_QUADS);
 	glTexCoord2f(textLeft,textBottom);  glVertex2f(vertexLeft,vertexBottom);
 	glTexCoord2f(textLeft,textTop);     glVertex2f(vertexLeft,vertexTop);
 	glTexCoord2f(textRight,textTop);    glVertex2f(vertexRight,vertexTop);
 	glTexCoord2f(textRight,textBottom); glVertex2f(vertexRight,vertexBottom);
 	glEnd();
-	glDisable(GL_TEXTURE_2D);
 
+	glDisable(GL_TEXTURE_2D);
 	glUseProgram(0);
 }
+
 
 
 float Texture::GetWidth() const

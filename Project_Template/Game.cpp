@@ -34,7 +34,7 @@ void Game::Initialize()
 		m_UnitManager.AddUnit(std::make_unique<Unit>(UnitType{},Point2f{50.0f, 50.0f + 25.0f * i},Stats{},5.0f));
 	}
 	// FOR TESTING PURPOSED FIX OR DELETE
-	m_TestTexture = std::make_unique<Texture>("../Resources/Images/PixelGuyTestChanged.png");
+	m_TestTexture = std::make_unique<Texture>("../Resources/Images/PixelBackPackGuy.png");
 
 
 	// Default
@@ -133,12 +133,21 @@ void Game::Draw() const
 		PushCameraMatrix();
 		using namespace PrettyColors;
 
-		m_TestTexture->DrawShade(Rectf{0.0f  ,600.0f,200.0f,200.0f},{},Color4f{GetColor(white)},Color4f{GetColor(lime)});
-		m_TestTexture->DrawShade(Rectf{200.0f,600.0f,200.0f,200.0f},{},Color4f{GetColor(white)},Color4f{GetColor(rose)});
-		m_TestTexture->DrawShade(Rectf{400.0f,600.0f,200.0f,200.0f},{},Color4f{GetColor(white)},Color4f{GetColor(black)});
-		m_TestTexture->DrawShade(Rectf{600.0f,600.0f,200.0f,200.0f},{},Color4f{GetColor(white)},Color4f{GetColor(cyan)});
-		m_TestTexture->DrawShade(Rectf{800.0f,600.0f,200.0f,200.0f},{},Color4f{GetColor(white)},Color4f{GetColor(brown)});
-
+		m_TestTexture->DrawShade(Rectf{0.0f  ,600.0f,200.0f,200.0f},{},{{Color4f(RGBtoColor4f(89, 77,62)), Color4f(GetColor(purple))} ,{Color4f(1,1,1,1), Color4f(GetColor(black))}
+			,{Color4f(GetColor(black)),Color4f(GetColor(white))},{Color4f(RGBtoColor4f(129,65,64)),Color4f(GetColor(black))},{Color4f(RGBtoColor4f(230,206,93)),Color4f(GetColor(purple))},{Color4f(RGBtoColor4f(190,191,190)),Color4f(GetColor(black))}});
+		
+		m_TestTexture->DrawShade(Rectf{200.0f,600.0f,200.0f,200.0f},{},{{Color4f(RGBtoColor4f(89, 77,62)), Color4f(GetColor(black))} ,{Color4f(1,1,1,1), Color4f(GetColor(black))}
+			,{Color4f(GetColor(black)),Color4f(GetColor(rose))}   ,{Color4f(RGBtoColor4f(129,65,64)),Color4f(GetColor(dRed))} ,{Color4f(RGBtoColor4f(230,206,93)),Color4f(GetColor(dRed))},{Color4f(RGBtoColor4f(190,191,190)),Color4f(GetColor(dRed))}});
+		
+		m_TestTexture->DrawShade(Rectf{400.0f,600.0f,200.0f,200.0f},{},{{Color4f(RGBtoColor4f(89, 77,62)), Color4f(GetColor(orange))} ,{Color4f(1,1,1,1), Color4f(GetColor(orange))}
+			,{Color4f(GetColor(black)),Color4f(GetColor(black))}  ,{Color4f(RGBtoColor4f(129,65,64)),Color4f(GetColor(cobalt))} ,{Color4f(RGBtoColor4f(230,206,93)),Color4f(GetColor(dBlue))},{Color4f(RGBtoColor4f(190,191,190)),Color4f(GetColor(black))}});
+		
+		m_TestTexture->DrawShade(Rectf{600.0f,600.0f,200.0f,200.0f},{},{{Color4f(RGBtoColor4f(89, 77,62)), Color4f(GetColor(black))} ,{Color4f(1,1,1,1), Color4f(GetColor(yellow))}
+			,{Color4f(GetColor(black)),Color4f(GetColor(black))} ,{Color4f(RGBtoColor4f(129,65,64)),Color4f(GetColor(lBlue))},{Color4f(RGBtoColor4f(230,206,93)),Color4f(GetColor(lBlue))},{Color4f(RGBtoColor4f(190,191,190)),Color4f(GetColor(lBlue))}});
+		
+		m_TestTexture->DrawShade(Rectf{800.0f,600.0f,200.0f,200.0f},{},{{Color4f(RGBtoColor4f(89, 77,62)), Color4f(GetColor(black))} ,{Color4f(1,1,1,1), Color4f(GetColor(dRed))}
+			,{Color4f(GetColor(black)),Color4f(GetColor(dRed))},{Color4f(RGBtoColor4f(129,65,64)),Color4f(GetColor(white))},{Color4f(RGBtoColor4f(230,206,93)),Color4f(GetColor(gray))},{Color4f(RGBtoColor4f(190,191,190)),Color4f(GetColor(black))}});
+																																																			 
 		m_UnitManager.DrawAll();
 		m_SandboxBattler->Draw();
 
