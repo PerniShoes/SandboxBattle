@@ -15,7 +15,7 @@ BurningEf::BurningEf(Unit* caster,float duration,ActionTarget targets,int power)
 
 void BurningEf::Apply(Unit* self,Unit* target)
 {
-   // target->ApplyDebuff(std::make_unique<BurningEf>(m_Caster,m_Duration,m_Targets,m_Power));
+    target->ApplyDebuff(std::make_unique<BurningEf>(m_Caster,m_Duration,m_Targets,m_Power));
 
 }
 void BurningEf::Tick(Unit* target,float elapsedTime)

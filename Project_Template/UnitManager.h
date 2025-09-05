@@ -5,6 +5,7 @@
 #include "Unit.h"
 #include <queue>
 #include <unordered_map>
+#include <algorithm>
 
 class Command;
 class UnitManager
@@ -48,5 +49,46 @@ private:
 	std::vector<std::unique_ptr<Unit>> m_Units;
 	std::unordered_map<Unit*,std::queue<CommandPtr>> m_Queues;
 
+
+	// Should be called every few/dozen or so frames (since units don't move THAT fast anyways)
+	// Sorts Units by Y coordinate and UnitType (flying) in order to draw units from back to front
+
+	std::vector<std::unique_ptr<Unit>> bucketSortByTypeAndY(std::vector<std::unique_ptr<Unit>>& units,int screenHeight)
+	{
+		int bucketCount = screenHeight / 5 + 1;
+
+		std::vector<std::vector<std::unique_ptr<Unit>>> groundBuckets(bucketCount);
+		std::vector<std::vector<std::unique_ptr<Unit>>> airBuckets(bucketCount);
+
+		for (auto& u : units)
+		{
+			int index = u->GetTransform().position.y / 5;
+			if (u->GetType() == UnitType::ground)
+			{
+				groundBuckets[index].push_back(std::move(u));
+			}
+			else
+			{ 
+				airBuckets[index].push_back(std::move(u));
+			}
+		}
+
+		std::vector<std::unique_ptr<Unit>> sorted;
+		for (int i = bucketCount - 1; i >= 0; --i)
+		{
+			for (auto& u : groundBuckets[i])
+			{
+				sorted.push_back(std::move(u));
+			}
+		}
+		for (int i = bucketCount - 1; i >= 0; --i)
+		{
+			for (auto& u : airBuckets[i])
+			{
+				sorted.push_back(std::move(u));
+			}
+		}
+		return sorted;
+	}
 };
 

@@ -23,7 +23,7 @@ void UnitManager::DrawAll()const
 
     for (const auto unitPtr : m_SelectedUnits)
     {
-        unitPtr->DrawSelection();
+        unitPtr->DrawHighlight();
     }
 
     for (const auto& unitPtr : m_Units)

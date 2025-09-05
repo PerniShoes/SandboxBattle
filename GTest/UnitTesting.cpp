@@ -14,7 +14,7 @@ TEST(UnitTest,Overheal)
 {
     Transform transform{};
     Stats baseStats{100,200};
-    Unit testDummy{transform,baseStats};
+    Unit testDummy{UnitType{},transform,baseStats};
     
     testDummy.Heal(200);
     EXPECT_EQ(testDummy.GetStats().m_CurrentHealth,testDummy.GetStats().m_MaxHealth);
@@ -24,7 +24,7 @@ TEST(UnitTest,Overkill)
 {
     Transform transform{};
     Stats baseStats{100,200};
-    Unit testDummy{transform,baseStats};
+    Unit testDummy{UnitType{},transform,baseStats};
 
     testDummy.TakeDamage(300);
     EXPECT_EQ(testDummy.GetStats().m_CurrentHealth,0);
@@ -34,7 +34,7 @@ TEST(UnitTest,HealingWorks)
 {
     Transform transform{};
     Stats baseStats{100,200};
-    Unit testDummy{transform,baseStats};
+    Unit testDummy{UnitType{},transform,baseStats};
 
     testDummy.TakeDamage(100); 
     testDummy.Heal(50);
@@ -45,7 +45,7 @@ TEST(UnitTest,DamageWorks)
 {
     Transform transform{};
     Stats baseStats{100,200};
-    Unit testDummy{transform,baseStats};
+    Unit testDummy{UnitType{},transform,baseStats};
 
     testDummy.TakeDamage(70);
     EXPECT_EQ(testDummy.GetStats().m_CurrentHealth,30);

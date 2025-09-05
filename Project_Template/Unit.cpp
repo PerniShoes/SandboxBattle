@@ -1,9 +1,10 @@
 #include "Unit.h"
 #include "PrettyColors.h"
 
-Unit::Unit(Transform transform,Stats baseStats,float hitBoxRadius, Color4f color)
-    :m_Stats{baseStats}
+Unit::Unit(UnitType type, Transform transform,Stats baseStats,float hitBoxRadius, Color4f color)
+    :m_Type{type}
     ,m_Target{nullptr}
+    ,m_Stats{baseStats}
     ,m_Destination{}
     ,m_Transform{transform}
     ,m_HitBoxRadius{hitBoxRadius}
@@ -39,18 +40,20 @@ void Unit::Draw() const
 
     m_Transform.Pop();
 }
-void Unit::DrawSelection() const
+void Unit::DrawHighlight() const
 {
     using namespace utils;
     using namespace PrettyColors;
     m_Transform.Push(); 
     m_Transform.Apply();
 
-    float offset{5.0f};
+    float offset{5.0f+ m_HitBoxRadius/30.0f};
     float radius{m_HitBoxRadius + offset};
+    float lineWidth{1.0f+ m_HitBoxRadius / 50.0f};
+    lineWidth = std::min(lineWidth,5.0f);
 
     SetColor(GetColor(green));
-    DrawEllipse(0,0,radius,radius);
+    DrawEllipse(0,0,radius,radius,lineWidth);
 
     m_Transform.Pop();
 }
@@ -94,11 +97,11 @@ bool Unit::MoveTowardsDestination(Point2f destination, float elapsedTime)
 
 void Unit::ApplyBuff(std::unique_ptr<Effect> buff)
 {
-    //m_Buffs.push_back(std::move(buff));
+    m_Buffs.push_back(std::move(buff));
 }
 void Unit::ApplyDebuff(std::unique_ptr<Effect> debuff)
 {
-    //m_Debuffs.push_back(std::move(debuff));
+    m_Debuffs.push_back(std::move(debuff));
 }
 void Unit::TakeDamage(int amount)
 {
@@ -111,4 +114,8 @@ void Unit::Heal(int amount)
 Stats Unit::GetStats() const
 {
     return m_Stats;
+}
+UnitType Unit::GetType() const
+{
+    return m_Type;
 }

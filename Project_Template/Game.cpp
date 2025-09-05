@@ -31,7 +31,7 @@ void Game::Initialize()
 	int unitAmount{1};
 	for (int i{0}; i < unitAmount; ++i)
 	{
-		m_UnitManager.AddUnit(std::make_unique<Unit>(Point2f{50.0f, 50.0f+25.0f*i}));
+		m_UnitManager.AddUnit(std::make_unique<Unit>(UnitType{},Point2f{50.0f, 50.0f + 25.0f * i},Stats{},5.0f));
 	}
 	
 
