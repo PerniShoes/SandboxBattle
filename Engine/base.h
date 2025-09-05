@@ -17,6 +17,10 @@
 #pragma comment (lib,"opengl32.lib")
 #pragma comment (lib,"Glu32.lib")
 
+// MINE CHAOS
+//#pragma comment(lib, "glew32.lib")
+//#pragma comment(lib, "glew32d.lib") 
+
 // SDL extension libs 
 #pragma comment(lib, "SDL2_image.lib")  
 #pragma comment(lib, "SDL2_ttf.lib") 
@@ -31,8 +35,7 @@
 #define WIN32_LEAN_AND_MEAN
 #define NOMINMAX          // Prevent macro collision with std::min / std::max
 #include <windows.h>
-#endif
-#define GLEW_STATIC     
+#endif  
 #include <GL/glew.h>  
 //
 

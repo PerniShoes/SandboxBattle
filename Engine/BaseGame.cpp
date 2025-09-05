@@ -105,36 +105,46 @@ void BaseGame::InitializeGameEngine()
 
 
 	// ADDED CODE
+	// SHADER CHAOS
+	glewExperimental = GL_TRUE; // recommended for modern OpenGL
+	GLenum err = glewInit();
+	if (GLEW_OK != err)
+	{
+		std::cerr << "GLEW init failed: " << glewGetErrorString(err) << std::endl;
+	}
 	//char buffer[MAX_PATH];
 	//GetCurrentDirectoryA(MAX_PATH,buffer);
 	//std::cout << "Current working directory: " << buffer << std::endl;
-
 	std::string vertSource = ReadFile("../Shaders/simple.vert");
 	std::string fragSource = ReadFile("../Shaders/replace_white.frag");
 
-	//GLuint shaderProgram = glCreateProgram();
-	//GLuint vertexShader = glCreateShader(GL_VERTEX_SHADER);
-	//GLuint fragmentShader = glCreateShader(GL_FRAGMENT_SHADER);
+	GLuint shaderProgram = glCreateProgram();
+	GLuint vertexShader = glCreateShader(GL_VERTEX_SHADER);
+	GLuint fragmentShader = glCreateShader(GL_FRAGMENT_SHADER);
 
-	//const char* vertCode = vertSource.c_str();
-	//const char* fragCode = fragSource.c_str();
+	const char* vertCode = vertSource.c_str();
+	const char* fragCode = fragSource.c_str();
 
-	//glShaderSource(vertexShader,1,&vertCode,NULL);
-	//glCompileShader(vertexShader);
-	//CheckShaderCompileErrors(vertexShader);
+	glShaderSource(vertexShader,1,&vertCode,nullptr);
+	glCompileShader(vertexShader);
+	CheckShaderCompileErrors(vertexShader);
 
-	//glShaderSource(fragmentShader,1,&fragCode,NULL);
-	//glCompileShader(fragmentShader);
-	//CheckShaderCompileErrors(fragmentShader);
+	glShaderSource(fragmentShader,1,&fragCode,nullptr);
+	glCompileShader(fragmentShader);
+	CheckShaderCompileErrors(fragmentShader);
 
-	//glAttachShader(shaderProgram,vertexShader);
-	//glAttachShader(shaderProgram,fragmentShader);
-	//glLinkProgram(shaderProgram);
-	//CheckProgramLinkErrors(shaderProgram);
+	glAttachShader(shaderProgram,vertexShader);
+	glAttachShader(shaderProgram,fragmentShader);
+	glLinkProgram(shaderProgram);
+	CheckProgramLinkErrors(shaderProgram);
 
-	//glDeleteShader(vertexShader);
-	//glDeleteShader(fragmentShader);
+	glDeleteShader(vertexShader);
+	glDeleteShader(fragmentShader);
 
+	// Use the shader program
+	// glUseProgram(shaderProgram);
+
+	// SHADER CHAOS
 
 	// SDL INITS
 	// Initialize PNG loading
