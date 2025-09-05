@@ -50,7 +50,7 @@ private:
 	// New code
 	UnitManager m_UnitManager;
 
-
+	std::unique_ptr<Texture> m_TestTexture;
 	// Check FIX and DELETE every now and then
 
 	// Default Game members:

@@ -14,7 +14,11 @@ public:
 	~Texture();
 
 	void Draw(const Point2f& dstBottomLeft = {}, const Rectf& srcRect = {}) const;
-	void Draw( const Rectf& dstRect, const Rectf& srcRect = {} ) const;
+	void Draw(const Rectf& dstRect, const Rectf& srcRect = {} ) const;
+	void DrawShade(const Rectf& dstRect,const Rectf& srcRec = {},const Color4f& targetColor = Color4f{1.0f,1.0f,1.0f,1.0f},const Color4f& replacementColor = Color4f{1.0f,0.0f,0.0f,1.0f}) const;
+
+	static void InitShader();
+	static GLuint shaderProgram;
 
 	float GetWidth() const;
 	float GetHeight() const;

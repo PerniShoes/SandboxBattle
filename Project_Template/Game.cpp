@@ -33,7 +33,9 @@ void Game::Initialize()
 	{
 		m_UnitManager.AddUnit(std::make_unique<Unit>(UnitType{},Point2f{50.0f, 50.0f + 25.0f * i},Stats{},5.0f));
 	}
-	
+	// FOR TESTING PURPOSED FIX OR DELETE
+	m_TestTexture = std::make_unique<Texture>("../Resources/Images/PixelGuyTestChanged.png");
+
 
 	// Default
 	m_SandboxBattler = std::make_unique<SandboxBattler>(); // Project
@@ -129,6 +131,13 @@ void Game::Draw() const
 	glPushMatrix();
 	{
 		PushCameraMatrix();
+		using namespace PrettyColors;
+
+		m_TestTexture->DrawShade(Rectf{0.0f  ,600.0f,200.0f,200.0f},{},Color4f{GetColor(white)},Color4f{GetColor(lime)});
+		m_TestTexture->DrawShade(Rectf{200.0f,600.0f,200.0f,200.0f},{},Color4f{GetColor(white)},Color4f{GetColor(rose)});
+		m_TestTexture->DrawShade(Rectf{400.0f,600.0f,200.0f,200.0f},{},Color4f{GetColor(white)},Color4f{GetColor(black)});
+		m_TestTexture->DrawShade(Rectf{600.0f,600.0f,200.0f,200.0f},{},Color4f{GetColor(white)},Color4f{GetColor(cyan)});
+		m_TestTexture->DrawShade(Rectf{800.0f,600.0f,200.0f,200.0f},{},Color4f{GetColor(white)},Color4f{GetColor(brown)});
 
 		m_UnitManager.DrawAll();
 		m_SandboxBattler->Draw();

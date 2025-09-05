@@ -5,7 +5,8 @@
 #include "BaseGame.h"
 
 // Mine chaos
-#include "FileUtils.h"
+//#include "FileUtils.h"
+#include "Texture.h"
 
 BaseGame::BaseGame(const Window& window)
 	: m_Window{ window }
@@ -112,37 +113,7 @@ void BaseGame::InitializeGameEngine()
 	{
 		std::cerr << "GLEW init failed: " << glewGetErrorString(err) << std::endl;
 	}
-	//char buffer[MAX_PATH];
-	//GetCurrentDirectoryA(MAX_PATH,buffer);
-	//std::cout << "Current working directory: " << buffer << std::endl;
-	std::string vertSource = ReadFile("../Shaders/simple.vert");
-	std::string fragSource = ReadFile("../Shaders/replace_white.frag");
-
-	GLuint shaderProgram = glCreateProgram();
-	GLuint vertexShader = glCreateShader(GL_VERTEX_SHADER);
-	GLuint fragmentShader = glCreateShader(GL_FRAGMENT_SHADER);
-
-	const char* vertCode = vertSource.c_str();
-	const char* fragCode = fragSource.c_str();
-
-	glShaderSource(vertexShader,1,&vertCode,nullptr);
-	glCompileShader(vertexShader);
-	CheckShaderCompileErrors(vertexShader);
-
-	glShaderSource(fragmentShader,1,&fragCode,nullptr);
-	glCompileShader(fragmentShader);
-	CheckShaderCompileErrors(fragmentShader);
-
-	glAttachShader(shaderProgram,vertexShader);
-	glAttachShader(shaderProgram,fragmentShader);
-	glLinkProgram(shaderProgram);
-	CheckProgramLinkErrors(shaderProgram);
-
-	glDeleteShader(vertexShader);
-	glDeleteShader(fragmentShader);
-
-	// Use the shader program
-	// glUseProgram(shaderProgram);
+	Texture::InitShader(); 
 
 	// SHADER CHAOS
 
