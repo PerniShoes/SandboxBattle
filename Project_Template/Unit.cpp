@@ -1,5 +1,4 @@
 #include "Unit.h"
-#include "Stats.h"
 #include "PrettyColors.h"
 
 Unit::Unit(Transform transform,Stats baseStats,float hitBoxRadius, Color4f color)
@@ -9,7 +8,8 @@ Unit::Unit(Transform transform,Stats baseStats,float hitBoxRadius, Color4f color
     ,m_Transform{transform}
     ,m_HitBoxRadius{hitBoxRadius}
     ,m_ModelColor{color}
-    ,inRange{false}
+    ,m_InRange{false}
+    ,m_IsAlive{true}
 {
 
 
@@ -90,4 +90,25 @@ bool Unit::MoveTowardsDestination(Point2f destination, float elapsedTime)
     m_Transform.position += direction *float(m_Stats.m_MoveSpeed) * elapsedTime;
     return false; 
 
+}
+
+void Unit::ApplyBuff(std::unique_ptr<Effect> buff)
+{
+    //m_Buffs.push_back(std::move(buff));
+}
+void Unit::ApplyDebuff(std::unique_ptr<Effect> debuff)
+{
+    //m_Debuffs.push_back(std::move(debuff));
+}
+void Unit::TakeDamage(int amount)
+{
+   m_IsAlive = m_Stats.TakeDamage(amount);
+}
+void Unit::Heal(int amount)
+{
+    m_Stats.Heal(amount);
+}
+Stats Unit::GetStats() const
+{
+    return m_Stats;
 }

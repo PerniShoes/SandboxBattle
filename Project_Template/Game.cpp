@@ -1,7 +1,7 @@
 #include "Game.h"
 
 #include "utils.h"
-#include "Time.h"
+#include "TimeClass.h"
 #include "Texture.h"
 #include "OrientationManager.h"
 #include "SandboxBattler.h" // Project
@@ -28,7 +28,7 @@ Game::~Game()
 void Game::Initialize()
 {
 	// UnitManager
-	int unitAmount{20};
+	int unitAmount{1};
 	for (int i{0}; i < unitAmount; ++i)
 	{
 		m_UnitManager.AddUnit(std::make_unique<Unit>(Point2f{50.0f, 50.0f+25.0f*i}));
@@ -39,8 +39,8 @@ void Game::Initialize()
 	m_SandboxBattler = std::make_unique<SandboxBattler>(); // Project
 	m_FPSCounter = std::make_unique<Texture>("placeHolder","../Resources/Fonts/consola.ttf",16,Color4f{1,1,1,1});
 	m_TargetFPS = 60.0f;
-	m_Time = std::make_unique<Time>(0.0f);
-	m_AccumulatedTime = std::make_unique<Time>(0.0f);
+	m_Time = std::make_unique<TimeClass>(0.0f);
+	m_AccumulatedTime = std::make_unique<TimeClass>(0.0f);
 	m_TimeState = std::make_unique<Texture>("Paused","../Resources/Fonts/consola.ttf",24,Color4f{1,1,1,1});
 	OrientationManager::UpdateCamera(GetViewPort());
 	// Default

@@ -4,7 +4,7 @@
 #include <memory>
 #include "UnitManager.h"
 
-class Time;
+class TimeClass;
 class Texture;
 class SandboxBattler; // Project
 
@@ -76,9 +76,9 @@ private:
 
 
 	
-	// Time
-	std::unique_ptr<Time> m_Time;
-	std::unique_ptr<Time> m_AccumulatedTime;
+	// TimeClass
+	std::unique_ptr<TimeClass> m_Time;
+	std::unique_ptr<TimeClass> m_AccumulatedTime;
 	std::unique_ptr<Texture> m_TimeState; 
 	bool m_TimeStateChanged;
 	bool m_Paused; 

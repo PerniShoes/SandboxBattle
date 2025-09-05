@@ -1,8 +1,11 @@
 #pragma once
 #include <vector>
-#include "utils.h"
+#include <memory>
 #include "Stats.h"
 #include "Transform.h"
+
+#include "AllEffects.h"
+#include "Effect.h"
 
 class Unit
 {
@@ -25,11 +28,13 @@ public:
 
     void TeleportTo(Point2f position);
     void TakeDamage(int amount);
-    void GetExp(int amount);
-    void LevelUp();
+    void Heal(int amount);
+    Stats GetStats() const;
 
     Transform GetTransform(); // For collision, position and so on
     Circlef GetHitBox();
+    void ApplyBuff(std::unique_ptr<Effect> buff);
+    void ApplyDebuff(std::unique_ptr<Effect> debuff);
 
 private:
     // For manager: Allow unit selection
@@ -40,7 +45,11 @@ private:
     Transform m_Transform;
     float m_HitBoxRadius;
     Color4f m_ModelColor;
-    bool inRange;
+    bool m_InRange;
+    bool m_IsAlive;
+
+    //std::vector<std::unique_ptr<Effect>>m_Buffs;
+    //std::vector<std::unique_ptr<Effect>>m_Debuffs;
 
     // Buffs and Debuffs and vector with effects, like buring, slowed, strength and so on
     // Class like "Abbilities" that would allow me to do stuff like: FireBall(this, target) (as in: (caster, target))

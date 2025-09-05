@@ -105,6 +105,7 @@
       <ConformanceMode>true</ConformanceMode>
       <LanguageStandard>stdcpp23</LanguageStandard>
       <AdditionalIncludeDirectories>$(SolutionDir)\Libraries\SDLTtf\SDL2_ttf-2.20.2\include;$(SolutionDir)\Libraries\SDLMixer\SDL2_mixer-2.6.3\include;$(SolutionDir)\Libraries\SDLImage\SDL2_image-2.6.3\include;$(SolutionDir)\Libraries\SDLMain\SDL2-2.26.3\include;$(SolutionDir)\Engine;$(IncludePath);$(SolutionDir)\Project_Template</AdditionalIncludeDirectories>
+      <PrecompiledHeader>NotUsing</PrecompiledHeader>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -123,6 +124,7 @@
       <ConformanceMode>true</ConformanceMode>
       <LanguageStandard>stdcpp23</LanguageStandard>
       <AdditionalIncludeDirectories>$(SolutionDir)\Libraries\SDLTtf\SDL2_ttf-2.20.2\include;$(SolutionDir)\Libraries\SDLMixer\SDL2_mixer-2.6.3\include;$(SolutionDir)\Libraries\SDLImage\SDL2_image-2.6.3\include;$(SolutionDir)\Libraries\SDLMain\SDL2-2.26.3\include;$(SolutionDir)\Engine;$(IncludePath);$(SolutionDir)\Project_Template</AdditionalIncludeDirectories>
+      <PrecompiledHeader>NotUsing</PrecompiledHeader>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -132,28 +134,39 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="Ability.cpp" />
+    <ClCompile Include="BurningEf.cpp" />
     <ClCompile Include="Command.cpp" />
+    <ClCompile Include="Effect.cpp" />
+    <ClCompile Include="FireBall.cpp" />
     <ClCompile Include="Game.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="MoveCommand.cpp" />
     <ClCompile Include="OrientationManager.cpp" />
     <ClCompile Include="SandboxBattler.cpp" />
     <ClCompile Include="Stats.cpp" />
-    <ClCompile Include="Time.cpp" />
+    <ClCompile Include="TimeClass.cpp" />
     <ClCompile Include="Transform.cpp" />
     <ClCompile Include="Unit.cpp" />
     <ClCompile Include="UnitManager.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="Ability.h" />
+    <ClInclude Include="ActionTarget.h" />
+    <ClInclude Include="AllAbbilities.h" />
+    <ClInclude Include="AllEffects.h" />
     <ClInclude Include="AllUnitCommands.h" />
+    <ClInclude Include="BurningEf.h" />
     <ClInclude Include="Command.h" />
+    <ClInclude Include="Effect.h" />
+    <ClInclude Include="FireBall.h" />
     <ClInclude Include="Game.h" />
     <ClInclude Include="MoveCommand.h" />
     <ClInclude Include="OrientationManager.h" />
     <ClInclude Include="PrettyColors.h" />
     <ClInclude Include="SandboxBattler.h" />
     <ClInclude Include="Stats.h" />
-    <ClInclude Include="Time.h" />
+    <ClInclude Include="TimeClass.h" />
     <ClInclude Include="Transform.h" />
     <ClInclude Include="Unit.h" />
     <ClInclude Include="UnitManager.h" />
@@ -164,13 +177,5 @@
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
-  <ImportGroup Label="ExtensionTargets">
-    <Import Project="..\packages\gmock.1.11.0\build\native\gmock.targets" Condition="Exists('..\packages\gmock.1.11.0\build\native\gmock.targets')" />
-  </ImportGroup>
-  <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
-    <PropertyGroup>
-      <ErrorText>This project references NuGet package(s) that are missing on this computer. Use NuGet Package Restore to download them.  For more information, see http://go.microsoft.com/fwlink/?LinkID=322105. The missing file is {0}.</ErrorText>
-    </PropertyGroup>
-    <Error Condition="!Exists('..\packages\gmock.1.11.0\build\native\gmock.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\gmock.1.11.0\build\native\gmock.targets'))" />
-  </Target>
+  <ImportGroup Label="ExtensionTargets" />
 </Project>

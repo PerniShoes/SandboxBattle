@@ -7,7 +7,7 @@
 #include "utils.h"
 #include "PrettyColors.h"
 
-class Time;
+class TimeClass;
 class Texture;
 
 class SandboxBattler
@@ -43,7 +43,7 @@ private:
 
     // Mouse
     Point2f m_LastMousePos; 
-    std::unique_ptr<Time> m_LBHeldTimer; 
+    std::unique_ptr<TimeClass> m_LBHeldTimer;
 
 
     // New code

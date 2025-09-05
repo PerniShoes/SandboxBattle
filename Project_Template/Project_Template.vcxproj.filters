@@ -19,11 +19,14 @@
       <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
       <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
     </Filter>
-    <Filter Include="Gtest">
-      <UniqueIdentifier>{d5d87246-415e-4705-a7d1-eacc47305942}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Commands">
       <UniqueIdentifier>{2317d40f-6698-4b7d-a99d-f0059e7cf2d2}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Abilities">
+      <UniqueIdentifier>{0b9d2c3a-79ee-44d1-98b1-cbda4062dc7e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Effects">
+      <UniqueIdentifier>{6c729534-c0dd-4487-b5e0-a69ce1276512}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -33,7 +36,7 @@
     <ClCompile Include="OrientationManager.cpp">
       <Filter>Helpers</Filter>
     </ClCompile>
-    <ClCompile Include="Time.cpp">
+    <ClCompile Include="TimeClass.cpp">
       <Filter>Helpers</Filter>
     </ClCompile>
     <ClCompile Include="Game.cpp">
@@ -41,12 +44,6 @@
     </ClCompile>
     <ClCompile Include="SandboxBattler.cpp">
       <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="$(MSBuildThisFileDirectory)..\..\lib\native\src\gmock\gmock-all.cc">
-      <Filter>Gtest</Filter>
-    </ClCompile>
-    <ClCompile Include="$(MSBuildThisFileDirectory)..\..\lib\native\src\gtest\gtest-all.cc">
-      <Filter>Gtest</Filter>
     </ClCompile>
     <ClCompile Include="Unit.cpp">
       <Filter>Source Files</Filter>
@@ -66,12 +63,24 @@
     <ClCompile Include="MoveCommand.cpp">
       <Filter>Commands</Filter>
     </ClCompile>
+    <ClCompile Include="Ability.cpp">
+      <Filter>Abilities</Filter>
+    </ClCompile>
+    <ClCompile Include="FireBall.cpp">
+      <Filter>Abilities</Filter>
+    </ClCompile>
+    <ClCompile Include="Effect.cpp">
+      <Filter>Effects</Filter>
+    </ClCompile>
+    <ClCompile Include="BurningEf.cpp">
+      <Filter>Effects</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="OrientationManager.h">
       <Filter>Helpers</Filter>
     </ClInclude>
-    <ClInclude Include="Time.h">
+    <ClInclude Include="TimeClass.h">
       <Filter>Helpers</Filter>
     </ClInclude>
     <ClInclude Include="Game.h">
@@ -103,6 +112,27 @@
     </ClInclude>
     <ClInclude Include="AllUnitCommands.h">
       <Filter>Commands</Filter>
+    </ClInclude>
+    <ClInclude Include="Ability.h">
+      <Filter>Abilities</Filter>
+    </ClInclude>
+    <ClInclude Include="AllAbbilities.h">
+      <Filter>Abilities</Filter>
+    </ClInclude>
+    <ClInclude Include="FireBall.h">
+      <Filter>Abilities</Filter>
+    </ClInclude>
+    <ClInclude Include="Effect.h">
+      <Filter>Effects</Filter>
+    </ClInclude>
+    <ClInclude Include="ActionTarget.h">
+      <Filter>Effects</Filter>
+    </ClInclude>
+    <ClInclude Include="BurningEf.h">
+      <Filter>Effects</Filter>
+    </ClInclude>
+    <ClInclude Include="AllEffects.h">
+      <Filter>Effects</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

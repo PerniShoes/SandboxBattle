@@ -2,7 +2,7 @@
 #include <iostream>
 #include <print>
 
-#include "Time.h"
+#include "TimeClass.h"
 #include "Texture.h"
 #include "OrientationManager.h"
 
@@ -10,7 +10,7 @@
 
 SandboxBattler::SandboxBattler()
     :m_LastMousePos{0.0f,0.0f}
-    ,m_LBHeldTimer{std::make_unique<Time>(0.1f)}
+    ,m_LBHeldTimer{std::make_unique<TimeClass>(0.1f)}
 {
 
 }
