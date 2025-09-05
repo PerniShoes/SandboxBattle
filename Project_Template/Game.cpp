@@ -135,19 +135,31 @@ void Game::Draw() const
 
 		m_TestTexture->DrawShade(Rectf{0.0f  ,600.0f,200.0f,200.0f},{},{{Color4f(RGBtoColor4f(89, 77,62)), Color4f(GetColor(purple))} ,{Color4f(1,1,1,1), Color4f(GetColor(black))}
 			,{Color4f(GetColor(black)),Color4f(GetColor(white))},{Color4f(RGBtoColor4f(129,65,64)),Color4f(GetColor(black))},{Color4f(RGBtoColor4f(230,206,93)),Color4f(GetColor(purple))},{Color4f(RGBtoColor4f(190,191,190)),Color4f(GetColor(black))}});
-		
+
 		m_TestTexture->DrawShade(Rectf{200.0f,600.0f,200.0f,200.0f},{},{{Color4f(RGBtoColor4f(89, 77,62)), Color4f(GetColor(black))} ,{Color4f(1,1,1,1), Color4f(GetColor(black))}
 			,{Color4f(GetColor(black)),Color4f(GetColor(rose))}   ,{Color4f(RGBtoColor4f(129,65,64)),Color4f(GetColor(dRed))} ,{Color4f(RGBtoColor4f(230,206,93)),Color4f(GetColor(dRed))},{Color4f(RGBtoColor4f(190,191,190)),Color4f(GetColor(dRed))}});
-		
+
 		m_TestTexture->DrawShade(Rectf{400.0f,600.0f,200.0f,200.0f},{},{{Color4f(RGBtoColor4f(89, 77,62)), Color4f(GetColor(orange))} ,{Color4f(1,1,1,1), Color4f(GetColor(orange))}
 			,{Color4f(GetColor(black)),Color4f(GetColor(black))}  ,{Color4f(RGBtoColor4f(129,65,64)),Color4f(GetColor(cobalt))} ,{Color4f(RGBtoColor4f(230,206,93)),Color4f(GetColor(dBlue))},{Color4f(RGBtoColor4f(190,191,190)),Color4f(GetColor(black))}});
-		
+
 		m_TestTexture->DrawShade(Rectf{600.0f,600.0f,200.0f,200.0f},{},{{Color4f(RGBtoColor4f(89, 77,62)), Color4f(GetColor(black))} ,{Color4f(1,1,1,1), Color4f(GetColor(yellow))}
 			,{Color4f(GetColor(black)),Color4f(GetColor(black))} ,{Color4f(RGBtoColor4f(129,65,64)),Color4f(GetColor(lBlue))},{Color4f(RGBtoColor4f(230,206,93)),Color4f(GetColor(lBlue))},{Color4f(RGBtoColor4f(190,191,190)),Color4f(GetColor(lBlue))}});
-		
+
 		m_TestTexture->DrawShade(Rectf{800.0f,600.0f,200.0f,200.0f},{},{{Color4f(RGBtoColor4f(89, 77,62)), Color4f(GetColor(black))} ,{Color4f(1,1,1,1), Color4f(GetColor(dRed))}
 			,{Color4f(GetColor(black)),Color4f(GetColor(dRed))},{Color4f(RGBtoColor4f(129,65,64)),Color4f(GetColor(white))},{Color4f(RGBtoColor4f(230,206,93)),Color4f(GetColor(gray))},{Color4f(RGBtoColor4f(190,191,190)),Color4f(GetColor(black))}});
-																																																			 
+
+		// Use this in the future, make this more reusable 
+		auto rgb = [](int r,int g,int b) { return Color4f(RGBtoColor4f(r,g,b)); };
+		auto col = [](auto c) { return Color4f(GetColor(c)); };
+
+		m_TestTexture->DrawShade(Rectf{0.0f,400.0f,200.0f,200.0f},{},
+		{
+			{ rgb(89, 77, 62), col(white) },{ Color4f(1,1,1,1), col(brown) }, { col(black), col(black) },
+			{ rgb(129,65,64), col(brown) },{ rgb(230,206,93), col(dGreen) },{ rgb(190,191,190), col(brown) }
+		}
+		);
+
+
 		m_UnitManager.DrawAll();
 		m_SandboxBattler->Draw();
 
