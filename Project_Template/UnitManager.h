@@ -62,7 +62,7 @@ private:
 
 		for (auto& u : units)
 		{
-			int index = u->GetTransform().position.y / 5;
+			int index = int(u->GetTransform().position.y / 5);
 			if (u->GetType() == UnitType::ground)
 			{
 				groundBuckets[index].push_back(std::move(u));

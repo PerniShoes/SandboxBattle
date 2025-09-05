@@ -3,6 +3,8 @@
 #include <algorithm>
 #include <chrono>
 #include "BaseGame.h"
+
+// Mine chaos
 #include "FileUtils.h"
 
 BaseGame::BaseGame(const Window& window)
@@ -103,17 +105,38 @@ void BaseGame::InitializeGameEngine()
 
 
 	// ADDED CODE
-	char buffer[MAX_PATH];
-	GetCurrentDirectoryA(MAX_PATH,buffer);
-	std::cout << "Current working directory: " << buffer << std::endl;
+	//char buffer[MAX_PATH];
+	//GetCurrentDirectoryA(MAX_PATH,buffer);
+	//std::cout << "Current working directory: " << buffer << std::endl;
 
 	std::string vertSource = ReadFile("../Shaders/simple.vert");
 	std::string fragSource = ReadFile("../Shaders/replace_white.frag");
 
+	//GLuint shaderProgram = glCreateProgram();
+	//GLuint vertexShader = glCreateShader(GL_VERTEX_SHADER);
+	//GLuint fragmentShader = glCreateShader(GL_FRAGMENT_SHADER);
+
+	//const char* vertCode = vertSource.c_str();
+	//const char* fragCode = fragSource.c_str();
+
+	//glShaderSource(vertexShader,1,&vertCode,NULL);
+	//glCompileShader(vertexShader);
+	//CheckShaderCompileErrors(vertexShader);
+
+	//glShaderSource(fragmentShader,1,&fragCode,NULL);
+	//glCompileShader(fragmentShader);
+	//CheckShaderCompileErrors(fragmentShader);
+
+	//glAttachShader(shaderProgram,vertexShader);
+	//glAttachShader(shaderProgram,fragmentShader);
+	//glLinkProgram(shaderProgram);
+	//CheckProgramLinkErrors(shaderProgram);
+
+	//glDeleteShader(vertexShader);
+	//glDeleteShader(fragmentShader);
 
 
-
-
+	// SDL INITS
 	// Initialize PNG loading
 	int imgFlags = IMG_INIT_PNG;
 	if ( !( IMG_Init( imgFlags ) & imgFlags ) )
@@ -122,7 +145,6 @@ void BaseGame::InitializeGameEngine()
 		return;
 	}
 	
-
 	// Initialize SDL_ttf
 	if (TTF_Init() == -1)
 	{
