@@ -36,7 +36,7 @@ void Game::Initialize()
 	// FOR TESTING PURPOSED FIX OR DELETE
 	m_TestTexture = std::make_unique<Texture>("../Resources/Images/PixelBackPackGuy.png");
 
-
+	m_TestSkeleton = std::make_unique<Texture>("../Resources/Images/SkeletonArcher-Sheet.png");
 	// Default
 	m_SandboxBattler = std::make_unique<SandboxBattler>(); // Project
 	m_FPSCounter = std::make_unique<Texture>("placeHolder","../Resources/Fonts/consola.ttf",16,Color4f{1,1,1,1});
@@ -125,6 +125,13 @@ void Game::PushCameraMatrix() const
 	
 }
 
+// Example variables (put these outside the loop, so they persist)
+static float lastTime = 0.0f;
+static float elapsed = 0.0f;
+static int frame = 1;
+const int frameCount = 11;     // how many frames in your sprite sheet
+const float frameTime = 0.10f; // seconds per frame
+
 void Game::Draw() const
 {
 	ClearBackground();
@@ -133,7 +140,52 @@ void Game::Draw() const
 		PushCameraMatrix();
 		using namespace PrettyColors;
 
-		m_TestTexture->DrawShade(Rectf{0.0f  ,600.0f,200.0f,200.0f},{},{{Color4f(RGBtoColor4f(89, 77,62)), Color4f(GetColor(purple))} ,{Color4f(1,1,1,1), Color4f(GetColor(black))}
+		float now = m_Time->GetTime();  
+		float dt = now - lastTime;      
+		lastTime = now;
+
+		elapsed += dt;
+		if (elapsed >= frameTime)
+		{
+			elapsed = 0.0f;
+			frame++;
+			if (frame >= frameCount) frame = 1; // loop back, skip frame 0
+		}
+
+		// VARIABLES ABOVE ARE TO BE REMOVED TOO
+		// Each frame is 32px wide in your sheet
+		float srcX = frame * 32.0f;
+		Rectf srcRect{srcX, 0.0f, 32.0f, 32.0f};
+		Rectf dstRect{50.0f, 200.0f, 128.0f, 128.0f};
+
+		auto rgb = [](int r,int g,int b) { return Color4f(RGBtoColor4f(r,g,b)); };
+		auto col = [](auto c) { return Color4f(GetColor(c)); };
+
+		// 67 148 48
+
+		m_TestSkeleton->DrawShade(dstRect,srcRect,{{rgb(67, 148, 48), col(yellow)}});
+		dstRect.left += 100.0f;
+		m_TestSkeleton->DrawShade(dstRect,srcRect,{{rgb(67, 148, 48), col(orange)}});
+		dstRect.left += 100.0f;
+		m_TestSkeleton->DrawShade(dstRect,srcRect,{{rgb(67, 148, 48), col(blue)}});
+		dstRect.left += 100.0f;
+		m_TestSkeleton->DrawShade(dstRect,srcRect,{{rgb(67, 148, 48), col(white)}});
+		dstRect.left += 100.0f;
+		m_TestSkeleton->DrawShade(dstRect,srcRect,{{rgb(67, 148, 48), col(dGreen)}});
+		dstRect.left += 100.0f;
+		m_TestSkeleton->DrawShade(dstRect,srcRect,{{rgb(67, 148, 48), col(black)}});
+		dstRect.left += 100.0f;
+		m_TestSkeleton->DrawShade(dstRect,srcRect,{{rgb(67, 148, 48), col(rose)}});
+		dstRect.left += 100.0f;
+		m_TestSkeleton->DrawShade(dstRect,srcRect,{{rgb(67, 148, 48), col(purple)}});
+		dstRect.left += 100.0f;
+		m_TestSkeleton->DrawShade(dstRect,srcRect,{{rgb(67, 148, 48), col(brown)}});
+
+
+		// m_TestSkeleton->DrawShade(Rectf{200.0f,200.0f,128.0f,128.0f},Rectf{0.0f,0.0f,32.0f,32.0f},{});
+
+
+	/*	m_TestTexture->DrawShade(Rectf{0.0f  ,600.0f,200.0f,200.0f},{},{{Color4f(RGBtoColor4f(89, 77,62)), Color4f(GetColor(purple))} ,{Color4f(1,1,1,1), Color4f(GetColor(black))}
 			,{Color4f(GetColor(black)),Color4f(GetColor(white))},{Color4f(RGBtoColor4f(129,65,64)),Color4f(GetColor(black))},{Color4f(RGBtoColor4f(230,206,93)),Color4f(GetColor(purple))},{Color4f(RGBtoColor4f(190,191,190)),Color4f(GetColor(black))}});
 
 		m_TestTexture->DrawShade(Rectf{200.0f,600.0f,200.0f,200.0f},{},{{Color4f(RGBtoColor4f(89, 77,62)), Color4f(GetColor(black))} ,{Color4f(1,1,1,1), Color4f(GetColor(black))}
@@ -146,10 +198,10 @@ void Game::Draw() const
 			,{Color4f(GetColor(black)),Color4f(GetColor(black))} ,{Color4f(RGBtoColor4f(129,65,64)),Color4f(GetColor(lBlue))},{Color4f(RGBtoColor4f(230,206,93)),Color4f(GetColor(lBlue))},{Color4f(RGBtoColor4f(190,191,190)),Color4f(GetColor(lBlue))}});
 
 		m_TestTexture->DrawShade(Rectf{800.0f,600.0f,200.0f,200.0f},{},{{Color4f(RGBtoColor4f(89, 77,62)), Color4f(GetColor(black))} ,{Color4f(1,1,1,1), Color4f(GetColor(dRed))}
-			,{Color4f(GetColor(black)),Color4f(GetColor(dRed))},{Color4f(RGBtoColor4f(129,65,64)),Color4f(GetColor(white))},{Color4f(RGBtoColor4f(230,206,93)),Color4f(GetColor(gray))},{Color4f(RGBtoColor4f(190,191,190)),Color4f(GetColor(black))}});
+			,{Color4f(GetColor(black)),Color4f(GetColor(dRed))},{Color4f(RGBtoColor4f(129,65,64)),Color4f(GetColor(white))},{Color4f(RGBtoColor4f(230,206,93)),Color4f(GetColor(gray))},{Color4f(RGBtoColor4f(190,191,190)),Color4f(GetColor(black))}});*/
 
 		// Use this in the future, make this more reusable 
-		auto rgb = [](int r,int g,int b) { return Color4f(RGBtoColor4f(r,g,b)); };
+	/*	auto rgb = [](int r,int g,int b) { return Color4f(RGBtoColor4f(r,g,b)); };
 		auto col = [](auto c) { return Color4f(GetColor(c)); };
 
 		m_TestTexture->DrawShade(Rectf{0.0f,400.0f,200.0f,200.0f},{},
@@ -157,7 +209,7 @@ void Game::Draw() const
 			{ rgb(89, 77, 62), col(white) },{ Color4f(1,1,1,1), col(brown) }, { col(black), col(black) },
 			{ rgb(129,65,64), col(brown) },{ rgb(230,206,93), col(dGreen) },{ rgb(190,191,190), col(brown) }
 		}
-		);
+		);*/
 
 
 		m_UnitManager.DrawAll();
@@ -488,6 +540,6 @@ float Game::GetScale() const
 
 void Game::ClearBackground() const
 {
-	glClearColor(0.4f, 0.4f, 0.5f, 1.0f);
+	glClearColor(0.35f, 0.35f, 0.45f, 1.0f);
 	glClear(GL_COLOR_BUFFER_BIT);
 }
