@@ -31,13 +31,6 @@ void Game::Initialize()
 	// TESTING ATLAS SPRITE LOADING
 	// LOAD ALL
 	m_AtlasManager.LoadFolder("../Resources/DuelystResc/units");
-	for (int i = 0; i < m_AtlasManager.m_Atlases.size(); ++i)
-	{
-		std::cout << i << ": " << m_AtlasManager.m_Atlases[i].name
-			<< " (" << m_AtlasManager.m_Atlases[i].frames.size() << " frames)\n";
-	}
-	std::cout << "\n \n";
-
 
 	// Get specific one
 	atlas = m_AtlasManager.GetAtlas("neutral_zurael"); // replace with an actual atlas name
@@ -48,13 +41,6 @@ void Game::Initialize()
 		return;
 	}
 
-	std::cout << "Frames in atlas " << atlas->name << ": \n";
-	for (const auto& pair : atlas->frames)
-	{
-		const FrameData& f = pair.second;
-		std::cout << pair.first << " -> x:" << f.x << " y:" << f.y
-			<< " w:" << f.w << " h:" << f.h << "\n";
-	}
 	m_AtlasTestTexture = std::make_unique<Texture>(atlas->pngPath);
 	f = atlas->frames.at("neutral_zurael_attack_011.png");
 
@@ -174,11 +160,11 @@ void Game::Draw() const
 		using namespace PrettyColors;
 
 		////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-		glPushMatrix();
-		glScalef(3.0f,3.0f,1.0f);
-		m_AtlasTestTexture->DrawShade(Rectf{50.0f,50.0f,120.0f,120.0f},f.ToRectf(),{});
-		//m_AtlasTestTexture->DrawShade(Rectf{50.0f,50.0f,120.0f,120.0f},Rectf{(f.x), 241.0f, f.w, f.h},{});
-		glPopMatrix();
+		//glPushMatrix();
+		//glScalef(3.0f,3.0f,1.0f);
+		//m_AtlasTestTexture->DrawShade(Rectf{50.0f,50.0f,120.0f,120.0f},f.ToRectf(),{});
+		////m_AtlasTestTexture->DrawShade(Rectf{50.0f,50.0f,120.0f,120.0f},Rectf{(f.x), 241.0f, f.w, f.h},{});
+		//glPopMatrix();
 		////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 		float now = m_Time->GetTime();  
