@@ -10,6 +10,7 @@
 #include <cmath>
 #include <print>
 
+
 Game::Game(const Window& window)
 	:BaseGame(window)
 	,m_UnitManager{}
@@ -27,6 +28,38 @@ Game::~Game()
 
 void Game::Initialize()
 {
+	// TESTING ATLAS SPRITE LOADING
+	// LOAD ALL
+	m_AtlasManager.LoadFolder("../Resources/DuelystResc/units");
+	for (int i = 0; i < m_AtlasManager.m_Atlases.size(); ++i)
+	{
+		std::cout << i << ": " << m_AtlasManager.m_Atlases[i].name
+			<< " (" << m_AtlasManager.m_Atlases[i].frames.size() << " frames)\n";
+	}
+	std::cout << "\n \n";
+
+
+	// Get specific one
+	atlas = m_AtlasManager.GetAtlas("neutral_zurael"); // replace with an actual atlas name
+
+	if (!atlas)
+	{
+		std::cerr << "Atlas not found!\n";
+		return;
+	}
+
+	std::cout << "Frames in atlas " << atlas->name << ": \n";
+	for (const auto& pair : atlas->frames)
+	{
+		const FrameData& f = pair.second;
+		std::cout << pair.first << " -> x:" << f.x << " y:" << f.y
+			<< " w:" << f.w << " h:" << f.h << "\n";
+	}
+	m_AtlasTestTexture = std::make_unique<Texture>(atlas->pngPath);
+	f = atlas->frames.at("neutral_zurael_attack_011.png");
+
+	///////////////////////////////////
+	
 	// UnitManager
 	int unitAmount{1};
 	for (int i{0}; i < unitAmount; ++i)
@@ -140,6 +173,14 @@ void Game::Draw() const
 		PushCameraMatrix();
 		using namespace PrettyColors;
 
+		////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+		glPushMatrix();
+		glScalef(3.0f,3.0f,1.0f);
+		m_AtlasTestTexture->DrawShade(Rectf{50.0f,50.0f,120.0f,120.0f},f.ToRectf(),{});
+		//m_AtlasTestTexture->DrawShade(Rectf{50.0f,50.0f,120.0f,120.0f},Rectf{(f.x), 241.0f, f.w, f.h},{});
+		glPopMatrix();
+		////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
 		float now = m_Time->GetTime();  
 		float dt = now - lastTime;      
 		lastTime = now;
@@ -163,23 +204,23 @@ void Game::Draw() const
 
 		// 67 148 48
 
-		m_TestSkeleton->DrawShade(dstRect,srcRect,{{rgb(67, 148, 48), col(yellow)}});
-		dstRect.left += 100.0f;
-		m_TestSkeleton->DrawShade(dstRect,srcRect,{{rgb(67, 148, 48), col(orange)}});
-		dstRect.left += 100.0f;
-		m_TestSkeleton->DrawShade(dstRect,srcRect,{{rgb(67, 148, 48), col(blue)}});
-		dstRect.left += 100.0f;
-		m_TestSkeleton->DrawShade(dstRect,srcRect,{{rgb(67, 148, 48), col(white)}});
-		dstRect.left += 100.0f;
-		m_TestSkeleton->DrawShade(dstRect,srcRect,{{rgb(67, 148, 48), col(dGreen)}});
-		dstRect.left += 100.0f;
-		m_TestSkeleton->DrawShade(dstRect,srcRect,{{rgb(67, 148, 48), col(black)}});
-		dstRect.left += 100.0f;
-		m_TestSkeleton->DrawShade(dstRect,srcRect,{{rgb(67, 148, 48), col(rose)}});
-		dstRect.left += 100.0f;
-		m_TestSkeleton->DrawShade(dstRect,srcRect,{{rgb(67, 148, 48), col(purple)}});
-		dstRect.left += 100.0f;
-		m_TestSkeleton->DrawShade(dstRect,srcRect,{{rgb(67, 148, 48), col(brown)}});
+		//m_TestSkeleton->DrawShade(dstRect,srcRect,{{rgb(67, 148, 48), col(yellow)}});
+		//dstRect.left += 100.0f;
+		//m_TestSkeleton->DrawShade(dstRect,srcRect,{{rgb(67, 148, 48), col(orange)}});
+		//dstRect.left += 100.0f;
+		//m_TestSkeleton->DrawShade(dstRect,srcRect,{{rgb(67, 148, 48), col(blue)}});
+		//dstRect.left += 100.0f;
+		//m_TestSkeleton->DrawShade(dstRect,srcRect,{{rgb(67, 148, 48), col(white)}});
+		//dstRect.left += 100.0f;
+		//m_TestSkeleton->DrawShade(dstRect,srcRect,{{rgb(67, 148, 48), col(dGreen)}});
+		//dstRect.left += 100.0f;
+		//m_TestSkeleton->DrawShade(dstRect,srcRect,{{rgb(67, 148, 48), col(black)}});
+		//dstRect.left += 100.0f;
+		//m_TestSkeleton->DrawShade(dstRect,srcRect,{{rgb(67, 148, 48), col(rose)}});
+		//dstRect.left += 100.0f;
+		//m_TestSkeleton->DrawShade(dstRect,srcRect,{{rgb(67, 148, 48), col(purple)}});
+		//dstRect.left += 100.0f;
+		//m_TestSkeleton->DrawShade(dstRect,srcRect,{{rgb(67, 148, 48), col(brown)}});
 
 
 		// m_TestSkeleton->DrawShade(Rectf{200.0f,200.0f,128.0f,128.0f},Rectf{0.0f,0.0f,32.0f,32.0f},{});
@@ -211,6 +252,8 @@ void Game::Draw() const
 		}
 		);*/
 
+
+		////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 		m_UnitManager.DrawAll();
 		m_SandboxBattler->Draw();

@@ -24,6 +24,7 @@
     <ClCompile Include="Matrix2x3.cpp" />
     <ClCompile Include="SoundEffect.cpp" />
     <ClCompile Include="SoundStream.cpp" />
+    <ClCompile Include="SpriteAtlasManager.cpp" />
     <ClCompile Include="structs.cpp" />
     <ClCompile Include="SVGParser.cpp" />
     <ClCompile Include="Texture.cpp" />
@@ -37,6 +38,7 @@
     <ClInclude Include="base.h" />
     <ClInclude Include="SoundEffect.h" />
     <ClInclude Include="SoundStream.h" />
+    <ClInclude Include="SpriteAtlasManager.h" />
     <ClInclude Include="structs.h" />
     <ClInclude Include="SVGParser.h" />
     <ClInclude Include="Texture.h" />

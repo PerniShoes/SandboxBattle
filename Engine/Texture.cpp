@@ -136,6 +136,22 @@ void Texture::CreateFromSurface( SDL_Surface* pSurface )
 {
 	m_CreationOk = true;
 
+	// CHAOS
+	// Handle arbitraty bit depths (other than 24 or 32)
+	if (pSurface->format->BytesPerPixel != 3 && pSurface->format->BytesPerPixel != 4)
+	{
+		// convert any unknown/unsupported format to 32-bit RGBA
+		SDL_Surface* converted = SDL_ConvertSurfaceFormat(pSurface,SDL_PIXELFORMAT_RGBA32,0);
+		if (!converted)
+		{
+			std::cerr << "Texture::CreateFromSurface failed to convert surface to RGBA32\n";
+			m_CreationOk = false;
+			return;
+		}
+		pSurface = converted; // use the converted surface from now on
+	}
+
+
 	//Get image dimensions
 	m_Width = float(pSurface->w);
 	m_Height =float( pSurface->h);

@@ -3,6 +3,7 @@
 #include <vector>
 #include <memory>
 #include "UnitManager.h"
+#include "SpriteAtlasManager.h"
 
 class TimeClass;
 class Texture;
@@ -49,6 +50,13 @@ private:
 
 	// New code
 	UnitManager m_UnitManager;
+
+
+	// ATLAS
+	SpriteAtlasManager m_AtlasManager;
+	std::unique_ptr<Texture> m_AtlasTestTexture;
+	const Atlas* atlas;
+	FrameData f;
 
 	std::unique_ptr<Texture> m_TestSkeleton;
 	std::unique_ptr<Texture> m_TestTexture;
