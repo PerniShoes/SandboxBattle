@@ -28,6 +28,9 @@
     <Filter Include="Effects">
       <UniqueIdentifier>{6c729534-c0dd-4487-b5e0-a69ce1276512}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Unit Files">
+      <UniqueIdentifier>{13689384-eea8-4d97-bd36-7a600a766d87}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -45,16 +48,10 @@
     <ClCompile Include="SandboxBattler.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Unit.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="Stats.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="Transform.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="UnitManager.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="Command.cpp">
@@ -75,6 +72,15 @@
     <ClCompile Include="BurningEf.cpp">
       <Filter>Effects</Filter>
     </ClCompile>
+    <ClCompile Include="UnitManager.cpp">
+      <Filter>Unit Files</Filter>
+    </ClCompile>
+    <ClCompile Include="UnitAnimator.cpp">
+      <Filter>Unit Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Unit.cpp">
+      <Filter>Unit Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="OrientationManager.h">
@@ -92,16 +98,10 @@
     <ClInclude Include="SandboxBattler.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Unit.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="Stats.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Transform.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="UnitManager.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Command.h">
@@ -133,6 +133,15 @@
     </ClInclude>
     <ClInclude Include="AllEffects.h">
       <Filter>Effects</Filter>
+    </ClInclude>
+    <ClInclude Include="UnitAnimator.h">
+      <Filter>Unit Files</Filter>
+    </ClInclude>
+    <ClInclude Include="UnitManager.h">
+      <Filter>Unit Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Unit.h">
+      <Filter>Unit Files</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

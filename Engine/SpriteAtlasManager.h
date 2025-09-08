@@ -6,6 +6,7 @@
 #include <filesystem>
 #include <iostream>
 #include "utils.h"
+#include "AnimationClip.h"
 
 struct FrameData
 {
@@ -22,6 +23,7 @@ struct Atlas
     std::string name;                        // base name (without extension)
     std::string pngPath;                     // path to the texture
     std::unordered_map<std::string,FrameData> frames;
+    std::unordered_map<std::string,AnimationClip> animations;
 };
 
 class SpriteAtlasManager
@@ -31,7 +33,10 @@ public:
     void LoadFolder(const std::string& folderPath);
 
     // Get atlas by name
-    const Atlas* GetAtlas(const std::string& name) const;
+    Atlas* GetAtlas(const std::string& name);
+    // SpriteAtlasManager.cpp (inside your manager)
+    void BuildAnimations(Atlas& atlas);
+    
 
 public:
     bool LoadPlist(const std::string& plistPath,

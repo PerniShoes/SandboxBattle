@@ -4,6 +4,7 @@
 #include <memory>
 #include "UnitManager.h"
 #include "SpriteAtlasManager.h"
+#include "GameResources.h"
 
 class TimeClass;
 class Texture;
@@ -51,12 +52,30 @@ private:
 	// New code
 	UnitManager m_UnitManager;
 
+	//////////////// TEST
 
-	// ATLAS
-	SpriteAtlasManager m_AtlasManager;
-	std::unique_ptr<Texture> m_AtlasTestTexture;
-	const Atlas* atlas;
-	FrameData f;
+
+	// Somewhere in your game state / test file
+
+	std::unique_ptr<Texture> testTexture;
+	AnimationClip* testAnim = nullptr;
+	Atlas* testAtlas;
+	float elapsed = 0.0f;
+	float frameTime = 0.020f; // 10 fps
+	int currentFrame = 0;
+
+	void InitTest();
+
+	void UpdateTest(float dt);
+
+	void DrawTest() const;
+
+
+
+
+
+
+	/////
 
 	std::unique_ptr<Texture> m_TestSkeleton;
 	std::unique_ptr<Texture> m_TestTexture;

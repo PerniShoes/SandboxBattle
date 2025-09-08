@@ -19,6 +19,7 @@ Game::Game(const Window& window)
 	
 {
 	Initialize();
+	InitTest();
 }
 
 Game::~Game()
@@ -26,23 +27,80 @@ Game::~Game()
 	Cleanup();
 }
 
+///////// TEST FUNCITONS:
+
+void Game::InitTest()
+{
+	// Load Atlas
+	std::string testedAnim{"f1_sunstonemaiden"};
+	testAtlas = GameResources::m_AtlasManager.GetAtlas(testedAnim);
+	if (!testAtlas)
+	{
+		std::cerr << "Could not load atlas!\n";
+		return;
+	}
+
+	// Grab one animation clip (e.g. idle or death)
+	testedAnim += "_";
+	testedAnim += "attack";
+	testAnim = testAtlas->animations.count(testedAnim) ?
+		&testAtlas->animations[testedAnim] : nullptr;
+	//testAnim->loop = false;
+	if (!testAnim)
+	{
+		std::cerr << "Animation not found!\n";
+		return;
+	}
+
+	// Load the texture of the atlas
+	testTexture = std::make_unique<Texture>(testAtlas->pngPath);
+}
+
+void Game::UpdateTest(float dt)
+{
+	if (!testAnim) return;
+
+	elapsed += dt;
+	if (elapsed >= frameTime)
+	{
+		elapsed = 0.0f;
+		currentFrame++;
+		if (currentFrame >= (int)testAnim->frameNames.size())
+		{
+			if (testAnim->loop)
+				currentFrame = 0;
+			else
+				currentFrame = (int)testAnim->frameNames.size() - 1;
+		}
+	}
+}
+
+void Game::DrawTest() const
+{
+	if (!testAnim || !testTexture) return;
+	if (testAnim->frameNames.empty()) return;
+
+	const std::string& fname = testAnim->frameNames[currentFrame];
+
+	auto it = testAtlas->frames.find(fname);
+
+	const FrameData& fd = it->second;
+
+	// Draw at screen pos (100,100), using your existing DrawShade
+	Rectf src{(float)fd.x, (float)fd.y, (float)fd.w, (float)fd.h};
+	Rectf dst{100.f, 100.f, (float)fd.w, (float)fd.h};
+
+	testTexture->DrawShade(dst,src,{});
+}
+
+
+
 void Game::Initialize()
 {
 	// TESTING ATLAS SPRITE LOADING
 	// LOAD ALL
-	m_AtlasManager.LoadFolder("../Resources/DuelystResc/units");
+	GameResources::m_AtlasManager.LoadFolder("../Resources/DuelystResc/units");
 
-	// Get specific one
-	atlas = m_AtlasManager.GetAtlas("neutral_zurael"); // replace with an actual atlas name
-
-	if (!atlas)
-	{
-		std::cerr << "Atlas not found!\n";
-		return;
-	}
-
-	m_AtlasTestTexture = std::make_unique<Texture>(atlas->pngPath);
-	f = atlas->frames.at("neutral_zurael_attack_011.png");
 
 	///////////////////////////////////
 	
@@ -102,7 +160,7 @@ void Game::Update(float elapsedSec)
 	// Limits the frequency of code inside   // Put this into a separate function?
 	if (m_AccumulatedTime->GetTime() >= frameDuration)
 	{
-
+		UpdateTest(elapsedSec);
 		m_UnitManager.UpdateAll(elapsedSec);
 		m_SandboxBattler->Update(elapsedSec);
 		m_AccumulatedTime->Restart();
@@ -144,12 +202,6 @@ void Game::PushCameraMatrix() const
 	
 }
 
-// Example variables (put these outside the loop, so they persist)
-static float lastTime = 0.0f;
-static float elapsed = 0.0f;
-static int frame = 1;
-const int frameCount = 11;     // how many frames in your sprite sheet
-const float frameTime = 0.10f; // seconds per frame
 
 void Game::Draw() const
 {
@@ -160,86 +212,14 @@ void Game::Draw() const
 		using namespace PrettyColors;
 
 		////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-		//glPushMatrix();
-		//glScalef(3.0f,3.0f,1.0f);
+		glPushMatrix();
+		glScalef(2.0f,2.0f,1.0f);
+		DrawTest();
 		//m_AtlasTestTexture->DrawShade(Rectf{50.0f,50.0f,120.0f,120.0f},f.ToRectf(),{});
-		////m_AtlasTestTexture->DrawShade(Rectf{50.0f,50.0f,120.0f,120.0f},Rectf{(f.x), 241.0f, f.w, f.h},{});
-		//glPopMatrix();
+		//m_AtlasTestTexture->DrawShade(Rectf{50.0f,50.0f,120.0f,120.0f},Rectf{(f.x), 241.0f, f.w, f.h},{});
+		glPopMatrix();
 		////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-		float now = m_Time->GetTime();  
-		float dt = now - lastTime;      
-		lastTime = now;
-
-		elapsed += dt;
-		if (elapsed >= frameTime)
-		{
-			elapsed = 0.0f;
-			frame++;
-			if (frame >= frameCount) frame = 1; // loop back, skip frame 0
-		}
-
-		// VARIABLES ABOVE ARE TO BE REMOVED TOO
-		// Each frame is 32px wide in your sheet
-		float srcX = frame * 32.0f;
-		Rectf srcRect{srcX, 0.0f, 32.0f, 32.0f};
-		Rectf dstRect{50.0f, 200.0f, 128.0f, 128.0f};
-
-		auto rgb = [](int r,int g,int b) { return Color4f(RGBtoColor4f(r,g,b)); };
-		auto col = [](auto c) { return Color4f(GetColor(c)); };
-
-		// 67 148 48
-
-		//m_TestSkeleton->DrawShade(dstRect,srcRect,{{rgb(67, 148, 48), col(yellow)}});
-		//dstRect.left += 100.0f;
-		//m_TestSkeleton->DrawShade(dstRect,srcRect,{{rgb(67, 148, 48), col(orange)}});
-		//dstRect.left += 100.0f;
-		//m_TestSkeleton->DrawShade(dstRect,srcRect,{{rgb(67, 148, 48), col(blue)}});
-		//dstRect.left += 100.0f;
-		//m_TestSkeleton->DrawShade(dstRect,srcRect,{{rgb(67, 148, 48), col(white)}});
-		//dstRect.left += 100.0f;
-		//m_TestSkeleton->DrawShade(dstRect,srcRect,{{rgb(67, 148, 48), col(dGreen)}});
-		//dstRect.left += 100.0f;
-		//m_TestSkeleton->DrawShade(dstRect,srcRect,{{rgb(67, 148, 48), col(black)}});
-		//dstRect.left += 100.0f;
-		//m_TestSkeleton->DrawShade(dstRect,srcRect,{{rgb(67, 148, 48), col(rose)}});
-		//dstRect.left += 100.0f;
-		//m_TestSkeleton->DrawShade(dstRect,srcRect,{{rgb(67, 148, 48), col(purple)}});
-		//dstRect.left += 100.0f;
-		//m_TestSkeleton->DrawShade(dstRect,srcRect,{{rgb(67, 148, 48), col(brown)}});
-
-
-		// m_TestSkeleton->DrawShade(Rectf{200.0f,200.0f,128.0f,128.0f},Rectf{0.0f,0.0f,32.0f,32.0f},{});
-
-
-	/*	m_TestTexture->DrawShade(Rectf{0.0f  ,600.0f,200.0f,200.0f},{},{{Color4f(RGBtoColor4f(89, 77,62)), Color4f(GetColor(purple))} ,{Color4f(1,1,1,1), Color4f(GetColor(black))}
-			,{Color4f(GetColor(black)),Color4f(GetColor(white))},{Color4f(RGBtoColor4f(129,65,64)),Color4f(GetColor(black))},{Color4f(RGBtoColor4f(230,206,93)),Color4f(GetColor(purple))},{Color4f(RGBtoColor4f(190,191,190)),Color4f(GetColor(black))}});
-
-		m_TestTexture->DrawShade(Rectf{200.0f,600.0f,200.0f,200.0f},{},{{Color4f(RGBtoColor4f(89, 77,62)), Color4f(GetColor(black))} ,{Color4f(1,1,1,1), Color4f(GetColor(black))}
-			,{Color4f(GetColor(black)),Color4f(GetColor(rose))}   ,{Color4f(RGBtoColor4f(129,65,64)),Color4f(GetColor(dRed))} ,{Color4f(RGBtoColor4f(230,206,93)),Color4f(GetColor(dRed))},{Color4f(RGBtoColor4f(190,191,190)),Color4f(GetColor(dRed))}});
-
-		m_TestTexture->DrawShade(Rectf{400.0f,600.0f,200.0f,200.0f},{},{{Color4f(RGBtoColor4f(89, 77,62)), Color4f(GetColor(orange))} ,{Color4f(1,1,1,1), Color4f(GetColor(orange))}
-			,{Color4f(GetColor(black)),Color4f(GetColor(black))}  ,{Color4f(RGBtoColor4f(129,65,64)),Color4f(GetColor(cobalt))} ,{Color4f(RGBtoColor4f(230,206,93)),Color4f(GetColor(dBlue))},{Color4f(RGBtoColor4f(190,191,190)),Color4f(GetColor(black))}});
-
-		m_TestTexture->DrawShade(Rectf{600.0f,600.0f,200.0f,200.0f},{},{{Color4f(RGBtoColor4f(89, 77,62)), Color4f(GetColor(black))} ,{Color4f(1,1,1,1), Color4f(GetColor(yellow))}
-			,{Color4f(GetColor(black)),Color4f(GetColor(black))} ,{Color4f(RGBtoColor4f(129,65,64)),Color4f(GetColor(lBlue))},{Color4f(RGBtoColor4f(230,206,93)),Color4f(GetColor(lBlue))},{Color4f(RGBtoColor4f(190,191,190)),Color4f(GetColor(lBlue))}});
-
-		m_TestTexture->DrawShade(Rectf{800.0f,600.0f,200.0f,200.0f},{},{{Color4f(RGBtoColor4f(89, 77,62)), Color4f(GetColor(black))} ,{Color4f(1,1,1,1), Color4f(GetColor(dRed))}
-			,{Color4f(GetColor(black)),Color4f(GetColor(dRed))},{Color4f(RGBtoColor4f(129,65,64)),Color4f(GetColor(white))},{Color4f(RGBtoColor4f(230,206,93)),Color4f(GetColor(gray))},{Color4f(RGBtoColor4f(190,191,190)),Color4f(GetColor(black))}});*/
-
-		// Use this in the future, make this more reusable 
-	/*	auto rgb = [](int r,int g,int b) { return Color4f(RGBtoColor4f(r,g,b)); };
-		auto col = [](auto c) { return Color4f(GetColor(c)); };
-
-		m_TestTexture->DrawShade(Rectf{0.0f,400.0f,200.0f,200.0f},{},
-		{
-			{ rgb(89, 77, 62), col(white) },{ Color4f(1,1,1,1), col(brown) }, { col(black), col(black) },
-			{ rgb(129,65,64), col(brown) },{ rgb(230,206,93), col(dGreen) },{ rgb(190,191,190), col(brown) }
-		}
-		);*/
-
-
-		////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 		m_UnitManager.DrawAll();
 		m_SandboxBattler->Draw();

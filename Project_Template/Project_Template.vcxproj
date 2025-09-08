@@ -148,6 +148,7 @@
     <ClCompile Include="TimeClass.cpp" />
     <ClCompile Include="Transform.cpp" />
     <ClCompile Include="Unit.cpp" />
+    <ClCompile Include="UnitAnimator.cpp" />
     <ClCompile Include="UnitManager.cpp" />
   </ItemGroup>
   <ItemGroup>
@@ -169,6 +170,7 @@
     <ClInclude Include="TimeClass.h" />
     <ClInclude Include="Transform.h" />
     <ClInclude Include="Unit.h" />
+    <ClInclude Include="UnitAnimator.h" />
     <ClInclude Include="UnitManager.h" />
   </ItemGroup>
   <ItemGroup>

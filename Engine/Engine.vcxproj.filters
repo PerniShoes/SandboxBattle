@@ -34,6 +34,9 @@
     <ClCompile Include="SpriteAtlasManager.cpp">
       <Filter>MyCode</Filter>
     </ClCompile>
+    <ClCompile Include="GameResources.cpp">
+      <Filter>MyCode</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="base.h">
@@ -70,6 +73,12 @@
       <Filter>MyCode</Filter>
     </ClInclude>
     <ClInclude Include="SpriteAtlasManager.h">
+      <Filter>MyCode</Filter>
+    </ClInclude>
+    <ClInclude Include="GameResources.h">
+      <Filter>MyCode</Filter>
+    </ClInclude>
+    <ClInclude Include="AnimationClip.h">
       <Filter>MyCode</Filter>
     </ClInclude>
   </ItemGroup>

@@ -27,12 +27,22 @@ void SpriteAtlasManager::LoadFolder(const std::string& folderPath)
     }
 }
 
-const Atlas* SpriteAtlasManager::GetAtlas(const std::string& name) const
+Atlas* SpriteAtlasManager::GetAtlas(const std::string& name)
 {
-    for (const auto& a : m_Atlases)
-        if (a.name == name) return &a;
+    for (auto& atlas : m_Atlases)
+    {
+        if (atlas.name == name)
+        {
+            if (atlas.animations.empty())
+            {
+                BuildAnimations(atlas);
+            }
+            return &atlas;
+        }
+    }
     return nullptr;
 }
+
 
 bool SpriteAtlasManager::LoadPlist(const std::string& plistPath,
     std::unordered_map<std::string,FrameData>& outFrames)
@@ -82,6 +92,10 @@ bool SpriteAtlasManager::LoadPlist(const std::string& plistPath,
             {
                 const char* s = valElem->GetText();
                 sscanf_s(s,"{{%d,%d},{%d,%d}}",&f.x,&f.y,&f.w,&f.h);
+
+                // Duelyst files use 1 pixel padding. Also sprites in plist files are assuming that I am drawing top to bottom
+                // while I am drawing from bottom to top so I have to add height to compensate
+                f.y = f.y + f.h + 1; 
             }
             elem = elem->NextSiblingElement("key");
         }
@@ -90,4 +104,49 @@ bool SpriteAtlasManager::LoadPlist(const std::string& plistPath,
     }
 
     return true;
+}
+
+void SpriteAtlasManager::BuildAnimations(Atlas& atlas)
+{
+    // bucket frames by token before last underscore
+    std::unordered_map<std::string,std::vector<std::pair<int,std::string>>> buckets;
+
+    for (auto& [name,f] : atlas.frames)
+    {
+        // strip extension
+        auto dot = name.find_last_of('.');
+        std::string base = (dot != std::string::npos) ? name.substr(0,dot) : name;
+
+        // split by '_'
+        auto us = base.find_last_of('_');
+        std::string anim = (us != std::string::npos) ? base.substr(0,us) : base;
+        std::string numStr = (us != std::string::npos) ? base.substr(us + 1) : "0";
+
+        int index = 0;
+        try { index = std::stoi(numStr); }
+        catch (...) { index = 0; }
+
+        buckets[anim].push_back({index, name});
+    }
+
+    // sort and make clips
+    for (auto& [anim,vec] : buckets)
+    {
+        std::sort(vec.begin(),vec.end(),[](auto& a,auto& b)
+            {
+                return a.first < b.first;
+            });
+
+        AnimationClip clip;
+        clip.name = anim;
+        for (auto& [idx,fname] : vec)
+            clip.frameNames.push_back(fname);
+
+        if (clip.name.find("death") != std::string::npos)
+        {
+            clip.loop = false;
+        }
+
+        atlas.animations[anim] = clip;
+    }
 }

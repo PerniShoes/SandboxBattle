@@ -21,6 +21,7 @@
   <ItemGroup>
     <ClCompile Include="BaseGame.cpp" />
     <ClCompile Include="FileUtils.cpp" />
+    <ClCompile Include="GameResources.cpp" />
     <ClCompile Include="Matrix2x3.cpp" />
     <ClCompile Include="SoundEffect.cpp" />
     <ClCompile Include="SoundStream.cpp" />
@@ -32,8 +33,10 @@
     <ClCompile Include="Vector2f.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="AnimationClip.h" />
     <ClInclude Include="BaseGame.h" />
     <ClInclude Include="FileUtils.h" />
+    <ClInclude Include="GameResources.h" />
     <ClInclude Include="Matrix2x3.h" />
     <ClInclude Include="base.h" />
     <ClInclude Include="SoundEffect.h" />
