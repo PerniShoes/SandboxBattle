@@ -64,6 +64,7 @@
       <RuntimeLibrary>MultiThreadedDebugDLL</RuntimeLibrary>
       <WarningLevel>Level3</WarningLevel>
       <AdditionalIncludeDirectories>$(SolutionDir)\Libraries\SDLTtf\SDL2_ttf-2.20.2\include;$(SolutionDir)\Libraries\SDLMixer\SDL2_mixer-2.6.3\include;$(SolutionDir)\Libraries\SDLImage\SDL2_image-2.6.3\include;$(SolutionDir)\Libraries\SDLMain\SDL2-2.26.3\include;$(SolutionDir)\Engine</AdditionalIncludeDirectories>
+      <LanguageStandard>stdcpp23</LanguageStandard>
     </ClCompile>
     <Link>
       <GenerateDebugInformation>true</GenerateDebugInformation>
@@ -97,6 +98,7 @@
       <WarningLevel>Level3</WarningLevel>
       <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
       <AdditionalIncludeDirectories>$(SolutionDir)\Libraries\SDLTtf\SDL2_ttf-2.20.2\include;$(SolutionDir)\Libraries\SDLMixer\SDL2_mixer-2.6.3\include;$(SolutionDir)\Libraries\SDLImage\SDL2_image-2.6.3\include;$(SolutionDir)\Libraries\SDLMain\SDL2-2.26.3\include;$(SolutionDir)\Engine</AdditionalIncludeDirectories>
+      <LanguageStandard>stdcpp23</LanguageStandard>
     </ClCompile>
     <Link>
       <GenerateDebugInformation>true</GenerateDebugInformation>

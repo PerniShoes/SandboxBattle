@@ -50,6 +50,8 @@ private:
 	std::unordered_map<Unit*,std::queue<CommandPtr>> m_Queues;
 
 
+
+	// FIX FIX FIX FIX FIX FIX FIX FIX FIX FIX FIX FIX Can sort based on tiles instead of Y
 	// Should be called every few/dozen or so frames (since units don't move THAT fast anyways)
 	// Sorts Units by Y coordinate and UnitType (flying) in order to draw units from back to front
 

@@ -1,5 +1,6 @@
 #include "Unit.h"
 #include "PrettyColors.h"
+#include "Texture.h"
 
 Unit::Unit(UnitType type, Transform transform,Stats baseStats,float hitBoxRadius, Color4f color)
     :m_Type{type}
@@ -28,14 +29,24 @@ void Unit::Draw() const
     using namespace PrettyColors;
     m_Transform.Push();
     m_Transform.Apply();
+            
 
-    // Body
-    SetColor(GetColor(dGreen));
-    FillEllipse(0,0,m_HitBoxRadius,m_HitBoxRadius);
 
-    // Outline
-    SetColor(GetColor(black)); 
-    DrawEllipse(0,0,m_HitBoxRadius,m_HitBoxRadius);
+
+
+
+
+
+
+
+
+    //// Body
+    //SetColor(GetColor(dGreen));
+    //FillEllipse(0,0,m_HitBoxRadius,m_HitBoxRadius);
+
+    //// Outline
+    //SetColor(GetColor(black)); 
+    //DrawEllipse(0,0,m_HitBoxRadius,m_HitBoxRadius);
 
 
     m_Transform.Pop();

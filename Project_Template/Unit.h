@@ -6,13 +6,17 @@
 
 #include "AllEffects.h"
 #include "Effect.h"
+#include "SpriteAtlasManager.h"
+#include "GameResources.h"
 
+// Useless?
 enum class UnitType
 {
     ground = 1,
     air = 2
 };
 
+class Texture;
 class Unit
 {
 public:
@@ -43,7 +47,7 @@ public:
     void ApplyBuff(std::unique_ptr<Effect> buff);
     void ApplyDebuff(std::unique_ptr<Effect> debuff);
 
-private:
+protected:
 
     UnitType m_Type;
     Stats m_Stats;
@@ -57,6 +61,14 @@ private:
 
     std::vector<std::unique_ptr<Effect>>m_Buffs;
     std::vector<std::unique_ptr<Effect>>m_Debuffs;
+
+    ///////////UA prep
+
+    //std::unique_ptr<Texture> m_Texture;
+    Atlas* m_Atlas;
+    // UA
+
+    ////////////////
 
     // Buffs and Debuffs and vector with effects, like buring, slowed, strength and so on
     // Class like "Abbilities" that would allow me to do stuff like: FireBall(this, target) (as in: (caster, target))

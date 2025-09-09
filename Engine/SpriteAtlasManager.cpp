@@ -1,4 +1,5 @@
 #include "SpriteAtlasManager.h"
+#include <tinyxml2.h>
 
 void SpriteAtlasManager::LoadFolder(const std::string& folderPath)
 {
@@ -108,7 +109,7 @@ bool SpriteAtlasManager::LoadPlist(const std::string& plistPath,
 
 void SpriteAtlasManager::BuildAnimations(Atlas& atlas)
 {
-    // bucket frames by token before last underscore
+    // bucket frames by animation name (without atlas prefix)
     std::unordered_map<std::string,std::vector<std::pair<int,std::string>>> buckets;
 
     for (auto& [name,f] : atlas.frames)
@@ -117,36 +118,45 @@ void SpriteAtlasManager::BuildAnimations(Atlas& atlas)
         auto dot = name.find_last_of('.');
         std::string base = (dot != std::string::npos) ? name.substr(0,dot) : name;
 
-        // split by '_'
+        // split number suffix
         auto us = base.find_last_of('_');
-        std::string anim = (us != std::string::npos) ? base.substr(0,us) : base;
+        std::string animFull = (us != std::string::npos) ? base.substr(0,us) : base;
         std::string numStr = (us != std::string::npos) ? base.substr(us + 1) : "0";
 
         int index = 0;
         try { index = std::stoi(numStr); }
         catch (...) { index = 0; }
 
+        // Remove all text before last "_" (So sprites are grouped by "action" and not by "entire_name_action")
+        std::string anim = animFull;
+        auto lastUnderscore = animFull.find_last_of('_');
+        if (lastUnderscore != std::string::npos)
+        {
+            anim = animFull.substr(lastUnderscore + 1);
+        }
+
         buckets[anim].push_back({index, name});
     }
 
-    // sort and make clips
+    // sort and build clips
     for (auto& [anim,vec] : buckets)
     {
-        std::sort(vec.begin(),vec.end(),[](auto& a,auto& b)
-            {
-                return a.first < b.first;
-            });
+        std::sort(vec.begin(),vec.end(),
+            [](auto& a,auto& b) { return a.first < b.first; });
 
         AnimationClip clip;
         clip.name = anim;
+
         for (auto& [idx,fname] : vec)
             clip.frameNames.push_back(fname);
 
+        // mark death animations as non-looping
         if (clip.name.find("death") != std::string::npos)
         {
             clip.loop = false;
         }
 
-        atlas.animations[anim] = clip;
+        atlas.animations[anim] = std::move(clip);
     }
 }
+

@@ -61,7 +61,7 @@ private:
 	AnimationClip* testAnim = nullptr;
 	Atlas* testAtlas;
 	float elapsed = 0.0f;
-	float frameTime = 0.020f; // 10 fps
+	float frameTime = 0.027f; // 10 fps
 	int currentFrame = 0;
 
 	void InitTest();

@@ -3,6 +3,7 @@
 
 // Idk I tried everything to make it work with header files. 
 // It works with those .cpp files included, so I guess I will use test like this, for now
+#include "Texture.h"
 #include "utils.cpp"
 #include "Vector2f.cpp"
 #include "structs.cpp"

@@ -32,28 +32,20 @@ Game::~Game()
 void Game::InitTest()
 {
 	// Load Atlas
-	std::string testedAnim{"f1_sunstonemaiden"};
-	testAtlas = GameResources::m_AtlasManager.GetAtlas(testedAnim);
-	if (!testAtlas)
-	{
-		std::cerr << "Could not load atlas!\n";
-		return;
-	}
+	std::string testedAnim2{"boss_treatdemon"};
+	std::string testedAnim{"boss_unhallowed"};
+
+	std::string currentAnim{testedAnim};
+	testAtlas = GameResources::m_AtlasManager.GetAtlas(currentAnim);
+	testTexture = std::make_unique<Texture>(testAtlas->pngPath);
 
 	// Grab one animation clip (e.g. idle or death)
-	testedAnim += "_";
-	testedAnim += "attack";
-	testAnim = testAtlas->animations.count(testedAnim) ?
-		&testAtlas->animations[testedAnim] : nullptr;
+	testAnim = testAtlas->animations.count("attack") ?
+		&testAtlas->animations["attack"] : nullptr;
 	//testAnim->loop = false;
-	if (!testAnim)
-	{
-		std::cerr << "Animation not found!\n";
-		return;
-	}
 
 	// Load the texture of the atlas
-	testTexture = std::make_unique<Texture>(testAtlas->pngPath);
+	//testTexture = std::make_unique<Texture>(testAtlas->pngPath);
 }
 
 void Game::UpdateTest(float dt)
@@ -93,7 +85,7 @@ void Game::DrawTest() const
 	testTexture->DrawShade(dst,src,{});
 }
 
-
+/////////////////////////////////////////////////////////////////////////////////////////
 
 void Game::Initialize()
 {
