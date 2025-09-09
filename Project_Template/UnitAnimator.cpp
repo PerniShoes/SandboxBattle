@@ -2,42 +2,46 @@
 #include "Texture.h"
 
 UnitAnimator::UnitAnimator(Atlas* atlas,Texture* texture)
-    : m_atlas(atlas),m_texture(texture)
+    : atlas(atlas),texture(texture)
 {
 
 }
 
-void UnitAnimator::Play(const AnimationClip& data)
+void UnitAnimator::Play(const std::string actionName)
 {
-    auto it = m_atlas->animations.find(data.name);
-    if (it == m_atlas->animations.end())
+    auto it = atlas->animations.find(actionName);
+    if (it == atlas->animations.end())
     {
-        std::cerr << "Anim not found: " << data.name << "\n";
-        m_current = nullptr;
+        std::cerr << "Anim not found: " << actionName << "\n";
+        current = nullptr;
         return;
     }
-    m_current = &it->second;
-    m_current->frameTime = data.frameTime;
-    m_current->loop = data.loop;
-    m_frameIndex = 0;
-    m_elapsed = 0.0f;
+
+    isDonePlaying = false;
+
+    current = &it->second;
+    current->frameTime = it->second.frameTime;
+    current->loop = it->second.loop;
+    frameIndex = 0;
+    elapsed = 0.0f;
 }
 
 void UnitAnimator::Update(float elapsedTime)
 {
-    if (!m_current) return;
-    m_elapsed += elapsedTime;
-    if (m_elapsed >= m_current->frameTime)
+    if (!current) return;
+    elapsed += elapsedTime;
+    if (elapsed >= current->frameTime)
     {
-        m_elapsed = 0.0f;
-        m_frameIndex++;
-        if (m_frameIndex >= (int)m_current->frameNames.size())
+        elapsed = 0.0f;
+        frameIndex++;
+        if (frameIndex >= (int)current->frameNames.size())
         {
-            if (m_current->loop)
-                m_frameIndex = 0;
+            if (current->loop)
+                frameIndex = 0;
             else
             {
-                m_frameIndex = (int)m_current->frameNames.size() - 1;
+                frameIndex = (int)current->frameNames.size() - 1;
+                isDonePlaying = true;
             }
         }
     }
@@ -45,14 +49,14 @@ void UnitAnimator::Update(float elapsedTime)
 
 void UnitAnimator::DrawShade(std::initializer_list<std::pair<Color4f,Color4f>> colorPairs)
 {
-    if (!m_current || m_current->frameNames.empty()) return;
-    const std::string& fname = m_current->frameNames[m_frameIndex];
-    const FrameData& f = m_atlas->frames.at(fname);
+    if (!current || current->frameNames.empty()) return;
+    const std::string& fname = current->frameNames[frameIndex];
+    const FrameData& f = atlas->frames.at(fname);
     Rectf src{f.ToRectf()};
-    m_texture->DrawShade(Rectf{0.0f,0.0f,float(f.w),float(f.h)},src,colorPairs);
+    texture->DrawShade(Rectf{0.0f,0.0f,float(f.w),float(f.h)},src,colorPairs);
 }
 
-bool UnitAnimator::IsPlaying() const 
+bool UnitAnimator::IsDone() const
 { 
-    return m_current != nullptr; 
+    return isDonePlaying;
 }

@@ -150,12 +150,19 @@ void SpriteAtlasManager::BuildAnimations(Atlas& atlas)
         for (auto& [idx,fname] : vec)
             clip.frameNames.push_back(fname);
 
-        // mark death animations as non-looping
-        if (clip.name.find("death") != std::string::npos)
-        {
-            clip.loop = false;
-        }
+        // mark specific animations as non-looping
+        const std::vector<std::string> nonLooping = {
+            "death", "attack", "cast", "hit"
+        };
 
+        for (const auto& keyword : nonLooping)
+        {
+            if (clip.name.find(keyword) != std::string::npos)
+            {
+                clip.loop = false;
+                break; // stop at first match
+            }
+        }
         atlas.animations[anim] = std::move(clip);
     }
 }

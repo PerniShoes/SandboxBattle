@@ -11,6 +11,10 @@
 #include <print>
 
 
+// TESTING:
+#include "UnitAnimator.h"
+
+
 Game::Game(const Window& window)
 	:BaseGame(window)
 	,m_UnitManager{}
@@ -39,9 +43,12 @@ void Game::InitTest()
 	testAtlas = GameResources::m_AtlasManager.GetAtlas(currentAnim);
 	testTexture = std::make_unique<Texture>(testAtlas->pngPath);
 
+	m_TestUA = std::make_unique<UnitAnimator>(testAtlas,testTexture.get());
+	m_TestUA->Play("breathing");
+
 	// Grab one animation clip (e.g. idle or death)
-	testAnim = testAtlas->animations.count("attack") ?
-		&testAtlas->animations["attack"] : nullptr;
+	/*testAnim = testAtlas->animations.count("attack") ?
+		&testAtlas->animations["attack"] : nullptr;*/
 	//testAnim->loop = false;
 
 	// Load the texture of the atlas
@@ -152,7 +159,18 @@ void Game::Update(float elapsedSec)
 	// Limits the frequency of code inside   // Put this into a separate function?
 	if (m_AccumulatedTime->GetTime() >= frameDuration)
 	{
-		UpdateTest(elapsedSec);
+
+
+
+		//UpdateTest(elapsedSec);
+
+		m_TestUA->Update(elapsedSec);
+		if (m_TestUA->IsDone())
+		{
+			m_TestUA->Play("breathing");
+		}
+
+
 		m_UnitManager.UpdateAll(elapsedSec);
 		m_SandboxBattler->Update(elapsedSec);
 		m_AccumulatedTime->Restart();
@@ -206,7 +224,9 @@ void Game::Draw() const
 		////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 		glPushMatrix();
 		glScalef(2.0f,2.0f,1.0f);
-		DrawTest();
+		m_TestUA->DrawShade({});
+		//DrawTest();
+		// 
 		//m_AtlasTestTexture->DrawShade(Rectf{50.0f,50.0f,120.0f,120.0f},f.ToRectf(),{});
 		//m_AtlasTestTexture->DrawShade(Rectf{50.0f,50.0f,120.0f,120.0f},Rectf{(f.x), 241.0f, f.w, f.h},{});
 		glPopMatrix();
@@ -358,22 +378,22 @@ void Game::ProcessKeyUpEvent(const SDL_KeyboardEvent& e)
 	switch (e.keysym.sym)
 	{
 	case SDLK_q:
-
+		m_TestUA->Play("idle");
 		break;
 	case SDLK_w:
-
+		m_TestUA->Play("attack");
 		break;
 	case SDLK_e:
-
+		m_TestUA->Play("breathing");
 		break;
 	case SDLK_r:
-
+		m_TestUA->Play("death");
 		break;
 	case SDLK_t:
-
+		m_TestUA->Play("hit");
 		break;
 	case SDLK_y:
-
+		m_TestUA->Play("run");
 		break;
 	case SDLK_u:
 

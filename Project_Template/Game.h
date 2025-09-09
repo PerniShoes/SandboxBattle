@@ -6,6 +6,7 @@
 #include "SpriteAtlasManager.h"
 #include "GameResources.h"
 
+class UnitAnimator;
 class TimeClass;
 class Texture;
 class SandboxBattler; // Project
@@ -56,6 +57,8 @@ private:
 
 
 	// Somewhere in your game state / test file
+
+	std::unique_ptr<UnitAnimator> m_TestUA;
 
 	std::unique_ptr<Texture> testTexture;
 	AnimationClip* testAnim = nullptr;

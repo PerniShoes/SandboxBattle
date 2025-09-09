@@ -9,16 +9,17 @@ class UnitAnimator
 public:
     UnitAnimator(Atlas* atlas,Texture* texture);
 
-    void Play(const AnimationClip& data);
+    void Play(const std::string actionName);
     void Update(float elapsedTime);
     void DrawShade(std::initializer_list<std::pair<Color4f,Color4f>> colorPairs);
-    bool IsPlaying() const;
+    bool IsDone() const;
 
 private:
-    Atlas* m_atlas;
-    Texture* m_texture;
+    Atlas* atlas;
+    Texture* texture;
 
-    AnimationClip* m_current = nullptr;
-    int m_frameIndex = 0;
-    float m_elapsed = 0.0f;
+    AnimationClip* current = nullptr;
+    int frameIndex = 0;
+    float elapsed = 0.0f;
+    bool isDonePlaying = false;
 };
