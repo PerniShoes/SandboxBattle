@@ -1,10 +1,11 @@
 #include "UnitAnimator.h"
-#include "Texture.h"
 
-UnitAnimator::UnitAnimator(Atlas* atlas,Texture* texture)
-    : atlas(atlas),texture(texture)
+UnitAnimator::UnitAnimator(Atlas* atlas,std::unique_ptr<Texture> texture)
+    :atlas{atlas},texture{std::move(texture)}
 {
-
+    // Set any frame as deafult (since all frames have same sizes for one unit
+    current = &(atlas->animations.find("idle")->second);
+    currentAnimPlaying = "idle";
 }
 
 void UnitAnimator::Play(const std::string actionName)
@@ -17,6 +18,7 @@ void UnitAnimator::Play(const std::string actionName)
         return;
     }
 
+    currentAnimPlaying = actionName;
     isDonePlaying = false;
 
     current = &it->second;
@@ -59,4 +61,14 @@ void UnitAnimator::DrawShade(std::initializer_list<std::pair<Color4f,Color4f>> c
 bool UnitAnimator::IsDone() const
 { 
     return isDonePlaying;
+}
+
+float UnitAnimator::GetHitBoxWidth()
+{
+    return float(atlas->frames.find(current->frameNames[0])->second.w);
+}
+
+std::string UnitAnimator::GetCurrentAnimation()
+{
+    return currentAnimPlaying;
 }

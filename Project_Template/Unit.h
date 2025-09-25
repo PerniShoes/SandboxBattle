@@ -8,6 +8,8 @@
 #include "Effect.h"
 #include "SpriteAtlasManager.h"
 #include "GameResources.h"
+#include "UnitAnimator.h"
+#include "PrettyColors.h"
 
 // Useless?
 enum class UnitType
@@ -20,13 +22,12 @@ class Texture;
 class Unit
 {
 public:
-    Unit(UnitType type = {UnitType::ground},Transform transform = {},Stats baseStats = {},float hitBoxRadius = 10.0f,Color4f color = Color4f{1,1,1,1});
+    Unit(std::string unitName, UnitType type = {UnitType::ground},Transform transform = {},Stats baseStats = {},Color4f color = PrettyColors::GetColor(PrettyColors::dGreen));
     Unit(const Unit& other) = delete;
     Unit& operator=(const Unit& other) = delete;
     Unit(Unit&& other) = delete;
     Unit& operator=(Unit&& other) = delete;
-
-    ~Unit();
+    virtual ~Unit();
 
     void Draw() const;
     void DrawHighlight()const;
@@ -42,11 +43,14 @@ public:
     Stats GetStats() const;
     UnitType GetType() const;
 
-    Transform GetTransform(); // For collision, position and so on
-    Circlef GetHitBox();
+    Transform GetTransform(); // For collision, position and so on // Not implt
+    Rectf GetHitBox();
     void ApplyBuff(std::unique_ptr<Effect> buff);
     void ApplyDebuff(std::unique_ptr<Effect> debuff);
 
+
+
+    // ORGANIZE ALL NOT USED STUFF SINCE A LOT OF CHANGED, ALSO HAD SCALING 
 protected:
 
     UnitType m_Type;
@@ -54,21 +58,21 @@ protected:
     Unit* m_Target;
     Point2f m_Destination;
     Transform m_Transform;
-    float m_HitBoxRadius;
-    Color4f m_ModelColor;
+    float m_HitBoxWidth;
+    Color4f m_ModelColor; // For debug if texture doesn't load
     bool m_InRange;
     bool m_IsAlive;
+    bool m_GoingLeft;
 
+    // TODO
     std::vector<std::unique_ptr<Effect>>m_Buffs;
     std::vector<std::unique_ptr<Effect>>m_Debuffs;
 
-    ///////////UA prep
+    /// UA 
+    std::unique_ptr<UnitAnimator> m_Animator;
+    bool m_UnitAnimatorLoadedCorrectly;
 
-    //std::unique_ptr<Texture> m_Texture;
-    Atlas* m_Atlas;
-    // UA
 
-    ////////////////
 
     // Buffs and Debuffs and vector with effects, like buring, slowed, strength and so on
     // Class like "Abbilities" that would allow me to do stuff like: FireBall(this, target) (as in: (caster, target))

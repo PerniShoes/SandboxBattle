@@ -1,8 +1,13 @@
 #pragma once
 #include "structs.h"
-#include "SDL.h"
+
 // https://BaseGameprogrammingpatterns.com/subclass-sandbox.html
 
+// Disable warnings for SDL
+#pragma warning(push, 0) // All warnings
+//#pragma warning(disable: 5262) // implicit fall-through warning
+#include "SDL.h"
+#pragma warning(pop)
 
 class BaseGame
 {
@@ -16,7 +21,7 @@ public:
 
 	void Run( );
 
-	virtual void Update(float elapsedSec)
+	virtual void Update(float)
 	{
 		
 	}
@@ -26,27 +31,27 @@ public:
 	}
 
 	// Event handling
-	virtual void ProcessKeyDownEvent(const SDL_KeyboardEvent& e)
+	virtual void ProcessKeyDownEvent(const SDL_KeyboardEvent&)
 	{
 		
 	}
-	virtual void ProcessKeyUpEvent(const SDL_KeyboardEvent& e)
+	virtual void ProcessKeyUpEvent(const SDL_KeyboardEvent&)
 	{
 		
 	}
-	virtual void ProcessMouseMotionEvent(const SDL_MouseMotionEvent& e)
+	virtual void ProcessMouseMotionEvent(const SDL_MouseMotionEvent&)
 	{
 		
 	}
-	virtual void ProcessMouseDownEvent(const SDL_MouseButtonEvent& e)
+	virtual void ProcessMouseDownEvent(const SDL_MouseButtonEvent&)
 	{
 		
 	}
-	virtual void ProcessMouseUpEvent(const SDL_MouseButtonEvent& e)
+	virtual void ProcessMouseUpEvent(const SDL_MouseButtonEvent&)
 	{
 		
 	}
-	virtual void ProcessMouseWheelEvent(const SDL_MouseWheelEvent& e)
+	virtual void ProcessMouseWheelEvent(const SDL_MouseWheelEvent&)
 	{
 
 	}

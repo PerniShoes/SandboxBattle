@@ -31,6 +31,9 @@
     <Filter Include="Unit Files">
       <UniqueIdentifier>{13689384-eea8-4d97-bd36-7a600a766d87}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Unit Files\Units implemented">
+      <UniqueIdentifier>{74d052e3-276d-4205-8880-5fc8f18f1d1e}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -80,6 +83,9 @@
     </ClCompile>
     <ClCompile Include="Unit.cpp">
       <Filter>Unit Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Spell_Eater.cpp">
+      <Filter>Unit Files\Units implemented</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -142,6 +148,9 @@
     </ClInclude>
     <ClInclude Include="Unit.h">
       <Filter>Unit Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Spell_Eater.h">
+      <Filter>Unit Files\Units implemented</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

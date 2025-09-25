@@ -56,33 +56,10 @@ private:
 	//////////////// TEST
 
 
-	// Somewhere in your game state / test file
 
-	std::unique_ptr<UnitAnimator> m_TestUA;
-
-	std::unique_ptr<Texture> testTexture;
-	AnimationClip* testAnim = nullptr;
-	Atlas* testAtlas;
-	float elapsed = 0.0f;
-	float frameTime = 0.027f; // 10 fps
-	int currentFrame = 0;
-
-	void InitTest();
-
-	void UpdateTest(float dt);
-
-	void DrawTest() const;
-
-
-
-
-
-
-	/////
-
-	std::unique_ptr<Texture> m_TestSkeleton;
-	std::unique_ptr<Texture> m_TestTexture;
 	// Check FIX and DELETE every now and then
+
+
 
 	// Default Game members:
 	std::unique_ptr<SandboxBattler> m_SandboxBattler; // Project

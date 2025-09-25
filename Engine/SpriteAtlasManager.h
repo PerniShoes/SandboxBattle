@@ -11,7 +11,7 @@ struct FrameData
 {
     // sscanf_s requires ints to initilize data properly
     int x = 0,y = 0,w = 0,h = 0;
-    Rectf ToRectf() const
+    [[maybe_unused]] Rectf ToRectf() const
     {
         return Rectf{float(x), float(y), float(w), float(h)};
     }

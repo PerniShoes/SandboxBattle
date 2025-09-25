@@ -10,6 +10,8 @@
 class TimeClass;
 class Texture;
 
+// Will most likely be repurposed into a Level class
+
 class SandboxBattler
 {
 

@@ -5,6 +5,9 @@
 #include <iostream>
 #include "utils.h"
 
+#pragma warning(push)
+#pragma warning(disable : 5045)
+// Compiler will insert Spectre mitigation for memory load if /Qspectre switch specified
 
 #pragma region OpenGLDrawFunctionality
 void utils::SetColor( const Color4f& color )
@@ -684,3 +687,6 @@ bool utils::IntersectRectLine(const Rectf& r, const Point2f& p1, const Point2f& 
 }
 
 #pragma endregion CollisionFunctionality
+
+// Compiler will insert Spectre mitigation for memory load if /Qspectre switch specified
+#pragma warning(pop) 

@@ -35,6 +35,12 @@ void UnitManager::DrawAll()const
 
 void UnitManager::UpdateAll(float elapsedTime)
 {
+    
+    for (const auto& unitPtr : m_Units)
+    {
+        unitPtr->Update(elapsedTime);
+    }
+
     for (auto& [unitPtr,cmdQueue] : m_Queues)
     {
         if (cmdQueue.empty()) continue;
@@ -58,7 +64,7 @@ void UnitManager::SelectClickedUnit()
 {
     for (const auto& unitPtr : m_Units)
     {
-        if (utils::IsPointInCircle(m_LastMousePos,unitPtr->GetHitBox()))
+        if (utils::IsPointInRect(m_LastMousePos,unitPtr->GetHitBox()))
         {
             auto unit = unitPtr.get();
             if (std::find(m_SelectedUnits.begin(),m_SelectedUnits.end(),unit) == m_SelectedUnits.end())

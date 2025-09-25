@@ -25,7 +25,7 @@ public:
 	void UpdateAll(float elapsedTime);
 
 	void TeleportAllTo(Point2f location);
-	void TeleportTo(int unitIndex,Point2f location); // FIX unitIndex should be changed. Now you have to use valid numbers, debug
+	void TeleportTo(int unitIndex,Point2f location); // FIX unitIndex should be changed. Now you have to know/use valid numbers, debug
 
 	void AddUnit(std::unique_ptr<Unit> unit);
 

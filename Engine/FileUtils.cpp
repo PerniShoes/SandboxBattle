@@ -28,7 +28,7 @@ void CheckShaderCompileErrors(GLuint shader)
         GLint logLength = 0;
         glGetShaderiv(shader,GL_INFO_LOG_LENGTH,&logLength);
 
-        std::vector<GLchar> infoLog(logLength);
+        std::vector<GLchar> infoLog(static_cast<size_t>(logLength));
         glGetShaderInfoLog(shader,logLength,nullptr,infoLog.data());
 
         std::cerr << "ERROR::SHADER_COMPILATION_ERROR:\n" << infoLog.data() << std::endl;
@@ -45,7 +45,7 @@ void CheckProgramLinkErrors(GLuint program)
         GLint logLength = 0;
         glGetProgramiv(program,GL_INFO_LOG_LENGTH,&logLength); // get error log length
 
-        std::vector<GLchar> infoLog(logLength);
+        std::vector<GLchar> infoLog(static_cast<size_t>(logLength));
         glGetProgramInfoLog(program,logLength,nullptr,infoLog.data());
 
         std::cerr << "ERROR::PROGRAM_LINKING_ERROR:\n" << infoLog.data() << std::endl;

@@ -11,9 +11,11 @@
 #include <print>
 
 
+// Umbrella header for all units??>?
+#include "Spell_Eater.h"
+
 // TESTING:
 #include "UnitAnimator.h"
-
 
 Game::Game(const Window& window)
 	:BaseGame(window)
@@ -23,7 +25,6 @@ Game::Game(const Window& window)
 	
 {
 	Initialize();
-	InitTest();
 }
 
 Game::~Game()
@@ -31,88 +32,20 @@ Game::~Game()
 	Cleanup();
 }
 
-///////// TEST FUNCITONS:
-
-void Game::InitTest()
-{
-	// Load Atlas
-	std::string testedAnim2{"boss_treatdemon"};
-	std::string testedAnim{"boss_unhallowed"};
-
-	std::string currentAnim{testedAnim};
-	testAtlas = GameResources::m_AtlasManager.GetAtlas(currentAnim);
-	testTexture = std::make_unique<Texture>(testAtlas->pngPath);
-
-	m_TestUA = std::make_unique<UnitAnimator>(testAtlas,testTexture.get());
-	m_TestUA->Play("breathing");
-
-	// Grab one animation clip (e.g. idle or death)
-	/*testAnim = testAtlas->animations.count("attack") ?
-		&testAtlas->animations["attack"] : nullptr;*/
-	//testAnim->loop = false;
-
-	// Load the texture of the atlas
-	//testTexture = std::make_unique<Texture>(testAtlas->pngPath);
-}
-
-void Game::UpdateTest(float dt)
-{
-	if (!testAnim) return;
-
-	elapsed += dt;
-	if (elapsed >= frameTime)
-	{
-		elapsed = 0.0f;
-		currentFrame++;
-		if (currentFrame >= (int)testAnim->frameNames.size())
-		{
-			if (testAnim->loop)
-				currentFrame = 0;
-			else
-				currentFrame = (int)testAnim->frameNames.size() - 1;
-		}
-	}
-}
-
-void Game::DrawTest() const
-{
-	if (!testAnim || !testTexture) return;
-	if (testAnim->frameNames.empty()) return;
-
-	const std::string& fname = testAnim->frameNames[currentFrame];
-
-	auto it = testAtlas->frames.find(fname);
-
-	const FrameData& fd = it->second;
-
-	// Draw at screen pos (100,100), using your existing DrawShade
-	Rectf src{(float)fd.x, (float)fd.y, (float)fd.w, (float)fd.h};
-	Rectf dst{100.f, 100.f, (float)fd.w, (float)fd.h};
-
-	testTexture->DrawShade(dst,src,{});
-}
-
 /////////////////////////////////////////////////////////////////////////////////////////
 
 void Game::Initialize()
 {
-	// TESTING ATLAS SPRITE LOADING
+	// TESTING ATLAS 
 	// LOAD ALL
 	GameResources::m_AtlasManager.LoadFolder("../Resources/DuelystResc/units");
 
+	m_UnitManager.AddUnit(std::make_unique<Spell_Eater>());
 
-	///////////////////////////////////
-	
-	// UnitManager
-	int unitAmount{1};
-	for (int i{0}; i < unitAmount; ++i)
-	{
-		m_UnitManager.AddUnit(std::make_unique<Unit>(UnitType{},Point2f{50.0f, 50.0f + 25.0f * i},Stats{},5.0f));
-	}
-	// FOR TESTING PURPOSED FIX OR DELETE
-	m_TestTexture = std::make_unique<Texture>("../Resources/Images/PixelBackPackGuy.png");
+	m_UnitManager.TeleportAllTo(Point2f{100.0f,100.0f});
 
-	m_TestSkeleton = std::make_unique<Texture>("../Resources/Images/SkeletonArcher-Sheet.png");
+
+
 	// Default
 	m_SandboxBattler = std::make_unique<SandboxBattler>(); // Project
 	m_FPSCounter = std::make_unique<Texture>("placeHolder","../Resources/Fonts/consola.ttf",16,Color4f{1,1,1,1});
@@ -159,16 +92,6 @@ void Game::Update(float elapsedSec)
 	// Limits the frequency of code inside   // Put this into a separate function?
 	if (m_AccumulatedTime->GetTime() >= frameDuration)
 	{
-
-
-
-		//UpdateTest(elapsedSec);
-
-		m_TestUA->Update(elapsedSec);
-		if (m_TestUA->IsDone())
-		{
-			m_TestUA->Play("breathing");
-		}
 
 
 		m_UnitManager.UpdateAll(elapsedSec);
@@ -221,18 +144,6 @@ void Game::Draw() const
 		PushCameraMatrix();
 		using namespace PrettyColors;
 
-		////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-		glPushMatrix();
-		glScalef(2.0f,2.0f,1.0f);
-		m_TestUA->DrawShade({});
-		//DrawTest();
-		// 
-		//m_AtlasTestTexture->DrawShade(Rectf{50.0f,50.0f,120.0f,120.0f},f.ToRectf(),{});
-		//m_AtlasTestTexture->DrawShade(Rectf{50.0f,50.0f,120.0f,120.0f},Rectf{(f.x), 241.0f, f.w, f.h},{});
-		glPopMatrix();
-		////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-
-
 		m_UnitManager.DrawAll();
 		m_SandboxBattler->Draw();
 
@@ -241,15 +152,14 @@ void Game::Draw() const
 	}
 	glPopMatrix();
 
-	DrawUI(); // FIX VVV
-	m_SandboxBattler->DrawUI(GetViewPort());
-	m_FPSCounter->Draw(Point2f{10.0f, GetViewPort().height - m_FPSCounter->GetHeight() - 4.0f},Rectf{});
-
+	DrawUI();
 }
 
 void Game::DrawUI() const
 {
 	DrawPausedText();
+	m_SandboxBattler->DrawUI(GetViewPort());
+	m_FPSCounter->Draw(Point2f{10.0f, GetViewPort().height - m_FPSCounter->GetHeight() - 4.0f},Rectf{});
 }
 void Game::DrawPausedText() const
 {
@@ -378,22 +288,24 @@ void Game::ProcessKeyUpEvent(const SDL_KeyboardEvent& e)
 	switch (e.keysym.sym)
 	{
 	case SDLK_q:
-		m_TestUA->Play("idle");
+		// FIX OR DELETE
+		// // Left for potential testing for now
+		//m_TestUA->Play("idle");
 		break;
 	case SDLK_w:
-		m_TestUA->Play("attack");
+		//m_TestUA->Play("attack");
 		break;
 	case SDLK_e:
-		m_TestUA->Play("breathing");
+		//m_TestUA->Play("breathing");
 		break;
 	case SDLK_r:
-		m_TestUA->Play("death");
+		//m_TestUA->Play("death");
 		break;
 	case SDLK_t:
-		m_TestUA->Play("hit");
+		//m_TestUA->Play("hit");
 		break;
 	case SDLK_y:
-		m_TestUA->Play("run");
+		//m_TestUA->Play("run");
 		break;
 	case SDLK_u:
 

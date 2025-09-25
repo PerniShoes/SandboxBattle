@@ -2,7 +2,7 @@
 #include <iostream>
 #include <string>
 #include "Texture.h"
-
+#include <print>
 #include "FileUtils.h"
 
 
@@ -66,7 +66,6 @@ void Texture::CreateFromImage( const std::string& path )
 {
 	m_CreationOk = true;
 
-	// Load image at specified path
 	SDL_Surface* pLoadedSurface = IMG_Load(path.c_str());
 	if (pLoadedSurface == nullptr)
 	{

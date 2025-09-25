@@ -15,7 +15,7 @@ public:
 
 	void Draw(const Point2f& dstBottomLeft = {}, const Rectf& srcRect = {}) const;
 	void Draw(const Rectf& dstRect, const Rectf& srcRect = {} ) const;
-	void DrawShade(const Rectf& dstRect,const Rectf& srcRect,std::initializer_list<std::pair<Color4f,Color4f>> colorPairs) const;
+	void DrawShade(const Rectf& dstRect,const Rectf& srcRect,std::initializer_list<std::pair<Color4f,Color4f>> colorPairs = {}) const;
 
 	static void InitShader();
 	static GLuint shaderProgram;

@@ -41,7 +41,10 @@ Atlas* SpriteAtlasManager::GetAtlas(const std::string& name)
             return &atlas;
         }
     }
-    return nullptr;
+    std::cerr << "No matching atlas name, name passed: " << name;
+    Atlas& defaultAtlas = m_Atlases[0];
+    BuildAnimations(defaultAtlas);
+    return &defaultAtlas;
 }
 
 
