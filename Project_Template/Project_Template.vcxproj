@@ -143,6 +143,16 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="Ability.cpp" />
+    <ClCompile Include="boss_sandpanther.cpp" />
+    <ClCompile Include="boss_serpenti.cpp" />
+    <ClCompile Include="boss_shadowlord.cpp" />
+    <ClCompile Include="boss_shinkagezendo.cpp" />
+    <ClCompile Include="boss_skurge.cpp" />
+    <ClCompile Include="boss_skyfalltyrant.cpp" />
+    <ClCompile Include="boss_solfist.cpp" />
+    <ClCompile Include="boss_soulstealer.cpp" />
+    <ClCompile Include="boss_vampire.cpp" />
+    <ClCompile Include="boss_wraith.cpp" />
     <ClCompile Include="BurningEf.cpp" />
     <ClCompile Include="Command.cpp" />
     <ClCompile Include="Effect.cpp" />
@@ -152,7 +162,7 @@
     <ClCompile Include="MoveCommand.cpp" />
     <ClCompile Include="OrientationManager.cpp" />
     <ClCompile Include="SandboxBattler.cpp" />
-    <ClCompile Include="Spell_Eater.cpp" />
+    <ClCompile Include="boss_spelleater.cpp" />
     <ClCompile Include="Stats.cpp" />
     <ClCompile Include="TimeClass.cpp" />
     <ClCompile Include="Transform.cpp" />
@@ -166,6 +176,17 @@
     <ClInclude Include="AllAbbilities.h" />
     <ClInclude Include="AllEffects.h" />
     <ClInclude Include="AllUnitCommands.h" />
+    <ClInclude Include="AllUnits.h" />
+    <ClInclude Include="boss_sandpanther.h" />
+    <ClInclude Include="boss_serpenti.h" />
+    <ClInclude Include="boss_shadowlord.h" />
+    <ClInclude Include="boss_shinkagezendo.h" />
+    <ClInclude Include="boss_skurge.h" />
+    <ClInclude Include="boss_skyfalltyrant.h" />
+    <ClInclude Include="boss_solfist.h" />
+    <ClInclude Include="boss_soulstealer.h" />
+    <ClInclude Include="boss_vampire.h" />
+    <ClInclude Include="boss_wraith.h" />
     <ClInclude Include="BurningEf.h" />
     <ClInclude Include="Command.h" />
     <ClInclude Include="Effect.h" />
@@ -175,7 +196,7 @@
     <ClInclude Include="OrientationManager.h" />
     <ClInclude Include="PrettyColors.h" />
     <ClInclude Include="SandboxBattler.h" />
-    <ClInclude Include="Spell_Eater.h" />
+    <ClInclude Include="boss_spelleater.h" />
     <ClInclude Include="Stats.h" />
     <ClInclude Include="TimeClass.h" />
     <ClInclude Include="Transform.h" />

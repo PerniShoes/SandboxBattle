@@ -31,16 +31,21 @@ void Transform::Pop()const
 
 void Transform::FlipX()
 {
-    scale.x *= -1;
+    scale.x = -scale.x;
 }
 void Transform::FlipY()
 {
-    scale.y *= -1;
+    scale.y = -scale.y;
 }
 Rectf Transform::GetHitbox()
 {
-    float hitboxOffsetX{(hitboxWidth / 2.0f)*abs(scale.x)};
+    float hitboxOffsetX{(hitboxWidth / 2.0f) * abs(scale.x)};
     float hitboxOffsetY{(hitboxWidth / 2.0f) * abs(scale.y)};
     return Rectf{position.x - hitboxOffsetX,position.y- hitboxOffsetY,hitboxWidth * abs(scale.x),hitboxWidth * abs(scale.y)};
 }
 
+void Transform::Scale(float x,float y)
+{
+    scale.x *= x;
+    scale.y *= y;
+}

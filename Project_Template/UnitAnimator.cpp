@@ -13,7 +13,8 @@ void UnitAnimator::Play(const std::string actionName)
     auto it = atlas->animations.find(actionName);
     if (it == atlas->animations.end())
     {
-        std::cerr << "Anim not found: " << actionName << "\n";
+        std::cerr << "Anim not found: " << actionName << " Name of atlas: " << atlas->name << "\n";
+
         current = nullptr;
         return;
     }
@@ -45,6 +46,16 @@ void UnitAnimator::Update(float elapsedTime)
                 frameIndex = (int)current->frameNames.size() - 1;
                 isDonePlaying = true;
             }
+        }
+    }
+
+    // If it's a non-looping animation other than death
+    if (isDonePlaying)
+    {
+        if (currentAnimPlaying != "death")
+        {
+            Play("breathing");
+            isDonePlaying = false;
         }
     }
 }

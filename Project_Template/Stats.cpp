@@ -1,9 +1,9 @@
 #include "Stats.h"
 
-Stats::Stats(int hp,int maxHp,float as,float castSpeed,int ms)
+Stats::Stats(int hp,int maxHp,int dmg,float castSpeed,int ms)
     :m_CurrentHealth{hp}
     ,m_MaxHealth{maxHp}
-    ,m_AttackSpeed{as}
+    ,m_Damage{dmg}
     ,m_CastSpeed{castSpeed}
     ,m_MoveSpeed{ms}
  

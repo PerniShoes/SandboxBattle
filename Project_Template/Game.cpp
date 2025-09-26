@@ -11,8 +11,8 @@
 #include <print>
 
 
-// Umbrella header for all units??>?
-#include "Spell_Eater.h"
+// Umbrella header for all units???
+#include "AllUnits.h" // Yes
 
 // TESTING:
 #include "UnitAnimator.h"
@@ -40,9 +40,61 @@ void Game::Initialize()
 	// LOAD ALL
 	GameResources::m_AtlasManager.LoadFolder("../Resources/DuelystResc/units");
 
-	m_UnitManager.AddUnit(std::make_unique<Spell_Eater>());
 
-	m_UnitManager.TeleportAllTo(Point2f{100.0f,100.0f});
+	// ChatGPT helped of course xd
+	// There has to be a way to make it easier to choose the class (and create them too)
+	m_UnitManager.SetDefaultTeam(0);
+	m_UnitManager.AddUnit(std::make_unique<boss_sandpanther>());
+	m_UnitManager.AddUnit(std::make_unique<boss_serpenti>());
+	m_UnitManager.AddUnit(std::make_unique<boss_shadowlord>());
+	m_UnitManager.AddUnit(std::make_unique<boss_shinkagezendo>());
+	m_UnitManager.AddUnit(std::make_unique<boss_skurge>());
+	m_UnitManager.AddUnit(std::make_unique<boss_skyfalltyrant>());
+	m_UnitManager.AddUnit(std::make_unique<boss_solfist>());
+	m_UnitManager.AddUnit(std::make_unique<boss_spelleater>());
+	m_UnitManager.AddUnit(std::make_unique<boss_vampire>());
+	m_UnitManager.AddUnit(std::make_unique<boss_wraith>());
+
+	m_UnitManager.SetDefaultTeam(1);
+	m_UnitManager.AddUnit(std::make_unique<boss_sandpanther>());
+	m_UnitManager.AddUnit(std::make_unique<boss_serpenti>());
+	m_UnitManager.AddUnit(std::make_unique<boss_shadowlord>());
+	m_UnitManager.AddUnit(std::make_unique<boss_shinkagezendo>());
+	m_UnitManager.AddUnit(std::make_unique<boss_skurge>());
+	m_UnitManager.AddUnit(std::make_unique<boss_skyfalltyrant>());
+	m_UnitManager.AddUnit(std::make_unique<boss_solfist>());
+	m_UnitManager.AddUnit(std::make_unique<boss_spelleater>());
+	m_UnitManager.AddUnit(std::make_unique<boss_vampire>());
+	m_UnitManager.AddUnit(std::make_unique<boss_wraith>());
+
+	m_UnitManager.ScaleAllUnits(1.5f,1.5f);
+
+	// FIX debug code
+	float x{0.0f};
+	float y{0.0f};
+	for (int i{0} ;i < m_UnitManager.GetUnitCount(); ++i)
+	{
+		if (i == (m_UnitManager.GetUnitCount() / 2))
+		{
+			y += 85.0f;
+		}
+		if (i < (m_UnitManager.GetUnitCount() / 2))
+		{
+			x = 200.0f;
+			y += 85.0f;
+		}
+		else
+		{
+			x = m_Window.width - 200.0f;
+			y -= 85.0f;
+		}
+
+		m_UnitManager.TeleportTo(i,Point2f{x,y});
+	}
+
+
+
+
 
 
 

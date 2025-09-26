@@ -3,6 +3,7 @@
 Unit::Unit(std::string unitName,UnitType type, Transform transform,Stats baseStats, Color4f color)
     :m_Type{type}
     ,m_Target{nullptr}
+    ,m_IsAttacking{false}
     ,m_Stats{baseStats}
     ,m_Destination{}
     ,m_Transform{transform}
@@ -10,13 +11,14 @@ Unit::Unit(std::string unitName,UnitType type, Transform transform,Stats baseSta
     ,m_ModelColor{color}
     ,m_InRange{false}
     ,m_IsAlive{true}
-    ,m_GoingLeft{false}
+    ,m_FacingLeft{false}
     ,m_Animator{
     std::make_unique<UnitAnimator>(GameResources::m_AtlasManager.GetAtlas(unitName)
         ,std::make_unique<Texture>(GameResources::m_AtlasManager.GetAtlas(unitName)->pngPath))
     
     }
     ,m_UnitAnimatorLoadedCorrectly{true}
+    ,m_TeamNumber{0}
 
 {
     
@@ -74,8 +76,31 @@ void Unit::DrawHighlight() const
     float width{m_HitBoxWidth + offset*2};
     float lineWidth{1.0f};
 
+
     Color4f highLight{GetColor(green)};
     // highLight.a = 1.0f;
+    switch (m_TeamNumber)
+    {
+    case 0:
+        highLight = GetColor(white);
+        break;
+    case 1:
+        highLight = GetColor(blue);
+        break;
+    case 2:
+        highLight = GetColor(purple);
+        break;
+    case 3:
+        highLight = GetColor(orange);
+        break;
+
+    case 4:
+        highLight = GetColor(yellow);
+        break;
+    default:
+        highLight = GetColor(green);
+        break;
+    }
     SetColor(highLight);
     DrawRect(0-offset,0-offset,width,width,lineWidth);
 
@@ -84,8 +109,18 @@ void Unit::DrawHighlight() const
 
 void Unit::Update(float elapsedTime)
 {
-    m_Animator->Update(elapsedTime);
+    if (m_IsAttacking)
+    {
+        // Finished attack anim
+        if (m_Animator->GetCurrentAnimation() != "attack")
+        {
+            m_Target->TakeDamage(m_Stats.m_Damage);
+            m_Target = nullptr;
+            m_IsAttacking = false;
+        }
+    }
 
+    m_Animator->Update(elapsedTime);
 }
 
 void Unit::TeleportTo(Point2f position)
@@ -113,14 +148,14 @@ bool Unit::MoveTowardsDestination(Point2f destination, float elapsedTime)
     if (m_Destination.x != destination.x)
     {
         m_Animator->Play("run");
-        if (m_Destination.x > destination.x && !m_GoingLeft)
+        if (m_Transform.position.x > destination.x && !m_FacingLeft)
         {
-            m_GoingLeft = true;
+            m_FacingLeft = true;
             m_Transform.FlipX();
         }
-        else if (m_Destination.x < destination.x && m_GoingLeft)
+        else if (m_Transform.position.x < destination.x && m_FacingLeft)
         {
-            m_GoingLeft = false;
+            m_FacingLeft = false;
             m_Transform.FlipX();
         }
         m_Destination = destination;
@@ -152,6 +187,16 @@ void Unit::ApplyDebuff(std::unique_ptr<Effect> debuff)
 void Unit::TakeDamage(int amount)
 {
    m_IsAlive = m_Stats.TakeDamage(amount);
+
+   if (!m_IsAlive)
+   {
+       m_Animator->Play("death");
+   }
+   else
+   {
+       m_Animator->Play("hit");
+   }
+
 }
 void Unit::Heal(int amount)
 {
@@ -164,4 +209,36 @@ Stats Unit::GetStats() const
 UnitType Unit::GetType() const
 {
     return m_Type;
+}
+int Unit::GetTeamID()const
+{
+    return m_TeamNumber;
+}
+void Unit::ChangeTeam(int newID)
+{
+    m_TeamNumber = newID;
+}
+void Unit::Attack(Unit* target)
+{
+    if (m_Transform.position.x > target->GetTransform().position.x && !m_FacingLeft)
+    {
+        m_FacingLeft = true;
+        m_Transform.FlipX();
+    }
+    else if(m_Transform.position.x < target->GetTransform().position.x && m_FacingLeft)
+    {
+        m_FacingLeft = false;
+        m_Transform.FlipX();
+    }
+    m_Animator->Play("attack");
+    m_Target = target;
+    m_IsAttacking = true;
+}
+Transform Unit::GetTransform()const
+{
+    return m_Transform;
+}
+void Unit::Scale(float x,float y)
+{
+    m_Transform.Scale(x, y);
 }

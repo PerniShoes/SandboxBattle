@@ -40,6 +40,12 @@ public:
 	void EnableQueuing();
 	void DisableQueuing();
 
+	void SetDefaultTeam(int teamID);
+	void ChangeUnitTeam(int unitIndex, int newTeamID);
+	int GetUnitCount() const;
+	void ScaleAllUnits(float x, float y);
+
+
 private:
 
 	Point2f m_LastMousePos;
@@ -48,7 +54,7 @@ private:
 	std::vector<Unit*> m_SelectedUnits;
 	std::vector<std::unique_ptr<Unit>> m_Units;
 	std::unordered_map<Unit*,std::queue<CommandPtr>> m_Queues;
-
+	int m_DefaultTeam;
 
 
 	// FIX FIX FIX FIX FIX FIX FIX FIX FIX FIX FIX FIX Can sort based on tiles instead of Y

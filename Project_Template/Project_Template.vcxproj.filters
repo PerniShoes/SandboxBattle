@@ -84,7 +84,37 @@
     <ClCompile Include="Unit.cpp">
       <Filter>Unit Files</Filter>
     </ClCompile>
-    <ClCompile Include="Spell_Eater.cpp">
+    <ClCompile Include="boss_spelleater.cpp">
+      <Filter>Unit Files\Units implemented</Filter>
+    </ClCompile>
+    <ClCompile Include="boss_wraith.cpp">
+      <Filter>Unit Files\Units implemented</Filter>
+    </ClCompile>
+    <ClCompile Include="boss_vampire.cpp">
+      <Filter>Unit Files\Units implemented</Filter>
+    </ClCompile>
+    <ClCompile Include="boss_soulstealer.cpp">
+      <Filter>Unit Files\Units implemented</Filter>
+    </ClCompile>
+    <ClCompile Include="boss_solfist.cpp">
+      <Filter>Unit Files\Units implemented</Filter>
+    </ClCompile>
+    <ClCompile Include="boss_shinkagezendo.cpp">
+      <Filter>Unit Files\Units implemented</Filter>
+    </ClCompile>
+    <ClCompile Include="boss_skurge.cpp">
+      <Filter>Unit Files\Units implemented</Filter>
+    </ClCompile>
+    <ClCompile Include="boss_skyfalltyrant.cpp">
+      <Filter>Unit Files\Units implemented</Filter>
+    </ClCompile>
+    <ClCompile Include="boss_sandpanther.cpp">
+      <Filter>Unit Files\Units implemented</Filter>
+    </ClCompile>
+    <ClCompile Include="boss_serpenti.cpp">
+      <Filter>Unit Files\Units implemented</Filter>
+    </ClCompile>
+    <ClCompile Include="boss_shadowlord.cpp">
       <Filter>Unit Files\Units implemented</Filter>
     </ClCompile>
   </ItemGroup>
@@ -149,7 +179,40 @@
     <ClInclude Include="Unit.h">
       <Filter>Unit Files</Filter>
     </ClInclude>
-    <ClInclude Include="Spell_Eater.h">
+    <ClInclude Include="boss_spelleater.h">
+      <Filter>Unit Files\Units implemented</Filter>
+    </ClInclude>
+    <ClInclude Include="boss_wraith.h">
+      <Filter>Unit Files\Units implemented</Filter>
+    </ClInclude>
+    <ClInclude Include="boss_vampire.h">
+      <Filter>Unit Files\Units implemented</Filter>
+    </ClInclude>
+    <ClInclude Include="boss_soulstealer.h">
+      <Filter>Unit Files\Units implemented</Filter>
+    </ClInclude>
+    <ClInclude Include="boss_solfist.h">
+      <Filter>Unit Files\Units implemented</Filter>
+    </ClInclude>
+    <ClInclude Include="boss_shinkagezendo.h">
+      <Filter>Unit Files\Units implemented</Filter>
+    </ClInclude>
+    <ClInclude Include="boss_skurge.h">
+      <Filter>Unit Files\Units implemented</Filter>
+    </ClInclude>
+    <ClInclude Include="boss_skyfalltyrant.h">
+      <Filter>Unit Files\Units implemented</Filter>
+    </ClInclude>
+    <ClInclude Include="boss_shadowlord.h">
+      <Filter>Unit Files\Units implemented</Filter>
+    </ClInclude>
+    <ClInclude Include="boss_serpenti.h">
+      <Filter>Unit Files\Units implemented</Filter>
+    </ClInclude>
+    <ClInclude Include="boss_sandpanther.h">
+      <Filter>Unit Files\Units implemented</Filter>
+    </ClInclude>
+    <ClInclude Include="AllUnits.h">
       <Filter>Unit Files\Units implemented</Filter>
     </ClInclude>
   </ItemGroup>

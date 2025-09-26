@@ -22,7 +22,7 @@ class Texture;
 class Unit
 {
 public:
-    Unit(std::string unitName, UnitType type = {UnitType::ground},Transform transform = {},Stats baseStats = {},Color4f color = PrettyColors::GetColor(PrettyColors::dGreen));
+    Unit(std::string unitName,UnitType type = {UnitType::ground},Transform transform = {},Stats baseStats = {},Color4f color = PrettyColors::GetColor(PrettyColors::dGreen));
     Unit(const Unit& other) = delete;
     Unit& operator=(const Unit& other) = delete;
     Unit(Unit&& other) = delete;
@@ -35,19 +35,21 @@ public:
 
     bool MoveTowardsDestination(Point2f destination,float elapsedTime);
     void MoveTo(Point2f destination);
-    void Attack();
+    void Attack(Unit* target);
 
     void TeleportTo(Point2f position);
     void TakeDamage(int amount);
     void Heal(int amount);
     Stats GetStats() const;
     UnitType GetType() const;
+    int GetTeamID() const;
+    void ChangeTeam(int newID);
 
-    Transform GetTransform(); // For collision, position and so on // Not implt
+    Transform GetTransform()const; // For collision, position and so on // Not implt
     Rectf GetHitBox();
     void ApplyBuff(std::unique_ptr<Effect> buff);
     void ApplyDebuff(std::unique_ptr<Effect> debuff);
-
+    void Scale(float x,float y);
 
 
     // ORGANIZE ALL NOT USED STUFF SINCE A LOT OF CHANGED, ALSO HAD SCALING 
@@ -56,13 +58,16 @@ protected:
     UnitType m_Type;
     Stats m_Stats;
     Unit* m_Target;
+    bool m_IsAttacking;
+
     Point2f m_Destination;
     Transform m_Transform;
     float m_HitBoxWidth;
     Color4f m_ModelColor; // For debug if texture doesn't load
     bool m_InRange;
     bool m_IsAlive;
-    bool m_GoingLeft;
+    bool m_FacingLeft;
+    int m_TeamNumber;
 
     // TODO
     std::vector<std::unique_ptr<Effect>>m_Buffs;
