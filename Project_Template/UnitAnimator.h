@@ -21,7 +21,7 @@ public:
     void DrawShade(std::initializer_list<std::pair<Color4f,Color4f>> colorPairs = {});
     bool IsDone() const;
 
-    float GetHitBoxWidth();
+    float GetSpriteWidth();
     std::string GetCurrentAnimation();
 
 private:

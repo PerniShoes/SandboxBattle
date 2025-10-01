@@ -46,11 +46,12 @@ public:
     void ChangeTeam(int newID);
 
     Transform GetTransform()const; // For collision, position and so on // Not implt
-    Rectf GetHitBox();
+    Rectf GetHitBox() const;
+    Rectf GetSelectionBox() const;
+
     void ApplyBuff(std::unique_ptr<Effect> buff);
     void ApplyDebuff(std::unique_ptr<Effect> debuff);
     void Scale(float x,float y);
-
 
     // ORGANIZE ALL NOT USED STUFF SINCE A LOT OF CHANGED, ALSO HAD SCALING 
 protected:
@@ -62,12 +63,14 @@ protected:
 
     Point2f m_Destination;
     Transform m_Transform;
-    float m_HitBoxWidth;
+    float m_HitBoxWidth; // Default hitbox (before scaling, rotating etc.)
     Color4f m_ModelColor; // For debug if texture doesn't load
     bool m_InRange;
     bool m_IsAlive;
     bool m_FacingLeft;
     int m_TeamNumber;
+    Rectf m_SelectionRect;
+    
 
     // TODO
     std::vector<std::unique_ptr<Effect>>m_Buffs;

@@ -70,7 +70,7 @@ void UnitManager::SelectClickedUnit()
 
     for (const auto& unitPtr : m_Units)
     {
-        if (utils::IsPointInRect(m_LastMousePos,unitPtr->GetHitBox()))
+        if (utils::IsPointInRect(m_LastMousePos,unitPtr->GetSelectionBox()))
         {
             auto unit = unitPtr.get();
             if (std::find(m_SelectedUnits.begin(),m_SelectedUnits.end(),unit) == m_SelectedUnits.end())
@@ -107,7 +107,7 @@ void UnitManager::OnRightButtonDown()
     for (const auto& unitPtr : m_Units)
     {
         // Unit clicked found
-        if (utils::IsPointInRect(m_LastMousePos,unitPtr->GetHitBox()))
+        if (utils::IsPointInRect(m_LastMousePos,unitPtr->GetSelectionBox())) // FIX
         {
             for (const auto& unitSelectedPtr : m_SelectedUnits)
             {

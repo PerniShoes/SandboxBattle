@@ -19,6 +19,7 @@ Unit::Unit(std::string unitName,UnitType type, Transform transform,Stats baseSta
     }
     ,m_UnitAnimatorLoadedCorrectly{true}
     ,m_TeamNumber{0}
+    ,m_SelectionRect{}
 
 {
     
@@ -27,11 +28,22 @@ Unit::Unit(std::string unitName,UnitType type, Transform transform,Stats baseSta
         m_UnitAnimatorLoadedCorrectly = false;
     }
 
-    m_HitBoxWidth = m_Animator->GetHitBoxWidth();
+    m_HitBoxWidth = m_Animator->GetSpriteWidth();
     m_Transform.hitboxWidth = m_HitBoxWidth;
+    m_SelectionRect = {
+    Rectf{0.0f+(m_HitBoxWidth/2.0f)-25.0f
+        ,10.0f
+        ,50.0f // (left*2)(-25.0f * 2) to make it centered
+        ,30.0f
+        }
+    };
+
+
 
     // FIX (debug purpose)
     m_Animator->Play("breathing");
+    //
+
 }
 
 Unit::~Unit()
@@ -71,12 +83,6 @@ void Unit::DrawHighlight() const
     m_Transform.Push(); 
     m_Transform.Apply();
 
-    float offset{5.0f + m_HitBoxWidth/20.0f};
-    offset = std::min(offset,8.0f);
-    float width{m_HitBoxWidth + offset*2};
-    float lineWidth{1.0f};
-
-
     Color4f highLight{GetColor(green)};
     // highLight.a = 1.0f;
     switch (m_TeamNumber)
@@ -102,7 +108,10 @@ void Unit::DrawHighlight() const
         break;
     }
     SetColor(highLight);
-    DrawRect(0-offset,0-offset,width,width,lineWidth);
+
+    float lineWidth{1.0f};
+    DrawRect(m_SelectionRect,lineWidth);
+    //DrawRect(Rectf{0.0f,0.0f,m_HitBoxWidth,m_HitBoxWidth},lineWidth);
 
     m_Transform.Pop();
 }
@@ -126,12 +135,6 @@ void Unit::Update(float elapsedTime)
 void Unit::TeleportTo(Point2f position)
 {
     m_Transform.position = position;
-}
-
-Rectf Unit::GetHitBox()
-{
-    // (scale used only for uniform scaling)
-    return m_Transform.GetHitbox();
 }
 
 // Probably DELETE
@@ -241,4 +244,19 @@ Transform Unit::GetTransform()const
 void Unit::Scale(float x,float y)
 {
     m_Transform.Scale(x, y);
+}
+Rectf Unit::GetHitBox() const
+{
+    return m_Transform.GetHitbox();
+}
+Rectf Unit::GetSelectionBox() const
+{
+    Rectf hitBox{m_Transform.GetHitbox()};
+    hitBox.left += (m_SelectionRect.left) * abs(m_Transform.scale.x);
+    hitBox.bottom += (m_SelectionRect.bottom) * abs(m_Transform.scale.y);
+    hitBox.width = (m_SelectionRect.width) * abs(m_Transform.scale.x);
+    hitBox.height = (m_SelectionRect.height)* abs(m_Transform.scale.y);
+
+    // Adjust hitbox with selectionReeeect
+    return hitBox;
 }

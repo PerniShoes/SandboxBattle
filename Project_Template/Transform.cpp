@@ -17,11 +17,11 @@ void Transform::Push()const
 void Transform::Apply() const
 {
 
-    glTranslatef(position.x,position.y,0);
+    glTranslatef(position.x,position.y+(hitboxWidth/2.0f * abs(scale.y)-(25.0f*abs(scale.y))),0);
     glScalef(scale.x, scale.y, 0);
     glRotatef(angle,0,0,1);
 
-    glTranslatef(-hitboxWidth /2.0f,-hitboxWidth/2.0f,0);
+    glTranslatef(-hitboxWidth/2.0f,-hitboxWidth/2.0f,0);
 
 }
 void Transform::Pop()const
@@ -37,11 +37,11 @@ void Transform::FlipY()
 {
     scale.y = -scale.y;
 }
-Rectf Transform::GetHitbox()
+Rectf Transform::GetHitbox() const
 {
     float hitboxOffsetX{(hitboxWidth / 2.0f) * abs(scale.x)};
     float hitboxOffsetY{(hitboxWidth / 2.0f) * abs(scale.y)};
-    return Rectf{position.x - hitboxOffsetX,position.y- hitboxOffsetY,hitboxWidth * abs(scale.x),hitboxWidth * abs(scale.y)};
+    return Rectf{position.x - hitboxOffsetX,position.y - (25.0f * abs(scale.y)),hitboxWidth * abs(scale.x),hitboxWidth * abs(scale.y)};
 }
 
 void Transform::Scale(float x,float y)

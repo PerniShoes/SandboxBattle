@@ -11,7 +11,7 @@ struct Transform
 
     void FlipX();
     void FlipY();
-    Rectf GetHitbox();
+    Rectf GetHitbox() const;
     void Scale(float x,float y);
     
     Point2f position;

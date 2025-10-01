@@ -74,7 +74,7 @@ bool UnitAnimator::IsDone() const
     return isDonePlaying;
 }
 
-float UnitAnimator::GetHitBoxWidth()
+float UnitAnimator::GetSpriteWidth()
 {
     return float(atlas->frames.find(current->frameNames[0])->second.w);
 }
