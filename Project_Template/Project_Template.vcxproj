@@ -159,6 +159,7 @@
     <ClCompile Include="FireBall.cpp" />
     <ClCompile Include="Game.cpp" />
     <ClCompile Include="main.cpp" />
+    <ClCompile Include="MouseManager.cpp" />
     <ClCompile Include="MoveCommand.cpp" />
     <ClCompile Include="OrientationManager.cpp" />
     <ClCompile Include="SandboxBattler.cpp" />
@@ -192,6 +193,7 @@
     <ClInclude Include="Effect.h" />
     <ClInclude Include="FireBall.h" />
     <ClInclude Include="Game.h" />
+    <ClInclude Include="MouseManager.h" />
     <ClInclude Include="MoveCommand.h" />
     <ClInclude Include="OrientationManager.h" />
     <ClInclude Include="PrettyColors.h" />

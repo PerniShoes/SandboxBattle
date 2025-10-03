@@ -20,6 +20,7 @@
 Game::Game(const Window& window)
 	:BaseGame(window)
 	,m_UnitManager{}
+	,m_MouseManager{}
 	,m_Window{ window }
 	,m_RenderedFrames{0}
 	
@@ -145,7 +146,7 @@ void Game::Update(float elapsedSec)
 	if (m_AccumulatedTime->GetTime() >= frameDuration)
 	{
 
-
+		m_MouseManager.Update(elapsedSec);
 		m_UnitManager.UpdateAll(elapsedSec);
 		m_SandboxBattler->Update(elapsedSec);
 		m_AccumulatedTime->Restart();
@@ -212,6 +213,10 @@ void Game::DrawUI() const
 	DrawPausedText();
 	m_SandboxBattler->DrawUI(GetViewPort());
 	m_FPSCounter->Draw(Point2f{10.0f, GetViewPort().height - m_FPSCounter->GetHeight() - 4.0f},Rectf{});
+
+
+	// Make sure it's last 
+	m_MouseManager.Draw();
 }
 void Game::DrawPausedText() const
 {
@@ -250,6 +255,7 @@ void Game::ProcessKeyDownEvent(const SDL_KeyboardEvent& e)
 		break;
 	case SDLK_u:
 		m_UnitManager.DeSellectAll();
+		m_MouseManager.SetMouseState(MouseState::Default);
 		break;
 	case SDLK_i:
 
@@ -432,8 +438,35 @@ void Game::ProcessMouseMotionEvent(const SDL_MouseMotionEvent& e)
 {
 	m_LastMousePos = Point2f{ float(e.x),float(e.y) };
 
+	// FIX add here and in mouse up and down a check for mouse and units/ui and shit
+	// Then change mouse State accordingly
+
+
+
+
+	m_MouseManager.OnMouseMotion(m_LastMousePos);
 	m_SandboxBattler->OnMouseMotion(m_LastMousePos);
 	m_UnitManager.OnMouseMotion(m_LastMousePos);
+
+
+	// FIX well, yeah, this sucks xD
+	if (m_UnitManager.GetHoverAlly())
+	{
+		m_MouseManager.SetMouseState(MouseState::HoverAlly);
+	}
+	else if (m_UnitManager.GetHoverEnemy())
+	{
+		m_MouseManager.SetMouseState(MouseState::HoverEnemy);
+	}
+	else if(m_UnitManager.IsAnySelected())
+	{
+		m_MouseManager.SetMouseState(MouseState::Selected);
+	}
+	else
+	{
+		m_MouseManager.SetMouseState(MouseState::Default);
+	}
+
 
 }
 void Game::ProcessMouseDownEvent(const SDL_MouseButtonEvent& e)
@@ -443,6 +476,15 @@ void Game::ProcessMouseDownEvent(const SDL_MouseButtonEvent& e)
 	case SDL_BUTTON_LEFT:
 		m_LeftClickHeld = true;
 		m_UnitManager.OnLeftButtonDown();
+		if (m_UnitManager.IsAnySelected())
+		{
+			m_MouseManager.SetMouseState(MouseState::Selected);
+		}
+		else
+		{
+			m_MouseManager.SetMouseState(MouseState::Default);
+		}
+
 		break;
 	case SDL_BUTTON_RIGHT:
 		m_UnitManager.OnRightButtonDown();
@@ -450,6 +492,8 @@ void Game::ProcessMouseDownEvent(const SDL_MouseButtonEvent& e)
 	case SDL_BUTTON_MIDDLE:
 		break;
 	}
+
+	
 
 	m_SandboxBattler->OnMouseDown();
 }

@@ -22,7 +22,7 @@ void SpriteAtlasManager::LoadFolder(const std::string& folderPath)
             if (LoadPlist(path,atlas.frames))
             {
                 m_Atlases.push_back(atlas);
-                std::cout << "Loaded atlas: " << base << "\n";
+                // std::cout << "Loaded atlas: " << base << "\n";
             }
         }
     }

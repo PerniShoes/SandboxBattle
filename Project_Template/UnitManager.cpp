@@ -10,6 +10,9 @@ UnitManager::UnitManager()
     ,m_Units{}
     ,m_Queues{}
     ,m_DefaultTeam{0}
+    ,m_HoverEnemy{false}
+    ,m_HoverAlly{false}
+
 {
 
 
@@ -80,13 +83,41 @@ void UnitManager::SelectClickedUnit()
             break;
         }
     }
-
     // Remove raw pointers when units die 
 }
 
 void UnitManager::OnMouseMotion(const Point2f& mousePos)
 {
     m_LastMousePos = mousePos;
+
+    // FIX make it not possible to select many units or check only first or smth
+    // Doesn't work if there are many units selected (but it won't be possible to do that anyways)
+    m_HoverAlly = false;
+    m_HoverEnemy = false;
+
+    for (const auto& unitPtr : m_Units)
+    {
+        if (m_SelectedUnits.size() == 0)break;
+        if (utils::IsPointInRect(m_LastMousePos,unitPtr->GetSelectionBox()))
+        {
+            auto unit = unitPtr.get();
+            if (m_SelectedUnits[0] == unit)
+            {
+                // Hovering over itself
+                break;
+            }
+            if (m_SelectedUnits[0]->GetTeamID() != unitPtr->GetTeamID())
+            {
+                m_HoverEnemy = true;
+            }
+            else
+            {
+                m_HoverAlly = true;
+            }
+            break;
+        }
+    }
+
 }
 void UnitManager::OnLeftButtonDown()
 {
@@ -190,4 +221,17 @@ void UnitManager::ScaleAllUnits(float x,float y)
     {
         unitPtr->Scale(x,y);
     }
+}
+
+bool UnitManager::IsAnySelected()const
+{
+    return int(m_SelectedUnits.size());
+}
+bool UnitManager::GetHoverAlly() const
+{
+    return m_HoverAlly;
+}
+bool UnitManager::GetHoverEnemy() const
+{
+    return m_HoverEnemy;
 }

@@ -45,6 +45,9 @@ public:
 	int GetUnitCount() const;
 	void ScaleAllUnits(float x, float y);
 
+	bool IsAnySelected() const;
+	bool GetHoverAlly() const;
+	bool GetHoverEnemy() const;
 
 private:
 
@@ -56,6 +59,8 @@ private:
 	std::unordered_map<Unit*,std::queue<CommandPtr>> m_Queues;
 	int m_DefaultTeam;
 
+	bool m_HoverEnemy;
+	bool m_HoverAlly;
 
 	// FIX FIX FIX FIX FIX FIX FIX FIX FIX FIX FIX FIX Can sort based on tiles instead of Y
 	// Should be called every few/dozen or so frames (since units don't move THAT fast anyways)

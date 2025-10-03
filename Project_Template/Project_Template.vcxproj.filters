@@ -117,6 +117,9 @@
     <ClCompile Include="boss_shadowlord.cpp">
       <Filter>Unit Files\Units implemented</Filter>
     </ClCompile>
+    <ClCompile Include="MouseManager.cpp">
+      <Filter>Helpers</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="OrientationManager.h">
@@ -214,6 +217,9 @@
     </ClInclude>
     <ClInclude Include="AllUnits.h">
       <Filter>Unit Files\Units implemented</Filter>
+    </ClInclude>
+    <ClInclude Include="MouseManager.h">
+      <Filter>Helpers</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>
