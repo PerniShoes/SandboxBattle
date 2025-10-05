@@ -8,6 +8,7 @@ MouseManager::MouseManager()
     ,m_LastMousePos{}
 {
     SDL_ShowCursor(SDL_DISABLE);
+    // Remember to load paths in the same order as they are in MouseState enum
     m_Paths = 
     {
         "../Resources/DuelystResc/ui/mouse_auto.png",
@@ -28,7 +29,6 @@ MouseManager::~MouseManager()
 
 void MouseManager::LoadMouseTextures()
 {
-    // Remember to load paths in the same order as they are in MouseState
     if (m_Paths.size() > int(MouseState::TotalStates))
     {
         std::println("Too many paths passed in MouseManager::LoadMouseTextures, amount: {}",m_Paths.size());
@@ -51,6 +51,7 @@ void MouseManager::SetMouseState(MouseState state)
     if (state != m_CurrentState)
     {
         m_CurrentState = state;
+        // Useless for now (stateChanged)
         m_StateChanged = true;
     }
 }
@@ -59,8 +60,7 @@ void MouseManager::Update(float elapsedTime)
 {
     if (m_StateChanged)
     {
-
-        // Change current drawing Texture
+        // Useless for now
         m_StateChanged = false;
     }
 }

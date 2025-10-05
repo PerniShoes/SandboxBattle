@@ -16,10 +16,11 @@ enum class MouseState
     TotalStates
 };
 
-class MouseManager
+class MouseManager final
 {
 public:
 
+    // FIX rule of 5/6
     MouseManager();
     ~MouseManager();
 
