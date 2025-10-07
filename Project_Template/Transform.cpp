@@ -50,3 +50,9 @@ void Transform::Scale(float x,float y)
     scale.x *= x;
     scale.y *= y;
 }
+
+void Transform::SetExactScale(float x,float y) const
+{
+    scale.x = x;
+    scale.y = y;
+}

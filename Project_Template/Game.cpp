@@ -42,6 +42,7 @@ void Game::Initialize()
 	// LOAD ALL
 	GameResources::m_AtlasManager.LoadFolder("../Resources/DuelystResc/units");
 
+	m_MapManager.SetMap("battlemap2");
 
 	// ChatGPT helped of course xd
 	// There has to be a way to make it easier to choose the class (and create them too)
@@ -69,7 +70,7 @@ void Game::Initialize()
 	m_UnitManager.AddUnit(std::make_unique<boss_vampire>());
 	m_UnitManager.AddUnit(std::make_unique<boss_wraith>());
 
-	m_UnitManager.ScaleAllUnits(2.5f,2.5f);
+	m_UnitManager.ScaleAllUnits(1.5f,1.5f);
 
 	// FIX debug code
 	float x{0.0f};
@@ -209,7 +210,7 @@ void Game::Draw() const
 	}
 	glPopMatrix();
 
-	m_MapManager.DrawLayerType(LayerType::Foreground);
+	//m_MapManager.DrawLayerType(LayerType::Foreground);
 	DrawUI();
 }
 

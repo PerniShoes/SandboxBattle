@@ -13,9 +13,11 @@ struct Transform
     void FlipY();
     Rectf GetHitbox() const;
     void Scale(float x,float y);
+    void SetExactScale(float x,float y) const;
     
     Point2f position;
-    Point2f scale;
+    // FIX mutable just for testing
+    mutable Point2f scale;
     float angle;
     float hitboxWidth;
 
