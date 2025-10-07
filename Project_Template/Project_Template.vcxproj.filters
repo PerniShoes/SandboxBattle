@@ -34,6 +34,9 @@
     <Filter Include="Unit Files\Units implemented">
       <UniqueIdentifier>{74d052e3-276d-4205-8880-5fc8f18f1d1e}</UniqueIdentifier>
     </Filter>
+    <Filter Include="SystemsManagers">
+      <UniqueIdentifier>{e03f4918-723f-461a-aa0f-e9f28a9ad41b}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -119,6 +122,9 @@
     </ClCompile>
     <ClCompile Include="MouseManager.cpp">
       <Filter>Helpers</Filter>
+    </ClCompile>
+    <ClCompile Include="MapManager.cpp">
+      <Filter>SystemsManagers</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -220,6 +226,9 @@
     </ClInclude>
     <ClInclude Include="MouseManager.h">
       <Filter>Helpers</Filter>
+    </ClInclude>
+    <ClInclude Include="MapManager.h">
+      <Filter>SystemsManagers</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

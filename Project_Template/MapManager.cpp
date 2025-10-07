@@ -3,18 +3,20 @@
 
 MapManager::MapManager(Rectf screenRect)
     :m_ScreenRect{screenRect}
-    ,m_CurrentState{MapTexture::Default}
+    ,m_CurrentState{MapList::Default}
     ,m_StateChanged{false}
 {
 
 
-    // Remember to load paths in the same order as they are in MapTexture enum
+    MapData battlemap0;
+    battlemap0.name = "battlemap0";
 
-        //"../Resources/DuelystResc/maps/battlemap1_middleground.png",
-        //"../Resources/DuelystResc/maps/mouse_select.png",
-        //"../Resources/DuelystResc/maps/mouse_attack.png",
-        //"../Resources/DuelystResc/maps/mouse_move.png",
-        //"../Resources/DuelystResc/maps/mouse_assist.png"
+    battlemap0.layers.emplace_back(nullptr,"../Resources/DuelystResc/maps/battlemap0_background.png",    Rectf{0,0,1280,720},LayerType::Background);
+    battlemap0.layers.emplace_back(nullptr,"../Resources/DuelystResc/maps/battlemap0_middleground.png",  Rectf{0,0,1280,720},LayerType::Midground);
+    battlemap0.layers.emplace_back(nullptr,"../Resources/DuelystResc/maps/battlemap0_foreground_001.png",Rectf{0,0,1280,720},LayerType::Foreground);
+    battlemap0.layers.emplace_back(nullptr,"../Resources/DuelystResc/maps/battlemap0_foreground_002.png",Rectf{0,0,1280,720},LayerType::Foreground);
+
+    m_MapSets.emplace(MapList::Default,std::move(battlemap0));
 
     LoadMapTextures();
 
@@ -37,17 +39,18 @@ void MapManager::LoadMapTextures()
     }
 }
 
-void MapManager::Draw() const
+void MapManager::DrawLayerType(LayerType type) const
 {
     const auto& map = m_MapSets.at(m_CurrentState);
+
     for (const auto& layer : map.layers)
     {
-        if (layer.texture)
+        if (layer.type == type && layer.texture)
             layer.texture->Draw(layer.dstRect);
     }
 }
 
-void MapManager::SetMapTexture(MapTexture mapTexture)
+void MapManager::SetMapTexture(MapList mapTexture)
 {
     if (mapTexture != m_CurrentState)
     {

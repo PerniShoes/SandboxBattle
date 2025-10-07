@@ -6,11 +6,19 @@
 #include <memory>
 #include <unordered_map>
 
+enum class LayerType
+{
+    Background,
+    Midground,
+    Foreground
+};
+
 struct MapLayer
 {
     std::unique_ptr<Texture> texture;
     std::string path;
     Rectf dstRect; 
+    LayerType type;
 };
 
 struct MapData
@@ -20,7 +28,7 @@ struct MapData
 };
 
 
-enum class MapTexture
+enum class MapList
 {
     Default = 0,
     Selected,
@@ -39,11 +47,11 @@ public:
     MapManager(Rectf screenRect);
     ~MapManager();
 
-    void Draw() const;
+    void DrawLayerType(LayerType type) const;
     void Update(float elapsedTime);
 
     void LoadMapTextures();
-    void SetMapTexture(MapTexture mapTexture);
+    void SetMapTexture(MapList mapTexture);
 
 private:
 
@@ -59,11 +67,11 @@ private:
 
 
 
-    std::unordered_map<MapTexture,MapData> m_MapSets;
+    std::unordered_map<MapList,MapData> m_MapSets;
 
     // TEMP scale to test FIX
     Point2f m_TempScale{1.0f,1.0f};
     Rectf m_ScreenRect;
-    MapTexture m_CurrentState;
+    MapList m_CurrentState;
     bool m_StateChanged;
 };

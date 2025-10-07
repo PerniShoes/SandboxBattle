@@ -6,6 +6,7 @@
 #include "SpriteAtlasManager.h"
 #include "GameResources.h"
 #include "MouseManager.h"
+#include "MapManager.h"
 
 class UnitAnimator;
 class TimeClass;
@@ -54,7 +55,7 @@ private:
 	// New code
 	UnitManager m_UnitManager;
 	MouseManager m_MouseManager;
-
+	MapManager m_MapManager;
 
 	//////////////// TEST
 

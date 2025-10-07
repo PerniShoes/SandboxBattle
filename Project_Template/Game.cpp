@@ -21,6 +21,7 @@ Game::Game(const Window& window)
 	:BaseGame(window)
 	,m_UnitManager{}
 	,m_MouseManager{}
+	,m_MapManager{GetViewPort()}
 	,m_Window{ window }
 	,m_RenderedFrames{0}
 	
@@ -192,6 +193,8 @@ void Game::PushCameraMatrix() const
 void Game::Draw() const
 {
 	ClearBackground();
+	m_MapManager.DrawLayerType(LayerType::Background);
+	m_MapManager.DrawLayerType(LayerType::Midground);
 	glPushMatrix();
 	{
 		PushCameraMatrix();
@@ -200,11 +203,13 @@ void Game::Draw() const
 		m_UnitManager.DrawAll();
 		m_SandboxBattler->Draw();
 
+
 		/*utils::SetColor(PrettyColors::GetColor(PrettyColors::rose));
 		utils::FillRect(100.0f,100.0f,10.0f,10.0f); DEBUG*/
 	}
 	glPopMatrix();
 
+	m_MapManager.DrawLayerType(LayerType::Foreground);
 	DrawUI();
 }
 
