@@ -19,6 +19,24 @@
       <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
       <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
     </Filter>
+    <Filter Include="Commands">
+      <UniqueIdentifier>{2317d40f-6698-4b7d-a99d-f0059e7cf2d2}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Abilities">
+      <UniqueIdentifier>{0b9d2c3a-79ee-44d1-98b1-cbda4062dc7e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Effects">
+      <UniqueIdentifier>{6c729534-c0dd-4487-b5e0-a69ce1276512}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Unit Files">
+      <UniqueIdentifier>{13689384-eea8-4d97-bd36-7a600a766d87}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Unit Files\Units implemented">
+      <UniqueIdentifier>{74d052e3-276d-4205-8880-5fc8f18f1d1e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="SystemsManagers">
+      <UniqueIdentifier>{e03f4918-723f-461a-aa0f-e9f28a9ad41b}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -27,21 +45,96 @@
     <ClCompile Include="OrientationManager.cpp">
       <Filter>Helpers</Filter>
     </ClCompile>
-    <ClCompile Include="Time.cpp">
+    <ClCompile Include="TimeClass.cpp">
       <Filter>Helpers</Filter>
     </ClCompile>
     <ClCompile Include="Game.cpp">
       <Filter>Core</Filter>
     </ClCompile>
-    <ClCompile Include="ProjectName.cpp">
+    <ClCompile Include="SandboxBattler.cpp">
       <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Stats.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Transform.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Command.cpp">
+      <Filter>Commands</Filter>
+    </ClCompile>
+    <ClCompile Include="MoveCommand.cpp">
+      <Filter>Commands</Filter>
+    </ClCompile>
+    <ClCompile Include="Ability.cpp">
+      <Filter>Abilities</Filter>
+    </ClCompile>
+    <ClCompile Include="FireBall.cpp">
+      <Filter>Abilities</Filter>
+    </ClCompile>
+    <ClCompile Include="Effect.cpp">
+      <Filter>Effects</Filter>
+    </ClCompile>
+    <ClCompile Include="BurningEf.cpp">
+      <Filter>Effects</Filter>
+    </ClCompile>
+    <ClCompile Include="UnitManager.cpp">
+      <Filter>Unit Files</Filter>
+    </ClCompile>
+    <ClCompile Include="UnitAnimator.cpp">
+      <Filter>Unit Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Unit.cpp">
+      <Filter>Unit Files</Filter>
+    </ClCompile>
+    <ClCompile Include="boss_spelleater.cpp">
+      <Filter>Unit Files\Units implemented</Filter>
+    </ClCompile>
+    <ClCompile Include="boss_wraith.cpp">
+      <Filter>Unit Files\Units implemented</Filter>
+    </ClCompile>
+    <ClCompile Include="boss_vampire.cpp">
+      <Filter>Unit Files\Units implemented</Filter>
+    </ClCompile>
+    <ClCompile Include="boss_soulstealer.cpp">
+      <Filter>Unit Files\Units implemented</Filter>
+    </ClCompile>
+    <ClCompile Include="boss_solfist.cpp">
+      <Filter>Unit Files\Units implemented</Filter>
+    </ClCompile>
+    <ClCompile Include="boss_shinkagezendo.cpp">
+      <Filter>Unit Files\Units implemented</Filter>
+    </ClCompile>
+    <ClCompile Include="boss_skurge.cpp">
+      <Filter>Unit Files\Units implemented</Filter>
+    </ClCompile>
+    <ClCompile Include="boss_skyfalltyrant.cpp">
+      <Filter>Unit Files\Units implemented</Filter>
+    </ClCompile>
+    <ClCompile Include="boss_sandpanther.cpp">
+      <Filter>Unit Files\Units implemented</Filter>
+    </ClCompile>
+    <ClCompile Include="boss_serpenti.cpp">
+      <Filter>Unit Files\Units implemented</Filter>
+    </ClCompile>
+    <ClCompile Include="boss_shadowlord.cpp">
+      <Filter>Unit Files\Units implemented</Filter>
+    </ClCompile>
+    <ClCompile Include="MouseManager.cpp">
+      <Filter>Helpers</Filter>
+    </ClCompile>
+    <ClCompile Include="MapManager.cpp">
+      <Filter>SystemsManagers</Filter>
+    </ClCompile>
+    <ClCompile Include="MapHelpers.cpp">
+      <Filter>SystemsManagers</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="OrientationManager.h">
       <Filter>Helpers</Filter>
     </ClInclude>
-    <ClInclude Include="Time.h">
+    <ClInclude Include="TimeClass.h">
       <Filter>Helpers</Filter>
     </ClInclude>
     <ClInclude Include="Game.h">
@@ -50,8 +143,98 @@
     <ClInclude Include="PrettyColors.h">
       <Filter>Helpers</Filter>
     </ClInclude>
-    <ClInclude Include="ProjectName.h">
+    <ClInclude Include="SandboxBattler.h">
       <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Stats.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Transform.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Command.h">
+      <Filter>Commands</Filter>
+    </ClInclude>
+    <ClInclude Include="MoveCommand.h">
+      <Filter>Commands</Filter>
+    </ClInclude>
+    <ClInclude Include="AllUnitCommands.h">
+      <Filter>Commands</Filter>
+    </ClInclude>
+    <ClInclude Include="Ability.h">
+      <Filter>Abilities</Filter>
+    </ClInclude>
+    <ClInclude Include="AllAbbilities.h">
+      <Filter>Abilities</Filter>
+    </ClInclude>
+    <ClInclude Include="FireBall.h">
+      <Filter>Abilities</Filter>
+    </ClInclude>
+    <ClInclude Include="Effect.h">
+      <Filter>Effects</Filter>
+    </ClInclude>
+    <ClInclude Include="ActionTarget.h">
+      <Filter>Effects</Filter>
+    </ClInclude>
+    <ClInclude Include="BurningEf.h">
+      <Filter>Effects</Filter>
+    </ClInclude>
+    <ClInclude Include="AllEffects.h">
+      <Filter>Effects</Filter>
+    </ClInclude>
+    <ClInclude Include="UnitAnimator.h">
+      <Filter>Unit Files</Filter>
+    </ClInclude>
+    <ClInclude Include="UnitManager.h">
+      <Filter>Unit Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Unit.h">
+      <Filter>Unit Files</Filter>
+    </ClInclude>
+    <ClInclude Include="boss_spelleater.h">
+      <Filter>Unit Files\Units implemented</Filter>
+    </ClInclude>
+    <ClInclude Include="boss_wraith.h">
+      <Filter>Unit Files\Units implemented</Filter>
+    </ClInclude>
+    <ClInclude Include="boss_vampire.h">
+      <Filter>Unit Files\Units implemented</Filter>
+    </ClInclude>
+    <ClInclude Include="boss_soulstealer.h">
+      <Filter>Unit Files\Units implemented</Filter>
+    </ClInclude>
+    <ClInclude Include="boss_solfist.h">
+      <Filter>Unit Files\Units implemented</Filter>
+    </ClInclude>
+    <ClInclude Include="boss_shinkagezendo.h">
+      <Filter>Unit Files\Units implemented</Filter>
+    </ClInclude>
+    <ClInclude Include="boss_skurge.h">
+      <Filter>Unit Files\Units implemented</Filter>
+    </ClInclude>
+    <ClInclude Include="boss_skyfalltyrant.h">
+      <Filter>Unit Files\Units implemented</Filter>
+    </ClInclude>
+    <ClInclude Include="boss_shadowlord.h">
+      <Filter>Unit Files\Units implemented</Filter>
+    </ClInclude>
+    <ClInclude Include="boss_serpenti.h">
+      <Filter>Unit Files\Units implemented</Filter>
+    </ClInclude>
+    <ClInclude Include="boss_sandpanther.h">
+      <Filter>Unit Files\Units implemented</Filter>
+    </ClInclude>
+    <ClInclude Include="AllUnits.h">
+      <Filter>Unit Files\Units implemented</Filter>
+    </ClInclude>
+    <ClInclude Include="MouseManager.h">
+      <Filter>Helpers</Filter>
+    </ClInclude>
+    <ClInclude Include="MapManager.h">
+      <Filter>SystemsManagers</Filter>
+    </ClInclude>
+    <ClInclude Include="MapHelpers.h">
+      <Filter>SystemsManagers</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

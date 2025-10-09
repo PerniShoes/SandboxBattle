@@ -2,10 +2,16 @@
 #include "BaseGame.h"
 #include <vector>
 #include <memory>
+#include "UnitManager.h"
+#include "SpriteAtlasManager.h"
+#include "GameResources.h"
+#include "MouseManager.h"
+#include "MapManager.h"
 
-class Time;
+class UnitAnimator;
+class TimeClass;
 class Texture;
-class ProjectName; // Project
+class SandboxBattler; // Project
 
 class Game : public BaseGame
 {
@@ -45,11 +51,22 @@ public:
 	
 private:
 	// Non-default Game members:
-	
+
+	// New code
+	UnitManager m_UnitManager;
+	MouseManager m_MouseManager;
+	MapManager m_MapManager;
+
+	//////////////// TEST
+
+
+
+	// Check FIX and DELETE every now and then
+
 
 
 	// Default Game members:
-	std::unique_ptr<ProjectName> m_ProjectName; // Project
+	std::unique_ptr<SandboxBattler> m_SandboxBattler; // Project
 	const Window m_Window;
 
 	// Mouse
@@ -65,13 +82,15 @@ private:
 	bool m_AltHeld;
 	bool m_LeftClickHeld;
 	
-	// Camera testing: (Make a class for Camera)
+	// Camera testing: (Make a class for Camera) FIX
 	void PushCameraMatrix() const;
-	Rectf m_CameraPos;
+	Rectf m_CameraPos{};
+
+
 	
-	// Time
-	std::unique_ptr<Time> m_Time;
-	std::unique_ptr<Time> m_AccumulatedTime;
+	// TimeClass
+	std::unique_ptr<TimeClass> m_Time;
+	std::unique_ptr<TimeClass> m_AccumulatedTime;
 	std::unique_ptr<Texture> m_TimeState; 
 	bool m_TimeStateChanged;
 	bool m_Paused; 

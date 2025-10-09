@@ -1,6 +1,9 @@
 #pragma once
 #include <string>
 
+#pragma warning(push)
+#pragma warning(disable : 4820)  // disable padding warning
+
 struct Window
 {
 	explicit Window( const std::string& title = "Title", float width = 320.0f, 
@@ -11,6 +14,7 @@ struct Window
 	float height;
 	bool isVSyncOn;
 };
+#pragma warning(pop)  // restore previous warning state
 
 struct Point2f
 {

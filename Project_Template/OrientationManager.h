@@ -2,17 +2,18 @@
 #include <SDL.h>
 #include "utils.h"
 
+// LOOK HOW TO IMPROVE IT
 class OrientationManager final
 {
 public:
     OrientationManager() = delete;
    
-    static void UpdateCameraPos(const Point2f& pos);
-    static void UpdateCameraSize(const float& height, const float& width);
+    static void UpdateCameraPos(Point2f pos);
+    static void UpdateCameraSize(float height, float width);
     static void UpdateCamera(const Rectf& rect);
     static Rectf GetCamera();
     
-    static Point2f GetWorldLocation(const Point2f& mousePos);
+    static Point2f GetWorldLocation(const Point2f mousePos);
     static Point2f GetWorldLocation(const SDL_MouseButtonEvent& e);
 
 private:

@@ -24,6 +24,7 @@
     <ProjectGuid>{843579aa-7a9c-4631-9e2a-eb3b1ae2749d}</ProjectGuid>
     <RootNamespace>ProjectTemplate</RootNamespace>
     <WindowsTargetPlatformVersion>10.0</WindowsTargetPlatformVersion>
+    <ProjectName>SandboxBattler</ProjectName>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
@@ -70,6 +71,12 @@
     <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
   </ImportGroup>
   <PropertyGroup Label="UserMacros" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+    <IntDir>$(Platform)\$(Configuration)\$(ProjectName)\</IntDir>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
+    <IntDir>$(Platform)\$(Configuration)\$(ProjectName)\</IntDir>
+  </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>
       <WarningLevel>Level3</WarningLevel>
@@ -104,6 +111,8 @@
       <ConformanceMode>true</ConformanceMode>
       <LanguageStandard>stdcpp23</LanguageStandard>
       <AdditionalIncludeDirectories>$(SolutionDir)\Libraries\SDLTtf\SDL2_ttf-2.20.2\include;$(SolutionDir)\Libraries\SDLMixer\SDL2_mixer-2.6.3\include;$(SolutionDir)\Libraries\SDLImage\SDL2_image-2.6.3\include;$(SolutionDir)\Libraries\SDLMain\SDL2-2.26.3\include;$(SolutionDir)\Engine;$(IncludePath);$(SolutionDir)\Project_Template</AdditionalIncludeDirectories>
+      <PrecompiledHeader>NotUsing</PrecompiledHeader>
+      <TreatWarningAsError>true</TreatWarningAsError>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -122,6 +131,8 @@
       <ConformanceMode>true</ConformanceMode>
       <LanguageStandard>stdcpp23</LanguageStandard>
       <AdditionalIncludeDirectories>$(SolutionDir)\Libraries\SDLTtf\SDL2_ttf-2.20.2\include;$(SolutionDir)\Libraries\SDLMixer\SDL2_mixer-2.6.3\include;$(SolutionDir)\Libraries\SDLImage\SDL2_image-2.6.3\include;$(SolutionDir)\Libraries\SDLMain\SDL2-2.26.3\include;$(SolutionDir)\Engine;$(IncludePath);$(SolutionDir)\Project_Template</AdditionalIncludeDirectories>
+      <PrecompiledHeader>NotUsing</PrecompiledHeader>
+      <TreatWarningAsError>true</TreatWarningAsError>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -131,18 +142,73 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="Ability.cpp" />
+    <ClCompile Include="boss_sandpanther.cpp" />
+    <ClCompile Include="boss_serpenti.cpp" />
+    <ClCompile Include="boss_shadowlord.cpp" />
+    <ClCompile Include="boss_shinkagezendo.cpp" />
+    <ClCompile Include="boss_skurge.cpp" />
+    <ClCompile Include="boss_skyfalltyrant.cpp" />
+    <ClCompile Include="boss_solfist.cpp" />
+    <ClCompile Include="boss_soulstealer.cpp" />
+    <ClCompile Include="boss_vampire.cpp" />
+    <ClCompile Include="boss_wraith.cpp" />
+    <ClCompile Include="BurningEf.cpp" />
+    <ClCompile Include="Command.cpp" />
+    <ClCompile Include="Effect.cpp" />
+    <ClCompile Include="FireBall.cpp" />
     <ClCompile Include="Game.cpp" />
     <ClCompile Include="main.cpp" />
+    <ClCompile Include="MapHelpers.cpp" />
+    <ClCompile Include="MapManager.cpp" />
+    <ClCompile Include="MouseManager.cpp" />
+    <ClCompile Include="MoveCommand.cpp" />
     <ClCompile Include="OrientationManager.cpp" />
-    <ClCompile Include="ProjectName.cpp" />
-    <ClCompile Include="Time.cpp" />
+    <ClCompile Include="SandboxBattler.cpp" />
+    <ClCompile Include="boss_spelleater.cpp" />
+    <ClCompile Include="Stats.cpp" />
+    <ClCompile Include="TimeClass.cpp" />
+    <ClCompile Include="Transform.cpp" />
+    <ClCompile Include="Unit.cpp" />
+    <ClCompile Include="UnitAnimator.cpp" />
+    <ClCompile Include="UnitManager.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="Ability.h" />
+    <ClInclude Include="ActionTarget.h" />
+    <ClInclude Include="AllAbbilities.h" />
+    <ClInclude Include="AllEffects.h" />
+    <ClInclude Include="AllUnitCommands.h" />
+    <ClInclude Include="AllUnits.h" />
+    <ClInclude Include="boss_sandpanther.h" />
+    <ClInclude Include="boss_serpenti.h" />
+    <ClInclude Include="boss_shadowlord.h" />
+    <ClInclude Include="boss_shinkagezendo.h" />
+    <ClInclude Include="boss_skurge.h" />
+    <ClInclude Include="boss_skyfalltyrant.h" />
+    <ClInclude Include="boss_solfist.h" />
+    <ClInclude Include="boss_soulstealer.h" />
+    <ClInclude Include="boss_vampire.h" />
+    <ClInclude Include="boss_wraith.h" />
+    <ClInclude Include="BurningEf.h" />
+    <ClInclude Include="Command.h" />
+    <ClInclude Include="Effect.h" />
+    <ClInclude Include="FireBall.h" />
     <ClInclude Include="Game.h" />
+    <ClInclude Include="MapHelpers.h" />
+    <ClInclude Include="MapManager.h" />
+    <ClInclude Include="MouseManager.h" />
+    <ClInclude Include="MoveCommand.h" />
     <ClInclude Include="OrientationManager.h" />
     <ClInclude Include="PrettyColors.h" />
-    <ClInclude Include="ProjectName.h" />
-    <ClInclude Include="Time.h" />
+    <ClInclude Include="SandboxBattler.h" />
+    <ClInclude Include="boss_spelleater.h" />
+    <ClInclude Include="Stats.h" />
+    <ClInclude Include="TimeClass.h" />
+    <ClInclude Include="Transform.h" />
+    <ClInclude Include="Unit.h" />
+    <ClInclude Include="UnitAnimator.h" />
+    <ClInclude Include="UnitManager.h" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Engine\Engine.vcxproj">
@@ -150,6 +216,5 @@
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
-  <ImportGroup Label="ExtensionTargets">
-  </ImportGroup>
+  <ImportGroup Label="ExtensionTargets" />
 </Project>

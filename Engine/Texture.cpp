@@ -2,6 +2,8 @@
 #include <iostream>
 #include <string>
 #include "Texture.h"
+#include <print>
+#include "FileUtils.h"
 
 
 Texture::Texture( const std::string& imagePath )
@@ -64,7 +66,6 @@ void Texture::CreateFromImage( const std::string& path )
 {
 	m_CreationOk = true;
 
-	// Load image at specified path
 	SDL_Surface* pLoadedSurface = IMG_Load(path.c_str());
 	if (pLoadedSurface == nullptr)
 	{
@@ -134,6 +135,22 @@ void Texture::CreateFromSurface( SDL_Surface* pSurface )
 {
 	m_CreationOk = true;
 
+	// CHAOS
+	// Handle arbitraty bit depths (other than 24 or 32)
+	if (pSurface->format->BytesPerPixel != 3 && pSurface->format->BytesPerPixel != 4)
+	{
+		// convert any unknown/unsupported format to 32-bit RGBA
+		SDL_Surface* converted = SDL_ConvertSurfaceFormat(pSurface,SDL_PIXELFORMAT_RGBA32,0);
+		if (!converted)
+		{
+			std::cerr << "Texture::CreateFromSurface failed to convert surface to RGBA32\n";
+			m_CreationOk = false;
+			return;
+		}
+		pSurface = converted; // use the converted surface from now on
+	}
+
+
 	//Get image dimensions
 	m_Width = float(pSurface->w);
 	m_Height =float( pSurface->h);
@@ -163,7 +180,7 @@ void Texture::CreateFromSurface( SDL_Surface* pSurface )
 		}
 		break;
 	default:
-		std::cerr << "Texture::CreateFromSurface, unknow pixel format, BytesPerPixel: " << pSurface->format->BytesPerPixel << "\nUse 32 bit or 24 bit images.\n";
+		std::cerr << "Texture::CreateFromSurface, unknown pixel format, BytesPerPixel: " << pSurface->format->BytesPerPixel << "\nUse 32 bit or 24 bit images.\n";
 		m_CreationOk = false;
 		return;
 	}
@@ -322,6 +339,128 @@ void Texture::Draw( const Rectf& dstRect, const Rectf& srcRect ) const
 	}
 	glDisable( GL_TEXTURE_2D );
 }
+
+GLuint Texture::shaderProgram = 0;
+void Texture::InitShader()
+{
+	std::string vertSource = ReadFile("../Shaders/simple.vert");
+	std::string fragSource = ReadFile("../Shaders/replace_white.frag");
+
+	GLuint vertexShader = glCreateShader(GL_VERTEX_SHADER);
+	GLuint fragmentShader = glCreateShader(GL_FRAGMENT_SHADER);
+
+	const char* vertCode = vertSource.c_str();
+	const char* fragCode = fragSource.c_str();
+
+	glShaderSource(vertexShader,1,&vertCode,nullptr);
+	glCompileShader(vertexShader);
+	CheckShaderCompileErrors(vertexShader);
+
+	glShaderSource(fragmentShader,1,&fragCode,nullptr);
+	glCompileShader(fragmentShader);
+	CheckShaderCompileErrors(fragmentShader);
+
+	shaderProgram = glCreateProgram();
+	glAttachShader(shaderProgram,vertexShader);
+	glAttachShader(shaderProgram,fragmentShader);
+	glLinkProgram(shaderProgram);
+	CheckProgramLinkErrors(shaderProgram);
+
+	glDeleteShader(vertexShader);
+	glDeleteShader(fragmentShader);
+}
+
+void Texture::DrawShade(const Rectf& dstRect,const Rectf& srcRect,std::initializer_list<std::pair<Color4f,Color4f>> colorPairs) const
+{
+	if (!m_CreationOk)
+	{
+		DrawFilledRect(dstRect);
+		return;
+	}
+
+	const float epsilon = 0.001f;
+
+	// --- Texture coordinates ---
+	float textLeft{},textRight{},textTop{},textBottom{};
+	float defaultDestWidth{},defaultDestHeight{};
+	if (!(srcRect.width > epsilon && srcRect.height > epsilon))
+	{
+		textLeft = 0.0f; textRight = 1.0f;
+		textTop = 0.0f; textBottom = 1.0f;
+		defaultDestWidth = m_Width;
+		defaultDestHeight = m_Height;
+	}
+	else
+	{
+		textLeft = srcRect.left / m_Width;
+		textRight = (srcRect.left + srcRect.width) / m_Width;
+		textTop = (srcRect.bottom - srcRect.height) / m_Height;
+		textBottom = srcRect.bottom / m_Height;
+		defaultDestWidth = srcRect.width;
+		defaultDestHeight = srcRect.height;
+	}
+
+	// --- Vertex coordinates ---
+	float vertexLeft = dstRect.left;
+	float vertexBottom = dstRect.bottom;
+	float vertexRight = (dstRect.width > epsilon) ? vertexLeft + dstRect.width : vertexLeft + defaultDestWidth;
+	float vertexTop = (dstRect.height > epsilon) ? vertexBottom + dstRect.height : vertexBottom + defaultDestHeight;
+
+	// --- Bind shader ---
+	glUseProgram(shaderProgram);
+
+	GLint texLoc = glGetUniformLocation(shaderProgram,"uTexture");
+	GLint numLoc = glGetUniformLocation(shaderProgram,"uNumColors");
+	GLint targetLoc = glGetUniformLocation(shaderProgram,"uTargetColors");
+	GLint replacementLoc = glGetUniformLocation(shaderProgram,"uReplacementColors");
+
+	glUniform1i(texLoc,0); // texture unit 0
+
+	// --- Prepare color arrays ---
+	int numColors = std::min((int)colorPairs.size(),8); // max 8
+	glUniform1i(numLoc,numColors);
+
+	float targetData[32] = {0};
+	float replacementData[32] = {0};
+
+	int i = 0;
+	for (const auto& pair : colorPairs)
+	{
+		if (i >= 8) break;
+
+		targetData[i * 4 + 0] = pair.first.r;
+		targetData[i * 4 + 1] = pair.first.g;
+		targetData[i * 4 + 2] = pair.first.b;
+		targetData[i * 4 + 3] = pair.first.a;
+
+		replacementData[i * 4 + 0] = pair.second.r;
+		replacementData[i * 4 + 1] = pair.second.g;
+		replacementData[i * 4 + 2] = pair.second.b;
+		replacementData[i * 4 + 3] = pair.second.a;
+
+		++i;
+	}
+
+	glUniform4fv(targetLoc,numColors,targetData);
+	glUniform4fv(replacementLoc,numColors,replacementData);
+
+	// --- Bind texture and draw quad ---
+	glActiveTexture(GL_TEXTURE0);
+	glBindTexture(GL_TEXTURE_2D,m_Id);
+	glEnable(GL_TEXTURE_2D);
+
+	glBegin(GL_QUADS);
+	glTexCoord2f(textLeft,textBottom);  glVertex2f(vertexLeft,vertexBottom);
+	glTexCoord2f(textLeft,textTop);     glVertex2f(vertexLeft,vertexTop);
+	glTexCoord2f(textRight,textTop);    glVertex2f(vertexRight,vertexTop);
+	glTexCoord2f(textRight,textBottom); glVertex2f(vertexRight,vertexBottom);
+	glEnd();
+
+	glDisable(GL_TEXTURE_2D);
+	glUseProgram(0);
+}
+
+
 
 float Texture::GetWidth() const
 {

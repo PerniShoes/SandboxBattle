@@ -4,6 +4,10 @@
 #include <chrono>
 #include "BaseGame.h"
 
+// Mine chaos
+//#include "FileUtils.h"
+#include "Texture.h"
+
 BaseGame::BaseGame(const Window& window)
 	: m_Window{ window }
 	, m_Viewport{ 0,0,window.width,window.height }
@@ -101,6 +105,19 @@ void BaseGame::InitializeGameEngine()
 	SDL_GL_SetSwapInterval(1);
 
 
+	// ADDED CODE
+	// SHADER CHAOS
+	glewExperimental = GL_TRUE; // recommended for modern OpenGL
+	GLenum err = glewInit();
+	if (GLEW_OK != err)
+	{
+		std::cerr << "GLEW init failed: " << glewGetErrorString(err) << std::endl;
+	}
+	Texture::InitShader(); 
+
+	// SHADER CHAOS
+
+	// SDL INITS
 	// Initialize PNG loading
 	int imgFlags = IMG_INIT_PNG;
 	if ( !( IMG_Init( imgFlags ) & imgFlags ) )
@@ -109,7 +126,6 @@ void BaseGame::InitializeGameEngine()
 		return;
 	}
 	
-
 	// Initialize SDL_ttf
 	if (TTF_Init() == -1)
 	{
