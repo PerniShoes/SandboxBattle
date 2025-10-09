@@ -1,13 +1,16 @@
 #pragma once
-#include "Texture.h"
 #include <array>
 #include <string>
-#include "utils.h"
 #include <memory>
 #include <unordered_map>
 #include <vector>
 #include <filesystem>
+
+#include "Texture.h"
+#include <functional>
+#include "utils.h"
 #include "Transform.h"
+#include "MapHelpers.h"
 
 enum class LayerType
 {
@@ -56,6 +59,9 @@ enum class MapList
     TotalMaps
 };
 
+// FIX, it's public, not good
+struct LayerOverride;
+
 class MapManager final
 {
 public:
@@ -70,28 +76,43 @@ public:
     // FIX private
     void LoadMapTextures();        
     void LoadMapsFromFolder(const std::string& folderPath); 
+    void RegisterLayerOverrides();
 
     void SetMap(const std::string& mapName);
     std::string GetCurrentMap() const noexcept { return m_CurrentMapName; };
 
+    // Position helpers
+    Rectf GetLayerSrcRect(const MapLayer& layer) const;
+    Point2f CalcFillWidthScale(const MapLayer& layer) const;
+    Point2f CalcFillHeightScale(const MapLayer& layer) const;
+    Point2f CalcTopLeft(const MapLayer& layer) const;
+    Point2f CalcTopRight(const MapLayer& layer) const;
+    Point2f CalcBottomLeft(const MapLayer& layer) const;
+    Point2f CalcBottomRight(const MapLayer& layer) const;
+    Point2f CalcCenter(const MapLayer& layer) const;
+    Point2f CalcFillScreenScale(const MapLayer& layer) const;
+
 private:
 
     void SetAllLayerPositions();
-    // Position helpers
-    Rectf GetLayerSrcRect(const MapLayer& layer) const;
-    Point2f CalcTopLeft(const Point2f& scale,const Point2f& size) const;
-    Point2f CalcTopRight(const Point2f& scale,const Point2f& size) const;
-    Point2f CalcBottomLeft(const Point2f& scale,const Point2f& size) const;
-    Point2f CalcBottomRight(const Point2f& scale,const Point2f& size) const;
-    Point2f CalcCenter(const Point2f& scale,const Point2f& size) const;
-    Point2f CalcFillScreenScale(const MapLayer& layer) const;
-
+    
     std::unordered_map<std::string,MapData> m_MapSets;
     Rectf m_ScreenRect;
     std::string m_CurrentMapName;
+
+    std::unordered_map<std::string,std::vector<LayerOverride>> m_LayerOverrides;
 
     bool m_StateChanged;
 
     // Fallback scale
     Point2f m_GlobalTempScale{1.0f, 1.0f};
 };
+
+struct LayerOverride
+{
+    std::string nameContains;
+    MapHelpers::ScaleFunc scaleFunc;
+    MapHelpers::PositionFunc posFunc;
+    Point2f extraScale{1.f,1.f};
+};
+

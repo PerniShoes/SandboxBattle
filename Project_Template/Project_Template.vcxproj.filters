@@ -126,6 +126,9 @@
     <ClCompile Include="MapManager.cpp">
       <Filter>SystemsManagers</Filter>
     </ClCompile>
+    <ClCompile Include="MapHelpers.cpp">
+      <Filter>SystemsManagers</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="OrientationManager.h">
@@ -228,6 +231,9 @@
       <Filter>Helpers</Filter>
     </ClInclude>
     <ClInclude Include="MapManager.h">
+      <Filter>SystemsManagers</Filter>
+    </ClInclude>
+    <ClInclude Include="MapHelpers.h">
       <Filter>SystemsManagers</Filter>
     </ClInclude>
   </ItemGroup>

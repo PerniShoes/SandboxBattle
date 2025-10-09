@@ -38,6 +38,7 @@ MapManager::MapManager(Rectf screenRect)
     // Load all textures 
     LoadMapTextures();
 
+    RegisterLayerOverrides();
     SetAllLayerPositions();
 
 }
@@ -162,43 +163,56 @@ Rectf MapManager::GetLayerSrcRect(const MapLayer& layer) const
     return Rectf{0.0f,0.0f, w, h};
 }
 
-Point2f MapManager::CalcTopLeft(const Point2f& scale,const Point2f& size) const
+Point2f MapManager::CalcFillScreenScale(const MapLayer& layer) const
 {
-    float w = size.x * scale.x;
-    float h = size.y * scale.y;
-    return Point2f{0.f, m_ScreenRect.height - h};
+    const float scaleX = m_ScreenRect.width / layer.originalSize.x;
+    const float scaleY = m_ScreenRect.height / layer.originalSize.y;
+    return Point2f{scaleX, scaleY};
 }
 
-Point2f MapManager::CalcTopRight(const Point2f& scale,const Point2f& size) const
+Point2f MapManager::CalcFillWidthScale(const MapLayer& layer) const
 {
-    float w = size.x * scale.x;
-    float h = size.y * scale.y;
-    return Point2f{m_ScreenRect.width - w, m_ScreenRect.height - h};
+    float scale = m_ScreenRect.width / layer.originalSize.x;
+    return Point2f{scale, 1.0f};
 }
 
-Point2f MapManager::CalcBottomLeft(const Point2f& scale,const Point2f& size) const
+Point2f MapManager::CalcFillHeightScale(const MapLayer& layer) const
 {
-    // bottom-left corner of screen
+    float scale = m_ScreenRect.height / layer.originalSize.y;
+    return Point2f{1.0f, scale};
+}
+
+Point2f MapManager::CalcBottomLeft(const MapLayer& layer) const
+{
+    float w = layer.originalSize.x * layer.transform.scale.x;
+    float h = layer.originalSize.y * layer.transform.scale.y;
     return Point2f{0.f, 0.f};
 }
 
-Point2f MapManager::CalcBottomRight(const Point2f& scale,const Point2f& size) const
+Point2f MapManager::CalcBottomRight(const MapLayer& layer) const
 {
-    float w = size.x * scale.x;
+    float w = layer.originalSize.x * layer.transform.scale.x;
     return Point2f{m_ScreenRect.width - w, 0.f};
 }
 
-Point2f MapManager::CalcCenter(const Point2f& scale,const Point2f& size) const
+Point2f MapManager::CalcTopLeft(const MapLayer& layer) const
 {
-    float w = size.x * scale.x;
-    float h = size.y * scale.y;
-    return Point2f{(m_ScreenRect.width - w) / 2.f, (m_ScreenRect.height - h) / 2.f};
+    float h = layer.originalSize.y * layer.transform.scale.y;
+    return Point2f{0.f, m_ScreenRect.height - h};
 }
-Point2f MapManager::CalcFillScreenScale(const MapLayer& layer) const
+
+Point2f MapManager::CalcTopRight(const MapLayer& layer) const
 {
-    float scaleX = m_ScreenRect.width / layer.originalSize.x;
-    float scaleY = m_ScreenRect.height / layer.originalSize.y;
-    return Point2f{scaleX, scaleY};
+    float w = layer.originalSize.x * layer.transform.scale.x;
+    float h = layer.originalSize.y * layer.transform.scale.y;
+    return Point2f{m_ScreenRect.width - w, m_ScreenRect.height - h};
+}
+
+Point2f MapManager::CalcCenter(const MapLayer& layer) const
+{
+    float w = layer.originalSize.x * layer.transform.scale.x;
+    float h = layer.originalSize.y * layer.transform.scale.y;
+    return Point2f{(m_ScreenRect.width - w) / 2.f, (m_ScreenRect.height - h) / 2.f};
 }
 
 
@@ -259,8 +273,24 @@ void MapManager::SetAllLayerPositions()
 {
     for (auto& [mapName,map] : m_MapSets)
     {
+        // Find background scale for current map
+        Point2f bgScale{1.f, 1.f};
+        for (const auto& layer : map.layers)
+        {
+            if (layer.type == LayerType::Background)
+            {
+                bgScale = CalcFillScreenScale(layer);
+                break;
+            }
+        }
+
+        // Check for layer overrides
+        auto it = m_LayerOverrides.find(mapName);
+
         for (auto& layer : map.layers)
         {
+
+            // Default settings
             switch (layer.type)
             {
             case LayerType::Background:
@@ -275,12 +305,40 @@ void MapManager::SetAllLayerPositions()
 
             case LayerType::Foreground:
                 layer.transform.scale.x = CalcFillScreenScale(layer).x;
-                layer.transform.position = CalcBottomRight(layer.transform.scale,layer.originalSize);
+                layer.transform.position = CalcBottomRight(layer);
                 break;
 
             default:
                 break;
             }
+
+            // Layer has non-default settings
+            if (it != m_LayerOverrides.end())
+            {
+                for (const auto& overrideLayer : it->second)
+                {
+                    if (layer.name.find(overrideLayer.nameContains) != std::string::npos)
+                    {
+                        layer.transform.scale = overrideLayer.scaleFunc(this,layer);
+                        layer.transform.scale.x *= overrideLayer.extraScale.x;
+                        layer.transform.scale.y *= overrideLayer.extraScale.y;
+                        layer.transform.position = overrideLayer.posFunc(this,layer);
+                        break;
+                    }
+                }
+            }
         }
     }
 }
+
+void MapManager::RegisterLayerOverrides()
+{
+    using namespace MapHelpers;
+
+    m_LayerOverrides["battlemap2"] = {
+      { "foreground_001", HS, BL, Point2f{1.2f, 0.6f} },
+      { "foreground_002", FSX(1.2f,1.0f), BR, Point2f{1.0f, 1.0f} },
+    };   
+}
+
+
