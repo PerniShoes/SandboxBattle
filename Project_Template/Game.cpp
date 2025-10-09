@@ -210,7 +210,7 @@ void Game::Draw() const
 	}
 	glPopMatrix();
 
-	//m_MapManager.DrawLayerType(LayerType::Foreground);
+	m_MapManager.DrawLayerType(LayerType::Foreground);
 	DrawUI();
 }
 

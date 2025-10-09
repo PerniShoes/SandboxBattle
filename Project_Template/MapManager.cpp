@@ -132,6 +132,9 @@ void MapManager::LoadMapTextures()
                 // FIX, not needed cast, or maybe it's future proof? Hmmm
                 layer.originalSize.x = static_cast<float>(layer.texture->GetWidth());
                 layer.originalSize.y = static_cast<float>(layer.texture->GetHeight());
+                layer.transform.hitboxHeight = static_cast<float>(layer.texture->GetHeight());
+                layer.transform.hitboxWidth = static_cast<float>(layer.texture->GetWidth());
+
                 // set dstRect w/h to original size (x/y at 0,0)
                 layer.dstRect = Rectf{0.f, 0.f, layer.originalSize.x, layer.originalSize.y};
 
@@ -159,35 +162,37 @@ Rectf MapManager::GetLayerSrcRect(const MapLayer& layer) const
     return Rectf{0.0f,0.0f, w, h};
 }
 
-Rectf MapManager::CalcTopLeft(const Point2f& scale,const Point2f& size) const
+Point2f MapManager::CalcTopLeft(const Point2f& scale,const Point2f& size) const
 {
     float w = size.x * scale.x;
     float h = size.y * scale.y;
-    return Rectf{0.f, m_ScreenRect.height - h, w, h};
+    return Point2f{0.f, m_ScreenRect.height - h};
 }
-Rectf MapManager::CalcTopRight(const Point2f& scale,const Point2f& size) const
+
+Point2f MapManager::CalcTopRight(const Point2f& scale,const Point2f& size) const
 {
     float w = size.x * scale.x;
     float h = size.y * scale.y;
-    return Rectf{m_ScreenRect.width - w, m_ScreenRect.height - h, w, h};
+    return Point2f{m_ScreenRect.width - w, m_ScreenRect.height - h};
 }
-Rectf MapManager::CalcBottomLeft(const Point2f& scale,const Point2f& size) const
+
+Point2f MapManager::CalcBottomLeft(const Point2f& scale,const Point2f& size) const
 {
-    float w = size.x * scale.x;
-    float h = size.y * scale.y;
-    return Rectf{0.f, 0.f, w, h};
+    // bottom-left corner of screen
+    return Point2f{0.f, 0.f};
 }
-Rectf MapManager::CalcBottomRight(const Point2f& scale,const Point2f& size) const
+
+Point2f MapManager::CalcBottomRight(const Point2f& scale,const Point2f& size) const
 {
     float w = size.x * scale.x;
-    float h = size.y * scale.y;
-    return Rectf{m_ScreenRect.width - w, 0.f, w, h};
+    return Point2f{m_ScreenRect.width - w, 0.f};
 }
-Rectf MapManager::CalcCenter(const Point2f& scale,const Point2f& size) const
+
+Point2f MapManager::CalcCenter(const Point2f& scale,const Point2f& size) const
 {
     float w = size.x * scale.x;
     float h = size.y * scale.y;
-    return Rectf{(m_ScreenRect.width - w) / 2.f, (m_ScreenRect.height - h) / 2.f, w, h};
+    return Point2f{(m_ScreenRect.width - w) / 2.f, (m_ScreenRect.height - h) / 2.f};
 }
 Point2f MapManager::CalcFillScreenScale(const MapLayer& layer) const
 {
@@ -214,12 +219,11 @@ void MapManager::DrawLayerType(LayerType type) const
         if (!layer.texture) continue;
 
         Rectf src = GetLayerSrcRect(layer);
-        
-        layer.transform.SetExactScale(1.0f,1.0f);
+
         layer.transform.Push();  
         layer.transform.Apply();
 
-        layer.texture->Draw(m_ScreenRect);
+        layer.texture->Draw(src);
         
         layer.transform.Pop();
     }
@@ -260,18 +264,18 @@ void MapManager::SetAllLayerPositions()
             switch (layer.type)
             {
             case LayerType::Background:
-                layer.transform.position = Point2f{0.f, 25.f}; 
                 layer.transform.scale = CalcFillScreenScale(layer);
+                layer.transform.position = Point2f{0.0f, 0.0f};
                 break;
 
             case LayerType::Midground:
                 layer.transform.scale = CalcFillScreenScale(layer);
-                layer.transform.position = Point2f{0.f, 25.f};
+                layer.transform.position = Point2f{0.0f, 0.0f};
                 break;
 
             case LayerType::Foreground:
-                layer.transform.position = Point2f{0.f, 0.f};
-                layer.transform.scale = Point2f{1.f, 1.f};
+                layer.transform.scale.x = CalcFillScreenScale(layer).x;
+                layer.transform.position = CalcBottomRight(layer.transform.scale,layer.originalSize);
                 break;
 
             default:

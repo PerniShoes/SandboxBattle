@@ -79,11 +79,11 @@ private:
     void SetAllLayerPositions();
     // Position helpers
     Rectf GetLayerSrcRect(const MapLayer& layer) const;
-    Rectf CalcTopLeft(const Point2f& scale,const Point2f& size) const;
-    Rectf CalcTopRight(const Point2f& scale,const Point2f& size) const;
-    Rectf CalcBottomLeft(const Point2f& scale,const Point2f& size) const;
-    Rectf CalcBottomRight(const Point2f& scale,const Point2f& size) const;
-    Rectf CalcCenter(const Point2f& scale,const Point2f& size) const;
+    Point2f CalcTopLeft(const Point2f& scale,const Point2f& size) const;
+    Point2f CalcTopRight(const Point2f& scale,const Point2f& size) const;
+    Point2f CalcBottomLeft(const Point2f& scale,const Point2f& size) const;
+    Point2f CalcBottomRight(const Point2f& scale,const Point2f& size) const;
+    Point2f CalcCenter(const Point2f& scale,const Point2f& size) const;
     Point2f CalcFillScreenScale(const MapLayer& layer) const;
 
     std::unordered_map<std::string,MapData> m_MapSets;

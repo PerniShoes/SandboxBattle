@@ -30,6 +30,11 @@ Unit::Unit(std::string unitName,UnitType type, Transform transform,Stats baseSta
 
     m_HitBoxWidth = m_Animator->GetSpriteWidth();
     m_Transform.hitboxWidth = m_HitBoxWidth;
+    m_Transform.hitboxHeight = m_HitBoxWidth;
+    // Offset so units and their highlight center is at cursor, not left bottom
+    m_Transform.offsetY = -25.0f;
+    m_Transform.offsetX = -m_HitBoxWidth/2.0f;
+
     m_SelectionRect = {
     Rectf{0.0f+(m_HitBoxWidth/2.0f)-25.0f
         ,10.0f
