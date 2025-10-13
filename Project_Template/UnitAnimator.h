@@ -23,6 +23,7 @@ public:
 
     float GetSpriteWidth();
     std::string GetCurrentAnimation();
+    void SetFrameTime(float frameTimeTarget);
 
 private:
     Atlas* atlas;
@@ -33,4 +34,5 @@ private:
     int frameIndex = 0;
     float elapsed = 0.0f;
     bool isDonePlaying = false;
+    float generalFrameTime = 0.0f;
 };

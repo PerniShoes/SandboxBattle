@@ -7,6 +7,7 @@
 #include <unordered_map>
 #include <algorithm>
 
+class Grid;
 class Command;
 class UnitManager
 {
@@ -14,7 +15,7 @@ public:
 	using UnitPtr = std::unique_ptr<Unit>;
 	using CommandPtr = std::unique_ptr<Command>;
 
-	UnitManager();
+	UnitManager(Rectf screenRect);
 	UnitManager(const UnitManager& other) = delete;
 	UnitManager& operator=(const UnitManager& other) = delete;
 	UnitManager(UnitManager&& other) = delete;
@@ -22,6 +23,7 @@ public:
 	~UnitManager();
 
 	void DrawAll()const;
+	void DrawGrid()const;
 	void UpdateAll(float elapsedTime);
 
 	void TeleportAllTo(Point2f location);
@@ -48,6 +50,9 @@ public:
 	bool IsAnySelected() const;
 	bool GetHoverAlly() const;
 	bool GetHoverEnemy() const;
+	Unit* GetUnit(int unitIndex,bool lastAdded = false) const;
+
+	void SetFrameTimeAll(float frameTimeTarget);
 
 private:
 
@@ -61,6 +66,8 @@ private:
 
 	bool m_HoverEnemy;
 	bool m_HoverAlly;
+
+	std::unique_ptr<Grid> m_Grid;
 
 	// FIX FIX FIX FIX FIX FIX FIX FIX FIX FIX FIX FIX Can sort based on tiles instead of Y
 	// Should be called every few/dozen or so frames (since units don't move THAT fast anyways)

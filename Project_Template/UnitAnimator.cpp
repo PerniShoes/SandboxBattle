@@ -33,7 +33,16 @@ void UnitAnimator::Update(float elapsedTime)
 {
     if (!current) return;
     elapsed += elapsedTime;
-    if (elapsed >= current->frameTime)
+    float targetFrameTime{};
+    if (generalFrameTime > 0.0f)
+    {
+        targetFrameTime = generalFrameTime;
+    }
+    else
+    {
+        targetFrameTime = current->frameTime;
+    }
+    if (elapsed >= targetFrameTime)
     {
         elapsed = 0.0f;
         frameIndex++;
@@ -82,4 +91,9 @@ float UnitAnimator::GetSpriteWidth()
 std::string UnitAnimator::GetCurrentAnimation()
 {
     return currentAnimPlaying;
+}
+
+void UnitAnimator::SetFrameTime(float frameTimeTarget)
+{
+    generalFrameTime = frameTimeTarget;
 }

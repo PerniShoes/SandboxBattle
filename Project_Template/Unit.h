@@ -41,6 +41,7 @@ public:
     void TakeDamage(int amount);
     void Heal(int amount);
     Stats GetStats() const;
+    void SetStats(Stats newStats);
     UnitType GetType() const;
     int GetTeamID() const;
     void ChangeTeam(int newID);
@@ -52,6 +53,7 @@ public:
     void ApplyBuff(std::unique_ptr<Effect> buff);
     void ApplyDebuff(std::unique_ptr<Effect> debuff);
     void Scale(float x,float y);
+    void SetFrameTime(float frameTimeTarget);
 
     // ORGANIZE ALL NOT USED STUFF SINCE A LOT OF CHANGED, ALSO HAD SCALING 
 protected:

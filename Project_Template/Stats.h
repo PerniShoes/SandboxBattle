@@ -3,7 +3,7 @@
 struct Stats
 {
 
-    Stats(int hp = 100, int maxHp = 100,int dmg = 10.0f, float castSpeed = 1.0f, int ms = 1000);
+    Stats(int hp = 100, int maxHp = 100,int dmg = 10.0f, float castSpeed = 1.0f, int ms = 100);
     
     void Heal(int amount);
     bool TakeDamage(int amount);

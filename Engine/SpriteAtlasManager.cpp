@@ -149,6 +149,7 @@ void SpriteAtlasManager::BuildAnimations(Atlas& atlas)
 
         AnimationClip clip;
         clip.name = anim;
+        clip.frameTime = 0.030f;
 
         for (auto& [idx,fname] : vec)
             clip.frameNames.push_back(fname);

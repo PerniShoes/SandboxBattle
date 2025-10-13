@@ -9,6 +9,8 @@
 #include <iostream>
 #include <cmath>
 #include <print>
+#include <thread>
+#include <chrono>
 
 
 // Umbrella header for all units???
@@ -19,7 +21,7 @@
 
 Game::Game(const Window& window)
 	:BaseGame(window)
-	,m_UnitManager{}
+	,m_UnitManager{GetViewPort()}
 	,m_MouseManager{}
 	,m_MapManager{GetViewPort()}
 	,m_Window{ window }
@@ -42,7 +44,7 @@ void Game::Initialize()
 	// LOAD ALL
 	GameResources::m_AtlasManager.LoadFolder("../Resources/DuelystResc/units");
 
-	m_MapManager.SetMap("abyssian");
+	m_MapManager.SetMap("redrock");
 
 	// ChatGPT helped of course xd
 	// There has to be a way to make it easier to choose the class (and create them too)
@@ -71,10 +73,19 @@ void Game::Initialize()
 	m_UnitManager.AddUnit(std::make_unique<boss_wraith>());
 
 	m_UnitManager.ScaleAllUnits(1.5f,1.5f);
+	m_UnitManager.SetFrameTimeAll(0.035f);
+
+	for (int i{1}; i <= m_UnitManager.GetUnitCount(); ++i)
+	{
+		Stats newStats = m_UnitManager.GetUnit(i)->GetStats();
+		newStats.m_MoveSpeed = 550;
+		m_UnitManager.GetUnit(i)->SetStats(newStats);
+	}
 
 	// FIX debug code
 	float x{0.0f};
 	float y{0.0f};
+	float xOffset{400.0f};
 	for (int i{0} ;i < m_UnitManager.GetUnitCount(); ++i)
 	{
 		if (i == (m_UnitManager.GetUnitCount() / 2))
@@ -83,22 +94,17 @@ void Game::Initialize()
 		}
 		if (i < (m_UnitManager.GetUnitCount() / 2))
 		{
-			x = 200.0f;
+			x = xOffset;
 			y += 85.0f;
 		}
 		else
 		{
-			x = m_Window.width - 200.0f;
+			x = m_Window.width - xOffset;
 			y -= 85.0f;
 		}
 
 		m_UnitManager.TeleportTo(i,Point2f{x,y});
 	}
-
-
-
-
-
 
 
 	// Default

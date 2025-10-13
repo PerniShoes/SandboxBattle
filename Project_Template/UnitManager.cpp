@@ -2,8 +2,9 @@
 #include "utils.h"
 #include "AllUnitCommands.h"
 #include <print>
+#include "Grid.h"
 
-UnitManager::UnitManager()
+UnitManager::UnitManager(Rectf screenRect)
     :m_LastMousePos{}
     ,m_QueuingEnabled{false}
     ,m_SelectedUnits{}
@@ -14,7 +15,16 @@ UnitManager::UnitManager()
     ,m_HoverAlly{false}
 
 {
+    float uniformSize{83.0f};
+    Point2f defaultTileSize{uniformSize,uniformSize};
+    Point2f defaultResolution{1920.0f,1080.0f};
+    Point2f scale{screenRect.width/ defaultResolution.x,screenRect.height / defaultResolution.y};
 
+    defaultTileSize.x *= scale.x;
+    defaultTileSize.y *= scale.y;
+
+    Point2f startingPointGrid{screenRect.width*0.29f,screenRect.height*0.27f};
+    m_Grid = std::make_unique<Grid>(startingPointGrid,5,9,Rectf{screenRect},defaultTileSize);
 
 }
 
@@ -26,6 +36,7 @@ UnitManager::~UnitManager()
 void UnitManager::DrawAll()const
 {
 
+    m_Grid->DrawGrid();
     for (const auto unitPtr : m_SelectedUnits)
     {
         unitPtr->DrawHighlight();
@@ -234,4 +245,22 @@ bool UnitManager::GetHoverAlly() const
 bool UnitManager::GetHoverEnemy() const
 {
     return m_HoverEnemy;
+}
+
+void UnitManager::SetFrameTimeAll(float frameTimeTarget)
+{
+    for (auto& unit : m_Units)
+    {
+        unit->SetFrameTime(frameTimeTarget);
+    }
+}
+Unit* UnitManager::GetUnit(int unitIndex,bool lastAdded) const
+{
+    if (unitIndex <= 0)
+        return nullptr;
+    if (lastAdded)
+    {
+        return m_Units.back().get();
+    }
+    return m_Units[unitIndex-1].get();
 }

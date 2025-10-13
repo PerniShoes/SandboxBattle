@@ -169,7 +169,7 @@ bool Unit::MoveTowardsDestination(Point2f destination, float elapsedTime)
         m_Destination = destination;
     }
     Vector2f direction{destination - m_Transform.position};
-    float tolerance{3.0f};
+    float tolerance{5.0f};
 
     // Arrived at destination
     if (std::abs(direction.x) < tolerance && std::abs(direction.y) < tolerance)
@@ -265,3 +265,14 @@ Rectf Unit::GetSelectionBox() const
     // Adjust hitbox with selectionReeeect
     return hitBox;
 }
+
+void Unit::SetFrameTime(float frameTimeTarget)
+{
+    m_Animator->SetFrameTime(frameTimeTarget);
+}
+
+void Unit::SetStats(Stats newStats)
+{
+    m_Stats = newStats;
+}
+// Add setters for Stats
