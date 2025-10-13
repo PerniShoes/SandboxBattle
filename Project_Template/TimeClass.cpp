@@ -16,12 +16,12 @@ TimeClass::TimeClass(float timeGoal)
     }
 }
 
-void TimeClass::Update(float elapsedTimeClass)
+void TimeClass::Update(float elapsedTime)
 {
     if (m_IsPaused == true)
         return;
 
-    m_AccumulatedTimeClass += elapsedTimeClass;
+    m_AccumulatedTimeClass += elapsedTime;
     if (m_AccumulatedTimeClass >= m_TimeClassGoal 
         && m_TimeClassGoal != 0.0f)
     {

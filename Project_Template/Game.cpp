@@ -42,7 +42,7 @@ void Game::Initialize()
 	// LOAD ALL
 	GameResources::m_AtlasManager.LoadFolder("../Resources/DuelystResc/units");
 
-	m_MapManager.SetMap("battlemap2");
+	m_MapManager.SetMap("abyssian");
 
 	// ChatGPT helped of course xd
 	// There has to be a way to make it easier to choose the class (and create them too)
