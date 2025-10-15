@@ -6,7 +6,6 @@ struct Tile
 {
     std::vector<Point2f> vertices;
     Point2f tileCenter;
-
 };
 
 class Grid final
@@ -21,7 +20,12 @@ public:
 
     void InitializeGrid(int tilesPerRow,int tilesPerCol,Point2f tileSize);
     void DrawGrid()const;
-    
+    Point2f GetTileCenter(int tileIndex);
+    // Returns tile index or -1 on false 
+    int IsMouseInTile(Point2f mousePos);
+    int GetTileAmount() const;
+
+
     // Point2f GetTileCenter(int tileIndex);
     void SetTileOffset(Point2f tileOffset);
 

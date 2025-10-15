@@ -28,6 +28,7 @@ public:
 
 	void TeleportAllTo(Point2f location);
 	void TeleportTo(int unitIndex,Point2f location); // FIX unitIndex should be changed. Now you have to know/use valid numbers, debug
+	void PlaceOnGrid(int unitId, int tileId,bool randomFreeTile = false);
 
 	void AddUnit(std::unique_ptr<Unit> unit);
 
@@ -68,6 +69,7 @@ private:
 	bool m_HoverAlly;
 
 	std::unique_ptr<Grid> m_Grid;
+	std::vector<bool> m_TilesTaken; // FIX just for debug, later has to support checking if enemy is on tile or ally etc.
 
 	// FIX FIX FIX FIX FIX FIX FIX FIX FIX FIX FIX FIX Can sort based on tiles instead of Y
 	// Should be called every few/dozen or so frames (since units don't move THAT fast anyways)

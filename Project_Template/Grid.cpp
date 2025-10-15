@@ -97,3 +97,26 @@ void Grid::DrawGrid()const
 
 
 }
+int Grid::IsMouseInTile(Point2f mousePos)
+{
+    for (int i{0};i<int(m_Tiles.size());++i)
+    {
+        if (utils::IsPointInPolygon(mousePos,m_Tiles[i].vertices))
+        {
+            return i;
+        }
+    }
+    return -1;
+}
+Point2f Grid::GetTileCenter(int tileIndex)
+{
+    if (m_Tiles.size() < tileIndex)
+    {
+        return Point2f{-1.0f,-1.0f};
+    }
+    return m_Tiles[tileIndex].tileCenter;
+}
+int Grid::GetTileAmount() const
+{
+    return int(m_Tiles.size());
+}

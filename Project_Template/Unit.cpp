@@ -32,7 +32,7 @@ Unit::Unit(std::string unitName,UnitType type, Transform transform,Stats baseSta
     m_Transform.hitboxWidth = m_HitBoxWidth;
     m_Transform.hitboxHeight = m_HitBoxWidth;
     // Offset so units and their highlight center is at cursor, not left bottom
-    m_Transform.offsetY = -25.0f;
+    m_Transform.offsetY = -20.0f;
     m_Transform.offsetX = -m_HitBoxWidth/2.0f;
 
     m_SelectionRect = {
@@ -42,7 +42,6 @@ Unit::Unit(std::string unitName,UnitType type, Transform transform,Stats baseSta
         ,30.0f
         }
     };
-
 
 
     // FIX (debug purpose)
@@ -63,10 +62,18 @@ void Unit::Draw() const
     using namespace PrettyColors;
     m_Transform.Push();
     m_Transform.Apply();
-            
+
+    glPushMatrix();
+    glTranslatef(m_HitBoxWidth / 2.0f,m_HitBoxWidth/2.0f, 0); // Translate to offset initial Unit to origin translate
+    glScalef(0.5f,0.5f,0.0f);
+    glTranslatef(-m_CircleShadow->GetWidth() / 2.0f,-m_CircleShadow->GetHeight() / 2.0f,0);
+    m_CircleShadow->Draw();
+    glPopMatrix();
+
     if (m_UnitAnimatorLoadedCorrectly)
     {
         m_Animator->DrawShade();
+
     }
     else
     {
@@ -80,6 +87,72 @@ void Unit::Draw() const
 
     }
     m_Transform.Pop();
+    // Has to be outside since unit flips and UI doesn't
+    DrawUi();
+
+}
+void Unit::DrawUi() const
+{
+    glPushMatrix();
+    // General transform
+    float offsetY{-10.0f};
+    // FIX FIX FIX, very hacky, either refactor Transform to now have such hacky code in Apply or give it a helper (to give translate or fix it or smth)
+    // It might be pretty good actually, but I can improve it greatly:
+    
+    // Code from transform:
+    // 
+ 
+    // I could add a "MoveFromOrigin()" here (would be the removed hitbox translate from line bellow)
+ /*   glTranslatef(position.x + (hitboxWidth / 2.0f * abs(scale.x) + (offsetX * abs(scale.x))) // Here I could remove the hitbox translate
+        ,position.y + (hitboxHeight / 2.0f * abs(scale.y) + (offsetY * abs(scale.y))),0);
+    glScalef(scale.x,scale.y,0);
+    glRotatef(angle,0,0,1);
+
+    glTranslatef(-hitboxWidth / 2.0f,-hitboxHeight / 2.0f,0);*/ // This line can be "MoveToOrigin();
+
+
+    // So transforming a unit would be:
+    // ( READ BOTTOM UP )
+    // 
+    // MoveFromOrigin(); // Fixes initial MoveToOrigin() (just Move to origin but opposite numbers)
+    // m_Transform.Apply(); // rotation scale and moving it to target position (but translate would be too small which is fixed above)
+    // MoveToOrigin();   (glTranslatef(-hitboxWidth / 2.0f,-hitboxHeight / 2.0f,0);)
+
+
+    // Then if I want something like Attack UI
+    // (bottom up)
+    // 
+    // I would be able to do:
+    // 
+    // glPushMatrix();
+    // Translate to position (Position relative to parent, since Apply was used before)
+    // m_Transform.Apply(); (Scales, rotates and moves the same as the "parent" (Unit, here)
+    // Scale (so I can adjust it's own size)
+    // Translate to origin
+    // glPopMatrix();
+
+    //
+
+    glTranslatef(m_Transform.position.x + (0.0f * abs(m_Transform.scale.x))
+        ,m_Transform.position.y + (offsetY * abs(m_Transform.scale.y)),0);
+
+        glPushMatrix();
+            glTranslatef(-m_HitBoxWidth / 4.0f,0.0f,0);
+            glScalef(0.5f,0.5f,0.0f);
+            glTranslatef(-m_AttackUi->GetWidth() / 2.0f,-m_AttackUi->GetHeight() / 2.0f,0);
+            m_AttackUi->Draw();
+        glPopMatrix();
+
+        glPushMatrix();
+            glTranslatef(m_HitBoxWidth / 4.0f,0.0f,0);
+            glScalef(0.5f,0.5f,0.0f);
+            glTranslatef(-m_HealthUi->GetWidth() / 2.0f,-m_HealthUi->GetHeight() / 2.0f,0);
+            m_HealthUi->Draw();
+        glPopMatrix();
+
+   
+    //
+    glPopMatrix();
 }
 void Unit::DrawHighlight() const
 {
@@ -152,16 +225,17 @@ void Unit::MoveTo(Point2f destination)
 
 bool Unit::MoveTowardsDestination(Point2f destination, float elapsedTime)
 {
-    // if one cord changes most likely both will (if only y changes, it's fine to not flip the unit)
-    if (m_Destination.x != destination.x)
+    float xTolerance{5.0f};
+    if (m_Destination.x != destination.x || m_Destination.y != destination.y)
     {
         m_Animator->Play("run");
-        if (m_Transform.position.x > destination.x && !m_FacingLeft)
+        // Flips based on X change
+        if (m_Transform.position.x - xTolerance > destination.x && !m_FacingLeft)
         {
             m_FacingLeft = true;
             m_Transform.FlipX();
         }
-        else if (m_Transform.position.x < destination.x && m_FacingLeft)
+        else if (m_Transform.position.x + xTolerance < destination.x && m_FacingLeft)
         {
             m_FacingLeft = false;
             m_Transform.FlipX();
@@ -270,9 +344,33 @@ void Unit::SetFrameTime(float frameTimeTarget)
 {
     m_Animator->SetFrameTime(frameTimeTarget);
 }
-
+// Add setters for Stats
 void Unit::SetStats(Stats newStats)
 {
     m_Stats = newStats;
 }
-// Add setters for Stats
+
+// Called after team number is set
+void Unit::LoadTextures()
+{
+    // For debug purposes team 0 is ally, team 1 enemy (also commented in game.cpp under m_UnitManager funcs)
+    
+    // UI
+    if (m_TeamNumber == 0)
+    {
+        m_AttackUi = std::make_unique<Texture>("../Resources/DuelystResc/ui/icon_atk.png");
+        m_HealthUi = std::make_unique<Texture>("../Resources/DuelystResc/ui/icon_hp.png");
+    }
+    else
+    {
+        m_AttackUi = std::make_unique<Texture>("../Resources/DuelystResc/ui/icon_atk_bw.png");
+        m_HealthUi = std::make_unique<Texture>("../Resources/DuelystResc/ui/icon_hp_bw.png");
+    }
+
+    // VFX
+    // Same pos as unit? Has to be scaled to match unit
+    m_CircleShadow = std::make_unique<Texture>("../Resources/DuelystResc/ui/unit_shadow.png");
+
+    // actual shadow (later)
+
+}

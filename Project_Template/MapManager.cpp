@@ -347,6 +347,13 @@ void MapManager::RegisterLayerOverrides()
    { "foreground_001", FSX(1.0f,1.0f), BL, Point2f{0.8f, 0.8f}},
    { "foreground_002", FSX(1.0f,1.0f), BR, Point2f{0.7f, 0.7f} },
     };
+
+    m_LayerOverrides["battlemap5"] = {
+{ "foreground_001", FSX(1.0f,1.0f), BL, Point2f{0.9f, 0.9f}},
+{ "foreground_002", FSX(1.0f,1.0f), BR, Point2f{1.8f, 1.8f} },
+    };
+
+
 }
 
 

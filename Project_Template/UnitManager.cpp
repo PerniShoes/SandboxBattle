@@ -3,6 +3,7 @@
 #include "AllUnitCommands.h"
 #include <print>
 #include "Grid.h"
+#include <cstdlib>
 
 UnitManager::UnitManager(Rectf screenRect)
     :m_LastMousePos{}
@@ -23,9 +24,11 @@ UnitManager::UnitManager(Rectf screenRect)
     defaultTileSize.x *= scale.x;
     defaultTileSize.y *= scale.y;
 
-    Point2f startingPointGrid{screenRect.width*0.29f,screenRect.height*0.27f};
+    Point2f startingPointGrid{screenRect.width*0.29f,screenRect.height*0.29f};
     m_Grid = std::make_unique<Grid>(startingPointGrid,5,9,Rectf{screenRect},defaultTileSize);
+    m_TilesTaken.resize(m_Grid->GetTileAmount(),false);
 
+    std::srand(static_cast<unsigned int>(std::time(nullptr)));
 }
 
 UnitManager::~UnitManager()
@@ -74,6 +77,7 @@ void UnitManager::UpdateAll(float elapsedTime)
 void UnitManager::AddUnit(std::unique_ptr<Unit> unit) 
 {
     unit->ChangeTeam(m_DefaultTeam);
+    unit->LoadTextures();
     m_Units.push_back(std::move(unit));
 
 }
@@ -141,9 +145,7 @@ void UnitManager::OnRightButtonDown()
     using namespace std;
     // Later test for various scenarios, like clicking on ground or unit etc. FIX
 
-    // attack command
-    // attack beheviour
-    // is enemy check
+    // Add checks for things like range (attack range, move range)
 
     // Check if clicked on a Unit
     for (const auto& unitPtr : m_Units)
@@ -174,12 +176,28 @@ void UnitManager::OnRightButtonDown()
         }
     }
 
+
     // If clicked on ground
+    int tileClicked = {m_Grid->IsMouseInTile(m_LastMousePos)};
+    if (tileClicked <= -1)
+    {
+        // Clicked not in tiles
+        return;
+    }
+    Point2f targetTileCenter = {m_Grid->GetTileCenter(tileClicked)};
     for (const auto& unitPtr : m_SelectedUnits)
     {
-        IssueCommand(unitPtr,std::make_unique<MoveCommand>(m_LastMousePos));
+        IssueCommand(unitPtr,std::make_unique<MoveCommand>(targetTileCenter));
+
+        // FIX debug
+        // (func will return earlier if not in tile, so this will return a valid tile id)
+        m_TilesTaken[m_Grid->IsMouseInTile(unitPtr->GetTransform().position)] = false;
+        //
     }
 
+    // FIX debug
+    m_TilesTaken[tileClicked] = true;
+    //
 }
 
 void UnitManager::TeleportAllTo(Point2f location)
@@ -263,4 +281,36 @@ Unit* UnitManager::GetUnit(int unitIndex,bool lastAdded) const
         return m_Units.back().get();
     }
     return m_Units[unitIndex-1].get();
+}
+
+void UnitManager::PlaceOnGrid(int unitId, int tileId,bool randomFreeTile)
+{
+    if (unitId < 0 || unitId > m_Units.size())
+        return;
+
+    int tileTaken = tileId;
+    if (tileId > m_Grid->GetTileAmount() || randomFreeTile)
+    {
+        // FIX debug
+        int randomId{-1};
+        while (true)
+        {
+            randomId = {std::rand() % (m_Grid->GetTileAmount() - 1)};
+            if (!m_TilesTaken[randomId])
+            {
+                break;
+            }
+        }
+        //
+        TeleportTo(unitId,m_Grid->GetTileCenter(randomId));
+
+        tileTaken = randomId;
+    }
+    else
+    {
+        TeleportTo(unitId,m_Grid->GetTileCenter(tileId));
+    }
+    // FIX debug
+    m_TilesTaken[tileTaken] = true;
+    //
 }

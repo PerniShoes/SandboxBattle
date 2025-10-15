@@ -44,10 +44,12 @@ void Game::Initialize()
 	// LOAD ALL
 	GameResources::m_AtlasManager.LoadFolder("../Resources/DuelystResc/units");
 
-	m_MapManager.SetMap("redrock");
+	m_MapManager.SetMap("abyssian");
 
 	// ChatGPT helped of course xd
 	// There has to be a way to make it easier to choose the class (and create them too)
+
+	// For debug purposes team 0 is ally, team 1 enemy (also commented in unit.cpp inside LoadTextures)
 	m_UnitManager.SetDefaultTeam(0);
 	m_UnitManager.AddUnit(std::make_unique<boss_sandpanther>());
 	m_UnitManager.AddUnit(std::make_unique<boss_serpenti>());
@@ -61,16 +63,16 @@ void Game::Initialize()
 	m_UnitManager.AddUnit(std::make_unique<boss_wraith>());
 
 	m_UnitManager.SetDefaultTeam(1);
-	m_UnitManager.AddUnit(std::make_unique<boss_sandpanther>());
-	m_UnitManager.AddUnit(std::make_unique<boss_serpenti>());
-	m_UnitManager.AddUnit(std::make_unique<boss_shadowlord>());
-	m_UnitManager.AddUnit(std::make_unique<boss_shinkagezendo>());
-	m_UnitManager.AddUnit(std::make_unique<boss_skurge>());
-	m_UnitManager.AddUnit(std::make_unique<boss_skyfalltyrant>());
-	m_UnitManager.AddUnit(std::make_unique<boss_solfist>());
-	m_UnitManager.AddUnit(std::make_unique<boss_spelleater>());
-	m_UnitManager.AddUnit(std::make_unique<boss_vampire>());
-	m_UnitManager.AddUnit(std::make_unique<boss_wraith>());
+	m_UnitManager.AddUnit(std::make_unique<boss_chaosknight>());
+	m_UnitManager.AddUnit(std::make_unique<boss_borealjuggernaut>());
+	m_UnitManager.AddUnit(std::make_unique<boss_andromeda>());
+	m_UnitManager.AddUnit(std::make_unique<boss_antiswarm>());
+	m_UnitManager.AddUnit(std::make_unique<boss_cindera>());
+	m_UnitManager.AddUnit(std::make_unique<boss_crystal>());
+	m_UnitManager.AddUnit(std::make_unique<boss_kron>());
+	m_UnitManager.AddUnit(std::make_unique<boss_emp>());
+	m_UnitManager.AddUnit(std::make_unique<boss_invader>());
+	m_UnitManager.AddUnit(std::make_unique<boss_harmony>());
 
 	m_UnitManager.ScaleAllUnits(1.5f,1.5f);
 	m_UnitManager.SetFrameTimeAll(0.035f);
@@ -82,30 +84,38 @@ void Game::Initialize()
 		m_UnitManager.GetUnit(i)->SetStats(newStats);
 	}
 
+
+
 	// FIX debug code
-	float x{0.0f};
-	float y{0.0f};
-	float xOffset{400.0f};
-	for (int i{0} ;i < m_UnitManager.GetUnitCount(); ++i)
+	for (int i{}; i < m_UnitManager.GetUnitCount() ;++i)
 	{
-		if (i == (m_UnitManager.GetUnitCount() / 2))
-		{
-			y += 85.0f;
-		}
-		if (i < (m_UnitManager.GetUnitCount() / 2))
-		{
-			x = xOffset;
-			y += 85.0f;
-		}
-		else
-		{
-			x = m_Window.width - xOffset;
-			y -= 85.0f;
-		}
-
-		m_UnitManager.TeleportTo(i,Point2f{x,y});
+		m_UnitManager.PlaceOnGrid(i,-1,true);
 	}
+	 
+	
+	//float x{0.0f};
+	//float y{0.0f};
+	//float xOffset{400.0f};
+	//for (int i{0} ;i < m_UnitManager.GetUnitCount(); ++i)
+	//{
+	//	if (i == (m_UnitManager.GetUnitCount() / 2))
+	//	{
+	//		y += 85.0f;
+	//	}
+	//	if (i < (m_UnitManager.GetUnitCount() / 2))
+	//	{
+	//		x = xOffset;
+	//		y += 85.0f;
+	//	}
+	//	else
+	//	{
+	//		x = m_Window.width - xOffset;
+	//		y -= 85.0f;
+	//	}
 
+	//	m_UnitManager.TeleportTo(i,Point2f{x,y});
+	//}
+	/////////////
 
 	// Default
 	m_SandboxBattler = std::make_unique<SandboxBattler>(); // Project
