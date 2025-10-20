@@ -44,38 +44,38 @@ void Game::Initialize()
 	// LOAD ALL
 	GameResources::m_AtlasManager.LoadFolder("../Resources/DuelystResc/units");
 
-	m_MapManager.SetMap("abyssian");
+	m_MapManager.SetMap("battlemap5");
 
 	// ChatGPT helped of course xd
 	// There has to be a way to make it easier to choose the class (and create them too)
 
 	// For debug purposes team 0 is ally, team 1 enemy (also commented in unit.cpp inside LoadTextures)
 	m_UnitManager.SetDefaultTeam(0);
-	m_UnitManager.AddUnit(std::make_unique<boss_sandpanther>());
+	//m_UnitManager.AddUnit(std::make_unique<boss_sandpanther>());
 	m_UnitManager.AddUnit(std::make_unique<boss_serpenti>());
 	m_UnitManager.AddUnit(std::make_unique<boss_shadowlord>());
-	m_UnitManager.AddUnit(std::make_unique<boss_shinkagezendo>());
+	m_UnitManager.AddUnit(std::make_unique<f1_3rdgeneral>());
 	m_UnitManager.AddUnit(std::make_unique<boss_skurge>());
 	m_UnitManager.AddUnit(std::make_unique<boss_skyfalltyrant>());
 	m_UnitManager.AddUnit(std::make_unique<boss_solfist>());
-	m_UnitManager.AddUnit(std::make_unique<boss_spelleater>());
-	m_UnitManager.AddUnit(std::make_unique<boss_vampire>());
-	m_UnitManager.AddUnit(std::make_unique<boss_wraith>());
+	//m_UnitManager.AddUnit(std::make_unique<boss_spelleater>());
+	//m_UnitManager.AddUnit(std::make_unique<boss_vampire>());
+	//m_UnitManager.AddUnit(std::make_unique<boss_wraith>());
 
 	m_UnitManager.SetDefaultTeam(1);
-	m_UnitManager.AddUnit(std::make_unique<boss_chaosknight>());
+	//m_UnitManager.AddUnit(std::make_unique<boss_chaosknight>());
 	m_UnitManager.AddUnit(std::make_unique<boss_borealjuggernaut>());
 	m_UnitManager.AddUnit(std::make_unique<boss_andromeda>());
-	m_UnitManager.AddUnit(std::make_unique<boss_antiswarm>());
+	//m_UnitManager.AddUnit(std::make_unique<boss_antiswarm>());
 	m_UnitManager.AddUnit(std::make_unique<boss_cindera>());
-	m_UnitManager.AddUnit(std::make_unique<boss_crystal>());
-	m_UnitManager.AddUnit(std::make_unique<boss_kron>());
+	//m_UnitManager.AddUnit(std::make_unique<boss_crystal>());
+	//m_UnitManager.AddUnit(std::make_unique<boss_kron>());
 	m_UnitManager.AddUnit(std::make_unique<boss_emp>());
 	m_UnitManager.AddUnit(std::make_unique<boss_invader>());
 	m_UnitManager.AddUnit(std::make_unique<boss_harmony>());
 
 	m_UnitManager.ScaleAllUnits(1.5f,1.5f);
-	m_UnitManager.SetFrameTimeAll(0.035f);
+	m_UnitManager.SetFrameTimeAll(0.020f);
 
 	for (int i{1}; i <= m_UnitManager.GetUnitCount(); ++i)
 	{
@@ -87,8 +87,11 @@ void Game::Initialize()
 
 
 	// FIX debug code
-	for (int i{}; i < m_UnitManager.GetUnitCount() ;++i)
+	for (int i{1}; i <= m_UnitManager.GetUnitCount() ;++i)
 	{
+		Unit* unitPtr = m_UnitManager.GetUnit(i);
+		Point2f tpPos{abs(unitPtr->GetHitBox().left),abs(unitPtr->GetHitBox().bottom)};
+		//m_UnitManager.TeleportTo(i,tpPos);
 		m_UnitManager.PlaceOnGrid(i,-1,true);
 	}
 	 
@@ -176,7 +179,7 @@ void Game::Update(float elapsedSec)
 void Game::UpdateTextures()
 {
 	int m_FPS = int((float)m_RenderedFrames / m_Time->GetTime());
-	m_FPSCounter = std::make_unique<Texture>("FPS: " + std::to_string(m_FPS),"../Resources/Fonts/consola.ttf",16,Color4f{0,0,0,1}); // Has to be better
+	m_FPSCounter = std::make_unique<Texture>("FPS: " + std::to_string(m_FPS),"../Resources/Fonts/consola.ttf",16,Color4f{0,0,0,1}); // Not clean
 
 	UpdatePausedText();
 	m_SandboxBattler->UpdateTextures();
@@ -210,6 +213,15 @@ void Game::PushCameraMatrix() const
 void Game::Draw() const
 {
 	ClearBackground();
+	glPushMatrix();
+
+	// This could work as a zoom
+	// Camera movement can still be separate or ignored
+	// It seems to work perfectly, only issue being mouse position reading (which should be easy to fix by using scale somewhere in mouse reading)
+	glTranslatef(GetViewPort().width/2.0f,GetViewPort().height/2.0f,0);
+	glScalef(1.0f,1.0f,0);
+	glTranslatef(-GetViewPort().width / 2.0f,-GetViewPort().height / 2.0f,0);
+	//
 	m_MapManager.DrawLayerType(LayerType::Background);
 	m_MapManager.DrawLayerType(LayerType::Midground);
 	glPushMatrix();
@@ -227,6 +239,7 @@ void Game::Draw() const
 	glPopMatrix();
 
 	m_MapManager.DrawLayerType(LayerType::Foreground);
+	glPopMatrix();
 	DrawUI();
 }
 
@@ -253,23 +266,9 @@ void Game::DrawPausedText() const
 
 void Game::ProcessKeyDownEvent(const SDL_KeyboardEvent& e)
 {
-	// It's kind of an overkill to check all letters everytime when I am using like 20% of them
-	// Also makes it so the switch is annoying to search through // FIX ? (in keyUp too)
 	switch (e.keysym.sym)
 	{
 	case SDLK_q:
-
-		break;
-	case SDLK_w:
-
-		break;
-	case SDLK_e:
-
-		break;
-	case SDLK_r:
-
-		break;
-	case SDLK_t:
 
 		break;
 	case SDLK_y:
@@ -288,49 +287,7 @@ void Game::ProcessKeyDownEvent(const SDL_KeyboardEvent& e)
 	case SDLK_p:
 		Pause();
 		break;
-	case SDLK_a:
-
-		break;
-	case SDLK_s:
-
-		break;
-	case SDLK_d:
-
-		break;
-	case SDLK_f:
-
-		break;
-	case SDLK_g:
-
-		break;
-	case SDLK_h:
-
-		break;
-	case SDLK_j:
-
-		break;
-	case SDLK_k:
-
-		break;
-	case SDLK_l:
-
-		break;
 	case SDLK_z:
-
-		break;
-	case SDLK_x:
-
-		break;
-	case SDLK_c:
-
-		break;
-	case SDLK_v:
-
-		break;
-	case SDLK_b:
-
-		break;
-	case SDLK_n:
 
 		break;
 	case SDLK_m:
@@ -368,74 +325,6 @@ void Game::ProcessKeyUpEvent(const SDL_KeyboardEvent& e)
 	switch (e.keysym.sym)
 	{
 	case SDLK_q:
-		// FIX OR DELETE
-		// // Left for potential testing for now
-		//m_TestUA->Play("idle");
-		break;
-	case SDLK_w:
-		//m_TestUA->Play("attack");
-		break;
-	case SDLK_e:
-		//m_TestUA->Play("breathing");
-		break;
-	case SDLK_r:
-		//m_TestUA->Play("death");
-		break;
-	case SDLK_t:
-		//m_TestUA->Play("hit");
-		break;
-	case SDLK_y:
-		//m_TestUA->Play("run");
-		break;
-	case SDLK_u:
-
-		break;
-	case SDLK_i:
-
-		break;
-	case SDLK_o:
-
-		break;
-	case SDLK_p:
-	
-		break;
-	case SDLK_a:
-
-		break;
-	case SDLK_s:
-
-		break;
-	case SDLK_d:
-
-		break;
-	case SDLK_f:
-
-		break;
-	case SDLK_g:
-
-		break;
-	case SDLK_h:
-
-		break;
-	case SDLK_j:
-
-		break;
-	case SDLK_k:
-
-		break;
-	case SDLK_l:
-
-		break;
-	case SDLK_z:
-
-		break;
-	case SDLK_x:
-
-		break;
-	case SDLK_c:
-
-		break;
-	case SDLK_v:
 
 		break;
 	case SDLK_b:
@@ -460,18 +349,12 @@ void Game::ProcessMouseMotionEvent(const SDL_MouseMotionEvent& e)
 {
 	m_LastMousePos = Point2f{ float(e.x),float(e.y) };
 
-	// FIX add here and in mouse up and down a check for mouse and units/ui and shit
-	// Then change mouse State accordingly
-
-
-
-
 	m_MouseManager.OnMouseMotion(m_LastMousePos);
 	m_SandboxBattler->OnMouseMotion(m_LastMousePos);
 	m_UnitManager.OnMouseMotion(m_LastMousePos);
 
-
-	// FIX well, yeah, this sucks xD
+	// This could probably be better :v
+	// Mouse Sprite
 	if (m_UnitManager.GetHoverAlly())
 	{
 		m_MouseManager.SetMouseState(MouseState::HoverAlly);
@@ -480,7 +363,11 @@ void Game::ProcessMouseMotionEvent(const SDL_MouseMotionEvent& e)
 	{
 		m_MouseManager.SetMouseState(MouseState::HoverEnemy);
 	}
-	else if(m_UnitManager.IsAnySelected())
+	else if (m_UnitManager.GetHoverGround())
+	{
+		m_MouseManager.SetMouseState(MouseState::Move);
+	}
+	else if (m_UnitManager.IsAnySelected())
 	{
 		m_MouseManager.SetMouseState(MouseState::Selected);
 	}

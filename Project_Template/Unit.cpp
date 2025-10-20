@@ -1,5 +1,6 @@
 #include "Unit.h"
 
+
 Unit::Unit(std::string unitName,UnitType type, Transform transform,Stats baseStats, Color4f color)
     :m_Type{type}
     ,m_Target{nullptr}
@@ -20,9 +21,10 @@ Unit::Unit(std::string unitName,UnitType type, Transform transform,Stats baseSta
     ,m_UnitAnimatorLoadedCorrectly{true}
     ,m_TeamNumber{0}
     ,m_SelectionRect{}
+    ,m_IsMoving{false}
 
 {
-    
+    using namespace PrettyColors;
     if (GameResources::m_AtlasManager.GetAtlas(unitName)->name != unitName)
     {
         m_UnitAnimatorLoadedCorrectly = false;
@@ -43,11 +45,17 @@ Unit::Unit(std::string unitName,UnitType type, Transform transform,Stats baseSta
         }
     };
 
+    // DEBUG for testing 
+    Stats temp = GetStats();
+    temp.m_CurrentHealth = 10;
+    temp.m_MaxHealth = 7;
+    temp.m_CurrentDamage = 3;
+    SetStats(temp);
 
-    // FIX (debug purpose)
-    m_Animator->Play("breathing");
-    //
-
+    m_AttackUiNumber = std::make_unique<Texture>("Attack","../Resources/Fonts/consola.ttf",24,GetColor(white));
+    m_HealthUiNumber = std::make_unique<Texture>("Health","../Resources/Fonts/consola.ttf",24,GetColor(white));
+    UpdateHealthTexture();
+    UpdateAttackTexture();
 }
 
 Unit::~Unit()
@@ -60,15 +68,22 @@ void Unit::Draw() const
 {
     using namespace utils;
     using namespace PrettyColors;
-    m_Transform.Push();
-    m_Transform.Apply();
 
     glPushMatrix();
-    glTranslatef(m_HitBoxWidth / 2.0f,m_HitBoxWidth/2.0f, 0); // Translate to offset initial Unit to origin translate
+    m_Transform.Translate();
+    glTranslatef(m_HitBoxWidth/2.0f*abs(m_Transform.scale.x),
+        15.0f * abs(m_Transform.scale.y),0);
+    glScalef(abs(m_Transform.scale.x),abs(m_Transform.scale.y),0.0f);
     glScalef(0.5f,0.5f,0.0f);
     glTranslatef(-m_CircleShadow->GetWidth() / 2.0f,-m_CircleShadow->GetHeight() / 2.0f,0);
     m_CircleShadow->Draw();
     glPopMatrix();
+
+    m_Transform.Push();
+
+    m_Transform.MoveFromOrigin();
+    m_Transform.Apply();
+    m_Transform.MoveToOrigin();
 
     if (m_UnitAnimatorLoadedCorrectly)
     {
@@ -87,79 +102,91 @@ void Unit::Draw() const
 
     }
     m_Transform.Pop();
-    // Has to be outside since unit flips and UI doesn't
-    DrawUi();
 
 }
 void Unit::DrawUi() const
 {
-    glPushMatrix();
-    // General transform
-    float offsetY{-10.0f};
-    // FIX FIX FIX, very hacky, either refactor Transform to now have such hacky code in Apply or give it a helper (to give translate or fix it or smth)
-    // It might be pretty good actually, but I can improve it greatly:
-    
-    // Code from transform:
-    // 
- 
-    // I could add a "MoveFromOrigin()" here (would be the removed hitbox translate from line bellow)
- /*   glTranslatef(position.x + (hitboxWidth / 2.0f * abs(scale.x) + (offsetX * abs(scale.x))) // Here I could remove the hitbox translate
-        ,position.y + (hitboxHeight / 2.0f * abs(scale.y) + (offsetY * abs(scale.y))),0);
-    glScalef(scale.x,scale.y,0);
-    glRotatef(angle,0,0,1);
+    // General
+    float sidewaysOffset{25.0f};
+    float downOffset{5.0f};
+    float uiScale{0.35f};
+    // Numbers UI
+    float numberUIOffset{23.0f};
+    float multipliedOffset{numberUIOffset/3.2f};
+    float upOffsetNumber{21.0f};
 
-    glTranslatef(-hitboxWidth / 2.0f,-hitboxHeight / 2.0f,0);*/ // This line can be "MoveToOrigin();
-
-
-    // So transforming a unit would be:
-    // ( READ BOTTOM UP )
-    // 
-    // MoveFromOrigin(); // Fixes initial MoveToOrigin() (just Move to origin but opposite numbers)
-    // m_Transform.Apply(); // rotation scale and moving it to target position (but translate would be too small which is fixed above)
-    // MoveToOrigin();   (glTranslatef(-hitboxWidth / 2.0f,-hitboxHeight / 2.0f,0);)
-
-
-    // Then if I want something like Attack UI
-    // (bottom up)
-    // 
-    // I would be able to do:
-    // 
-    // glPushMatrix();
-    // Translate to position (Position relative to parent, since Apply was used before)
-    // m_Transform.Apply(); (Scales, rotates and moves the same as the "parent" (Unit, here)
-    // Scale (so I can adjust it's own size)
-    // Translate to origin
-    // glPopMatrix();
-
-    //
-
-    glTranslatef(m_Transform.position.x + (0.0f * abs(m_Transform.scale.x))
-        ,m_Transform.position.y + (offsetY * abs(m_Transform.scale.y)),0);
-
+    // ATTACK UI
         glPushMatrix();
-            glTranslatef(-m_HitBoxWidth / 4.0f,0.0f,0);
-            glScalef(0.5f,0.5f,0.0f);
+            glTranslatef(-sidewaysOffset,-downOffset,0);
+            // Unit translates:
+            glTranslatef(m_HitBoxWidth / 2.0f * abs(m_Transform.scale.x),
+                15.0f * abs(m_Transform.scale.y),0);
+            m_Transform.Translate();
+            glScalef(abs(m_Transform.scale.x),abs(m_Transform.scale.y),0.0f);
+            //
+            glScalef(uiScale,uiScale,0.0f);
             glTranslatef(-m_AttackUi->GetWidth() / 2.0f,-m_AttackUi->GetHeight() / 2.0f,0);
             m_AttackUi->Draw();
-        glPopMatrix();
 
         glPushMatrix();
-            glTranslatef(m_HitBoxWidth / 4.0f,0.0f,0);
-            glScalef(0.5f,0.5f,0.0f);
-            glTranslatef(-m_HealthUi->GetWidth() / 2.0f,-m_HealthUi->GetHeight() / 2.0f,0);
-            m_HealthUi->Draw();
+
+        // Count digits to center text
+        int numAtk{m_Stats.m_CurrentDamage};
+        int lengthAtk{0};
+        if (numAtk < 0) numAtk *= -1;
+        for (int temp{numAtk}; temp > 0; temp /= 10)
+        {
+            ++lengthAtk;
+        }
+        if (numAtk == 0) lengthAtk = 1;
+
+        glTranslatef((sidewaysOffset / 2.0f)+ numberUIOffset - (multipliedOffset * float(lengthAtk)),upOffsetNumber,0);
+        m_AttackUiNumber->Draw();
         glPopMatrix();
 
-   
+        glPopMatrix();
+
     //
+        
+    // HEALTH UI
+        glPushMatrix();
+            glTranslatef(sidewaysOffset,-downOffset,0);
+            // Unit translates:
+            glTranslatef(m_HitBoxWidth / 2.0f * abs(m_Transform.scale.x),
+                15.0f * abs(m_Transform.scale.y),0);
+            m_Transform.Translate();
+            glScalef(abs(m_Transform.scale.x),abs(m_Transform.scale.y),0.0f);
+            //
+            glScalef(uiScale,uiScale,0.0f);
+            glTranslatef(-m_HealthUi->GetWidth() / 2.0f,-m_HealthUi->GetHeight() / 2.0f,0);
+            m_HealthUi->Draw();
+
+    glPushMatrix();
+
+    // Count digits to center text
+    int numHP{m_Stats.m_CurrentHealth};
+    int lengthHP{0};
+    if (numHP < 0) numHP *= -1;
+    for (int temp{numHP}; temp > 0; temp /= 10)
+    {
+        ++lengthHP;
+    }
+    if (numHP == 0) lengthHP = 1;
+
+    glTranslatef(sidewaysOffset/2.0f + numberUIOffset - (multipliedOffset * float(lengthHP)),upOffsetNumber,0);
+    m_HealthUiNumber->Draw();
     glPopMatrix();
+        glPopMatrix();
+
+    //
 }
 void Unit::DrawHighlight() const
 {
     using namespace utils;
     using namespace PrettyColors;
     m_Transform.Push(); 
-    m_Transform.Apply();
+    m_Transform.Translate();
+    glScalef(abs(m_Transform.scale.x),abs(m_Transform.scale.y),0.0f);
 
     Color4f highLight{GetColor(green)};
     // highLight.a = 1.0f;
@@ -201,12 +228,11 @@ void Unit::Update(float elapsedTime)
         // Finished attack anim
         if (m_Animator->GetCurrentAnimation() != "attack")
         {
-            m_Target->TakeDamage(m_Stats.m_Damage);
+            m_Target->TakeDamage(m_Stats.m_CurrentDamage);
             m_Target = nullptr;
             m_IsAttacking = false;
         }
     }
-
     m_Animator->Update(elapsedTime);
 }
 
@@ -223,9 +249,10 @@ void Unit::MoveTo(Point2f destination)
 }
 //
 
+// Probably a confusing name, why return bool?
 bool Unit::MoveTowardsDestination(Point2f destination, float elapsedTime)
 {
-    float xTolerance{5.0f};
+    float xTolerance{2.0f};
     if (m_Destination.x != destination.x || m_Destination.y != destination.y)
     {
         m_Animator->Play("run");
@@ -243,17 +270,19 @@ bool Unit::MoveTowardsDestination(Point2f destination, float elapsedTime)
         m_Destination = destination;
     }
     Vector2f direction{destination - m_Transform.position};
-    float tolerance{5.0f};
+    float tolerance{2.0f};
 
     // Arrived at destination
     if (std::abs(direction.x) < tolerance && std::abs(direction.y) < tolerance)
     {
         m_Animator->Play("breathing");
+        m_IsMoving = false;
         return true;
     }
 
     direction = direction.Normalized();
     m_Transform.position += direction *float(m_Stats.m_MoveSpeed) * elapsedTime;
+    m_IsMoving = true;
     return false; 
 
 }
@@ -269,6 +298,8 @@ void Unit::ApplyDebuff(std::unique_ptr<Effect> debuff)
 void Unit::TakeDamage(int amount)
 {
    m_IsAlive = m_Stats.TakeDamage(amount);
+
+   UpdateHealthTexture();
 
    if (!m_IsAlive)
    {
@@ -373,4 +404,44 @@ void Unit::LoadTextures()
 
     // actual shadow (later)
 
+}
+void Unit::PlayAnim(std::string animName)
+{
+    m_Animator->Play(animName);
+}
+void Unit::UpdateAttackTexture()
+{
+    using namespace PrettyColors;
+    int pixelSize{24};
+    int currentAttack = m_Stats.m_CurrentDamage;
+    Color4f attackColor{GetColor(white)};
+
+    if (m_Stats.m_CurrentDamage > m_Stats.m_InitialDamage)
+    {
+        attackColor = GetColor(green);
+    }
+
+    m_AttackUiNumber = std::make_unique<Texture>(std::to_string(currentAttack),"../Resources/Fonts/consola.ttf",pixelSize,attackColor);
+}
+void Unit::UpdateHealthTexture()
+{
+    using namespace PrettyColors;
+    int pixelSize{24};
+    int currentHP = m_Stats.m_CurrentHealth;
+    Color4f healthColor{GetColor(white)};
+
+    if (m_Stats.m_CurrentHealth < m_Stats.m_MaxHealth)
+    {
+        healthColor = GetColor(red);
+    }
+    else if (m_Stats.m_CurrentHealth > m_Stats.m_MaxHealth)
+    {
+        healthColor = GetColor(green);
+    }
+
+    m_HealthUiNumber = std::make_unique<Texture>(std::to_string(currentHP),"../Resources/Fonts/consola.ttf",pixelSize,healthColor);
+}
+bool Unit::IsMoving() const
+{
+    return m_IsMoving;
 }

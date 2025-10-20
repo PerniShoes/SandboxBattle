@@ -37,7 +37,7 @@ public:
 	void OnRightButtonDown();
 	void OnMouseMotion(const Point2f& mousePos);
 
-	void DeSellectAll(); // Debug FIX
+	void DeSellectAll(); // Debug
 	
 	void IssueCommand(Unit* unit,CommandPtr command);
 	void EnableQueuing();
@@ -48,9 +48,12 @@ public:
 	int GetUnitCount() const;
 	void ScaleAllUnits(float x, float y);
 
+	// Probably could be better:
 	bool IsAnySelected() const;
 	bool GetHoverAlly() const;
 	bool GetHoverEnemy() const;
+	bool GetHoverGround() const;
+	//
 	Unit* GetUnit(int unitIndex,bool lastAdded = false) const;
 
 	void SetFrameTimeAll(float frameTimeTarget);
@@ -59,6 +62,7 @@ private:
 
 	Point2f m_LastMousePos;
 	bool m_QueuingEnabled;
+	Rectf m_ScreenRect;
 
 	std::vector<Unit*> m_SelectedUnits;
 	std::vector<std::unique_ptr<Unit>> m_Units;
@@ -67,50 +71,18 @@ private:
 
 	bool m_HoverEnemy;
 	bool m_HoverAlly;
+	bool m_HoverGround;
 
+	int m_TilesPerRow;
+	int m_TilesPerColumn;
 	std::unique_ptr<Grid> m_Grid;
 	std::vector<bool> m_TilesTaken; // FIX just for debug, later has to support checking if enemy is on tile or ally etc.
 
-	// FIX FIX FIX FIX FIX FIX FIX FIX FIX FIX FIX FIX Can sort based on tiles instead of Y
-	// Should be called every few/dozen or so frames (since units don't move THAT fast anyways)
-	// Sorts Units by Y coordinate and UnitType (flying) in order to draw units from back to front
+	// Can sort based on tiles instead of Y
+	// Called after a unit moves
+	// Sorts Units by Y coordinate in order to draw units from back to front
 
-	std::vector<std::unique_ptr<Unit>> bucketSortByTypeAndY(std::vector<std::unique_ptr<Unit>>& units,int screenHeight)
-	{
-		int bucketCount = screenHeight / 5 + 1;
-
-		std::vector<std::vector<std::unique_ptr<Unit>>> groundBuckets(bucketCount);
-		std::vector<std::vector<std::unique_ptr<Unit>>> airBuckets(bucketCount);
-
-		for (auto& u : units)
-		{
-			int index = int(u->GetTransform().position.y / 5);
-			if (u->GetType() == UnitType::ground)
-			{
-				groundBuckets[index].push_back(std::move(u));
-			}
-			else
-			{ 
-				airBuckets[index].push_back(std::move(u));
-			}
-		}
-
-		std::vector<std::unique_ptr<Unit>> sorted;
-		for (int i = bucketCount - 1; i >= 0; --i)
-		{
-			for (auto& u : groundBuckets[i])
-			{
-				sorted.push_back(std::move(u));
-			}
-		}
-		for (int i = bucketCount - 1; i >= 0; --i)
-		{
-			for (auto& u : airBuckets[i])
-			{
-				sorted.push_back(std::move(u));
-			}
-		}
-		return sorted;
-	}
+	void BucketSortByY(std::vector<std::unique_ptr<Unit>>& units);
+	
 };
 

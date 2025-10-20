@@ -130,7 +130,7 @@ void MapManager::LoadMapTextures()
             {
                 layer.texture = std::make_unique<Texture>(layer.path);
                 // Read size
-                // FIX, not needed cast, or maybe it's future proof? Hmmm
+                // Future proof cast? not sure about it
                 layer.originalSize.x = static_cast<float>(layer.texture->GetWidth());
                 layer.originalSize.y = static_cast<float>(layer.texture->GetHeight());
                 layer.transform.hitboxHeight = static_cast<float>(layer.texture->GetHeight());
@@ -153,8 +153,6 @@ void MapManager::LoadMapTextures()
     }
 }
 
-// FIX FIX FIX, this has to be adjusted, first of, too many if's, second off, it doesn't use transform correctly to translate
-// Besides first if, the rest seemd pretty okay (before testing)
 Rectf MapManager::GetLayerSrcRect(const MapLayer& layer) const
 {
     float w = layer.originalSize.x;
@@ -235,7 +233,9 @@ void MapManager::DrawLayerType(LayerType type) const
         Rectf src = GetLayerSrcRect(layer);
 
         layer.transform.Push();  
+        layer.transform.MoveFromOrigin();
         layer.transform.Apply();
+        layer.transform.MoveToOrigin();
 
         layer.texture->Draw(src);
         

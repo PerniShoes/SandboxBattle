@@ -4,8 +4,8 @@ UnitAnimator::UnitAnimator(Atlas* atlas,std::unique_ptr<Texture> texture)
     :atlas{atlas},texture{std::move(texture)}
 {
     // Set any frame as deafult (since all frames have same sizes for one unit
-    current = &(atlas->animations.find("idle")->second);
-    currentAnimPlaying = "idle";
+    current = &(atlas->animations.find("breathing")->second);
+    currentAnimPlaying = "breathing";
 }
 
 void UnitAnimator::Play(const std::string actionName)

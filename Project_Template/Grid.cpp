@@ -26,7 +26,20 @@ void Grid::SetTileOffset(Point2f tileOffset)
 
 void Grid::InitializeGrid(int tilesPerRow,int tilesPerCol,Point2f tileSize)
 {
+    // !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!      CAUTION     !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!! 
+    // !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!! WHEN REFACTORING !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+    // This **WILL** crash if changed carelessly 
+    // 
+    // 1. The code bellow works based on the assumption that tiles are drawn:
+    // left -> right
+    // bottom -> top
+    // So, first (very bottom) row is drawn first, then the second one, etc.
+    
+    // 2. Vertex order matters (changing the order, won't crash but will result in very weird drawings)
 
+    // 3. It also assumes each tile (and space between them) has *at least* 4 vertices, will crash if less, won't work if more xD
+    // Will FIX the issue above ^
+  
     int totalTiles = tilesPerRow * tilesPerCol;
 
     float accumulatedHeightOffset{0.0f};
@@ -64,7 +77,8 @@ void Grid::InitializeGrid(int tilesPerRow,int tilesPerCol,Point2f tileSize)
             tempTopLeft.y += tempHeight;
             Point2f vertexTopLeft{tempTopLeft};
 
-            // Push them into vertices
+            // ORDER MATTERS
+            // BL, BR, TR, TL
             temp.vertices.push_back(vertexBottomLeft);
             temp.vertices.push_back(vertexBottomRight);
             temp.vertices.push_back(vertexTopRight);
@@ -75,7 +89,40 @@ void Grid::InitializeGrid(int tilesPerRow,int tilesPerCol,Point2f tileSize)
             tempCenter.x += tileSize.x / 2.0f;
             tempCenter.y += tempHeight / 2.0f;
             temp.tileCenter = tempCenter;
- 
+
+            // Setup spacing on the left and bellow
+            if (indexCol > 0)
+            {
+                Tile& leftTile = m_Tiles[m_Tiles.size() - 1];
+                // ORDER MATTERS
+                // BL, BR, TR, TL
+
+                // Bottom left vertex = bottom right vertex of the tile on the left
+                temp.spacingOnLeftVertices.push_back(leftTile.vertices[1]);
+                // BR
+                temp.spacingOnLeftVertices.push_back(temp.vertices[0]);
+                // TR
+                temp.spacingOnLeftVertices.push_back(temp.vertices[3]);
+                // TL
+                temp.spacingOnLeftVertices.push_back(leftTile.vertices[2]);
+            }
+
+            if (indexRow > 0)
+            {
+                Tile& bottomTile = m_Tiles[(indexRow - 1) * tilesPerCol + indexCol];
+                // ORDER MATTERS
+                // BL, BR, TR, TL
+
+                // BL
+                temp.spacingBellowVertices.push_back(bottomTile.vertices[3]);
+                // BR
+                temp.spacingBellowVertices.push_back(bottomTile.vertices[2]);
+                // TR
+                temp.spacingBellowVertices.push_back(temp.vertices[1]);
+                // TL
+                temp.spacingBellowVertices.push_back(temp.vertices[0]);
+            }
+
             m_Tiles.push_back(temp);
         }
     }
@@ -87,17 +134,38 @@ void Grid::DrawGrid()const
     using namespace PrettyColors;
 
     Color4f gridColor{GetColor(black)};
-    gridColor.a = 0.2f;
+    gridColor.a = 0.2f; // 0.2f orignal
     SetColor(gridColor);
 
     for (auto& tile : m_Tiles)
     {
+        SetColor(gridColor);
         FillPolygon(tile.vertices);
+
+        if (tile.spacingOnLeftVertices.size() != 0) 
+        {
+            SetColor(GetColor(green));
+            FillPolygon(tile.spacingOnLeftVertices);
+        }
+
+        if (tile.spacingBellowVertices.size() != 0)
+        {
+            SetColor(GetColor(red));
+            FillPolygon(tile.spacingBellowVertices);
+        }
     }
 
+    // If there are any
+    DrawHighlighted();
 
 }
-int Grid::IsMouseInTile(Point2f mousePos)
+void Grid::DrawHighlighted() const
+{
+    // Check if there are any
+
+}
+
+int Grid::GetHoverTileId(Point2f mousePos)
 {
     for (int i{0};i<int(m_Tiles.size());++i)
     {
@@ -119,4 +187,49 @@ Point2f Grid::GetTileCenter(int tileIndex)
 int Grid::GetTileAmount() const
 {
     return int(m_Tiles.size());
+}
+
+void Grid::HighlightReachableTiles(std::vector<int> reachableTilesIds)
+{
+    using namespace utils;
+    using namespace PrettyColors;
+
+    // Call once per unit select
+
+    int neighbourId{0};
+    auto itterator = std::find(reachableTilesIds.begin(),reachableTilesIds.end(),neighbourId);
+
+    // ORDER MATTERS
+    // BL, BR, TR, TL
+
+
+    // Get ids of all reachable tiles (with your calc method of going max range one dir, then 0 up, 
+    // max range -1 one dir, then 1 up and so on, checking if an obstacle is in a tile
+
+
+    // One by one, calc Rects (or polygons rather), check if it has a neighbor on left or bellow
+    // On a side there is a neighbour -> "fill" the spacing
+     
+    // If there is no neighbour on a side -> draw edge (later will have to extend edges to connect, 
+    // probably just drawing up/down half the missing distance for each)
+
+
+    // Polish
+    // Check if a tile has neighbours on left + down + downLeft diagonal. If so, fill the gap between those four 
+    // This might cause issues with overlap and alpha, if so, you can adjust spacingVertices to fill the gaps instead
+    // either here or have some "one time call" func that sets this up after creating them
+
+
+    // Store all calcutaions
+
+    
+}
+void Grid::UnHighlightTiles()
+{
+
+}
+
+bool Grid::IsValidTileId(int tileIndex) const
+{
+    return tileIndex < int(m_Tiles.size()) && tileIndex >= 0;
 }

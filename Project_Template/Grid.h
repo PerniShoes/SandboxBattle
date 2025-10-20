@@ -4,8 +4,16 @@
 
 struct Tile
 {
+    // Order of verticies in the vectors
+    // BottomLeft, BR, TR, TL
+    // FIX 
+    // Should use storage with names, instead of having to remember the order, 
+    // also makes it unsafe if the amount of vertices changes to less than 4
+
     std::vector<Point2f> vertices;
     Point2f tileCenter;
+    std::vector<Point2f> spacingOnLeftVertices;
+    std::vector<Point2f> spacingBellowVertices;
 };
 
 class Grid final
@@ -20,13 +28,14 @@ public:
 
     void InitializeGrid(int tilesPerRow,int tilesPerCol,Point2f tileSize);
     void DrawGrid()const;
+    void DrawHighlighted()const;
     Point2f GetTileCenter(int tileIndex);
-    // Returns tile index or -1 on false 
-    int IsMouseInTile(Point2f mousePos);
+    int GetHoverTileId(Point2f mousePos);
     int GetTileAmount() const;
+    bool IsValidTileId(int tileIndex) const;
+    void HighlightReachableTiles(std::vector<int> reachableTilesIds);
+    void UnHighlightTiles();
 
-
-    // Point2f GetTileCenter(int tileIndex);
     void SetTileOffset(Point2f tileOffset);
 
 private:

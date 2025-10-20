@@ -35,6 +35,8 @@ public:
     void DrawUi() const;
     void DrawHighlight()const;
     virtual void Update(float elapsedTime);
+    void UpdateAttackTexture();
+    void UpdateHealthTexture();
 
     bool MoveTowardsDestination(Point2f destination,float elapsedTime);
     void MoveTo(Point2f destination);
@@ -57,8 +59,9 @@ public:
     void ApplyDebuff(std::unique_ptr<Effect> debuff);
     void Scale(float x,float y);
     void SetFrameTime(float frameTimeTarget);
-
-    // ORGANIZE ALL NOT USED STUFF SINCE A LOT OF CHANGED, ALSO HAD SCALING  FIX FIX
+    void PlayAnim(std::string animName);
+    bool IsMoving() const;
+    // ORGANIZE, quite a but of not used stuff LATER
 protected:
 
     UnitType m_Type;
@@ -75,7 +78,7 @@ protected:
     bool m_FacingLeft;
     int m_TeamNumber;
     Rectf m_SelectionRect;
-    
+    bool m_IsMoving;
 
     // TODO // Might be scracthed
     std::vector<std::unique_ptr<Effect>>m_Buffs;
@@ -86,7 +89,9 @@ protected:
     bool m_UnitAnimatorLoadedCorrectly;
 
     std::unique_ptr<Texture>m_AttackUi;
+    std::unique_ptr<Texture>m_AttackUiNumber;
     std::unique_ptr<Texture>m_HealthUi;
+    std::unique_ptr<Texture>m_HealthUiNumber;
     std::unique_ptr<Texture>m_CircleShadow;
 
 

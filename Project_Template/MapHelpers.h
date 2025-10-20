@@ -5,8 +5,6 @@
 struct MapLayer;
 class MapManager; 
 
-// EXPLAIN THIS FIX
-// ALL OF IT XD
 namespace MapHelpers
 {
 

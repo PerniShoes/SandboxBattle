@@ -61,10 +61,6 @@ private:
 
 
 
-	// Check FIX and DELETE every now and then
-
-
-
 	// Default Game members:
 	std::unique_ptr<SandboxBattler> m_SandboxBattler; // Project
 	const Window m_Window;
@@ -82,7 +78,7 @@ private:
 	bool m_AltHeld;
 	bool m_LeftClickHeld;
 	
-	// Camera testing: (Make a class for Camera) FIX
+	// Camera testing: (Make a class for Camera) 
 	void PushCameraMatrix() const;
 	Rectf m_CameraPos{};
 
