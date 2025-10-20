@@ -28,14 +28,20 @@
     <Filter Include="Effects">
       <UniqueIdentifier>{6c729534-c0dd-4487-b5e0-a69ce1276512}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Unit Files">
-      <UniqueIdentifier>{13689384-eea8-4d97-bd36-7a600a766d87}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Unit Files\Units implemented">
-      <UniqueIdentifier>{74d052e3-276d-4205-8880-5fc8f18f1d1e}</UniqueIdentifier>
-    </Filter>
     <Filter Include="SystemsManagers">
       <UniqueIdentifier>{e03f4918-723f-461a-aa0f-e9f28a9ad41b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Unit files">
+      <UniqueIdentifier>{2ae45ab3-5e0b-4094-91c2-9b70afad05b8}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Unit files\boss">
+      <UniqueIdentifier>{0829bd91-1f84-4a11-84b1-79f40b43564a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Unit files\critter">
+      <UniqueIdentifier>{84cc7d75-9ccc-4d11-a30b-6ba8f1926323}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Unit files\f1">
+      <UniqueIdentifier>{880f4cec-d4b6-4f87-b63b-c33b903199e8}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -78,48 +84,6 @@
     <ClCompile Include="BurningEf.cpp">
       <Filter>Effects</Filter>
     </ClCompile>
-    <ClCompile Include="UnitManager.cpp">
-      <Filter>Unit Files</Filter>
-    </ClCompile>
-    <ClCompile Include="UnitAnimator.cpp">
-      <Filter>Unit Files</Filter>
-    </ClCompile>
-    <ClCompile Include="Unit.cpp">
-      <Filter>Unit Files</Filter>
-    </ClCompile>
-    <ClCompile Include="boss_spelleater.cpp">
-      <Filter>Unit Files\Units implemented</Filter>
-    </ClCompile>
-    <ClCompile Include="boss_wraith.cpp">
-      <Filter>Unit Files\Units implemented</Filter>
-    </ClCompile>
-    <ClCompile Include="boss_vampire.cpp">
-      <Filter>Unit Files\Units implemented</Filter>
-    </ClCompile>
-    <ClCompile Include="boss_soulstealer.cpp">
-      <Filter>Unit Files\Units implemented</Filter>
-    </ClCompile>
-    <ClCompile Include="boss_solfist.cpp">
-      <Filter>Unit Files\Units implemented</Filter>
-    </ClCompile>
-    <ClCompile Include="boss_shinkagezendo.cpp">
-      <Filter>Unit Files\Units implemented</Filter>
-    </ClCompile>
-    <ClCompile Include="boss_skurge.cpp">
-      <Filter>Unit Files\Units implemented</Filter>
-    </ClCompile>
-    <ClCompile Include="boss_skyfalltyrant.cpp">
-      <Filter>Unit Files\Units implemented</Filter>
-    </ClCompile>
-    <ClCompile Include="boss_sandpanther.cpp">
-      <Filter>Unit Files\Units implemented</Filter>
-    </ClCompile>
-    <ClCompile Include="boss_serpenti.cpp">
-      <Filter>Unit Files\Units implemented</Filter>
-    </ClCompile>
-    <ClCompile Include="boss_shadowlord.cpp">
-      <Filter>Unit Files\Units implemented</Filter>
-    </ClCompile>
     <ClCompile Include="MouseManager.cpp">
       <Filter>Helpers</Filter>
     </ClCompile>
@@ -128,6 +92,354 @@
     </ClCompile>
     <ClCompile Include="MapHelpers.cpp">
       <Filter>SystemsManagers</Filter>
+    </ClCompile>
+    <ClCompile Include="Unit_Files\f1\f1_3rdgeneral.cpp">
+      <Filter>Unit files\f1</Filter>
+    </ClCompile>
+    <ClCompile Include="Unit_Files\f1\f1_altgeneral.cpp">
+      <Filter>Unit files\f1</Filter>
+    </ClCompile>
+    <ClCompile Include="Unit_Files\f1\f1_altgeneraltier2.cpp">
+      <Filter>Unit files\f1</Filter>
+    </ClCompile>
+    <ClCompile Include="Unit_Files\f1\f1_archdeacon.cpp">
+      <Filter>Unit files\f1</Filter>
+    </ClCompile>
+    <ClCompile Include="Unit_Files\f1\f1_auroralioness.cpp">
+      <Filter>Unit files\f1</Filter>
+    </ClCompile>
+    <ClCompile Include="Unit_Files\f1\f1_azuritelion.cpp">
+      <Filter>Unit files\f1</Filter>
+    </ClCompile>
+    <ClCompile Include="Unit_Files\f1\f1_baastchampion.cpp">
+      <Filter>Unit files\f1</Filter>
+    </ClCompile>
+    <ClCompile Include="Unit_Files\f1\f1_backlinearcher.cpp">
+      <Filter>Unit files\f1</Filter>
+    </ClCompile>
+    <ClCompile Include="Unit_Files\f1\f1_bromemk2.cpp">
+      <Filter>Unit files\f1</Filter>
+    </ClCompile>
+    <ClCompile Include="Unit_Files\f1\f1_buildcommon.cpp">
+      <Filter>Unit files\f1</Filter>
+    </ClCompile>
+    <ClCompile Include="Unit_Files\f1\f1_buildminion.cpp">
+      <Filter>Unit files\f1</Filter>
+    </ClCompile>
+    <ClCompile Include="Unit_Files\f1\f1_caliber_o.cpp">
+      <Filter>Unit files\f1</Filter>
+    </ClCompile>
+    <ClCompile Include="Unit_Files\f1\f1_caster.cpp">
+      <Filter>Unit files\f1</Filter>
+    </ClCompile>
+    <ClCompile Include="Unit_Files\f1\f1_elyxstormblade.cpp">
+      <Filter>Unit files\f1</Filter>
+    </ClCompile>
+    <ClCompile Include="Unit_Files\f1\f1_elyxstormblademk2.cpp">
+      <Filter>Unit files\f1</Filter>
+    </ClCompile>
+    <ClCompile Include="Unit_Files\f1\f1_excelsious.cpp">
+      <Filter>Unit files\f1</Filter>
+    </ClCompile>
+    <ClCompile Include="Unit_Files\f1\f1_fiz.cpp">
+      <Filter>Unit files\f1</Filter>
+    </ClCompile>
+    <ClCompile Include="Unit_Files\f1\f1_friendsguard.cpp">
+      <Filter>Unit files\f1</Filter>
+    </ClCompile>
+    <ClCompile Include="Unit_Files\f1\f1_general.cpp">
+      <Filter>Unit files\f1</Filter>
+    </ClCompile>
+    <ClCompile Include="Unit_Files\f1\f1_general_skinroguelegacy.cpp">
+      <Filter>Unit files\f1</Filter>
+    </ClCompile>
+    <ClCompile Include="Unit_Files\f1\f1_grandmasterzir.cpp">
+      <Filter>Unit files\f1</Filter>
+    </ClCompile>
+    <ClCompile Include="Unit_Files\f1\f1_groundbreaker.cpp">
+      <Filter>Unit files\f1</Filter>
+    </ClCompile>
+    <ClCompile Include="Unit_Files\f1\f1_gryphinox.cpp">
+      <Filter>Unit files\f1</Filter>
+    </ClCompile>
+    <ClCompile Include="Unit_Files\f1\f1_invincibuddy.cpp">
+      <Filter>Unit files\f1</Filter>
+    </ClCompile>
+    <ClCompile Include="Unit_Files\f1\f1_ironcliffeguardian.cpp">
+      <Filter>Unit files\f1</Filter>
+    </ClCompile>
+    <ClCompile Include="Unit_Files\f1\f1_ironcliffemonument.cpp">
+      <Filter>Unit files\f1</Filter>
+    </ClCompile>
+    <ClCompile Include="Unit_Files\f1\f1_kaisergladiator.cpp">
+      <Filter>Unit files\f1</Filter>
+    </ClCompile>
+    <ClCompile Include="Unit_Files\f1\f1_kingsguard.cpp">
+      <Filter>Unit files\f1</Filter>
+    </ClCompile>
+    <ClCompile Include="Unit_Files\f1\f1_leovoyant.cpp">
+      <Filter>Unit files\f1</Filter>
+    </ClCompile>
+    <ClCompile Include="Unit_Files\f1\f1_mech.cpp">
+      <Filter>Unit files\f1</Filter>
+    </ClCompile>
+    <ClCompile Include="Unit_Files\f1\f1_melee.cpp">
+      <Filter>Unit files\f1</Filter>
+    </ClCompile>
+    <ClCompile Include="Unit_Files\f1\f1_peacekeeper.cpp">
+      <Filter>Unit files\f1</Filter>
+    </ClCompile>
+    <ClCompile Include="Unit_Files\f1\f1_peacekeeper2.cpp">
+      <Filter>Unit files\f1</Filter>
+    </ClCompile>
+    <ClCompile Include="Unit_Files\f1\f1_radiantdragoon.cpp">
+      <Filter>Unit files\f1</Filter>
+    </ClCompile>
+    <ClCompile Include="Unit_Files\f1\f1_ranged.cpp">
+      <Filter>Unit files\f1</Filter>
+    </ClCompile>
+    <ClCompile Include="Unit_Files\f1\f1_rightfulheir.cpp">
+      <Filter>Unit files\f1</Filter>
+    </ClCompile>
+    <ClCompile Include="Unit_Files\f1\f1_scintilla.cpp">
+      <Filter>Unit files\f1</Filter>
+    </ClCompile>
+    <ClCompile Include="Unit_Files\f1\f1_shieldforger.cpp">
+      <Filter>Unit files\f1</Filter>
+    </ClCompile>
+    <ClCompile Include="Unit_Files\f1\f1_silverguardsquire.cpp">
+      <Filter>Unit files\f1</Filter>
+    </ClCompile>
+    <ClCompile Include="Unit_Files\f1\f1_silvermanevanguard.cpp">
+      <Filter>Unit files\f1</Filter>
+    </ClCompile>
+    <ClCompile Include="Unit_Files\f1\f1_sinergyunit.cpp">
+      <Filter>Unit files\f1</Filter>
+    </ClCompile>
+    <ClCompile Include="Unit_Files\f1\f1_sister.cpp">
+      <Filter>Unit files\f1</Filter>
+    </ClCompile>
+    <ClCompile Include="Unit_Files\f1\f1_slo.cpp">
+      <Filter>Unit files\f1</Filter>
+    </ClCompile>
+    <ClCompile Include="Unit_Files\f1\f1_solarius.cpp">
+      <Filter>Unit files\f1</Filter>
+    </ClCompile>
+    <ClCompile Include="Unit_Files\f1\f1_solpontiff.cpp">
+      <Filter>Unit files\f1</Filter>
+    </ClCompile>
+    <ClCompile Include="Unit_Files\f1\f1_special.cpp">
+      <Filter>Unit files\f1</Filter>
+    </ClCompile>
+    <ClCompile Include="Unit_Files\f1\f1_spellbladeadept.cpp">
+      <Filter>Unit files\f1</Filter>
+    </ClCompile>
+    <ClCompile Include="Unit_Files\f1\f1_sunbreaker.cpp">
+      <Filter>Unit files\f1</Filter>
+    </ClCompile>
+    <ClCompile Include="Unit_Files\f1\f1_sunbreakguardian.cpp">
+      <Filter>Unit files\f1</Filter>
+    </ClCompile>
+    <ClCompile Include="Unit_Files\f1\f1_sunforgelancer.cpp">
+      <Filter>Unit files\f1</Filter>
+    </ClCompile>
+    <ClCompile Include="Unit_Files\f1\f1_sunriser.cpp">
+      <Filter>Unit files\f1</Filter>
+    </ClCompile>
+    <ClCompile Include="Unit_Files\f1\f1_sunstonemaiden.cpp">
+      <Filter>Unit files\f1</Filter>
+    </ClCompile>
+    <ClCompile Include="Unit_Files\f1\f1_sunstonetemplar.cpp">
+      <Filter>Unit files\f1</Filter>
+    </ClCompile>
+    <ClCompile Include="Unit_Files\f1\f1_sunwisp.cpp">
+      <Filter>Unit files\f1</Filter>
+    </ClCompile>
+    <ClCompile Include="Unit_Files\f1\f1_support.cpp">
+      <Filter>Unit files\f1</Filter>
+    </ClCompile>
+    <ClCompile Include="Unit_Files\f1\f1_tank.cpp">
+      <Filter>Unit files\f1</Filter>
+    </ClCompile>
+    <ClCompile Include="Unit_Files\f1\f1_tier2general.cpp">
+      <Filter>Unit files\f1</Filter>
+    </ClCompile>
+    <ClCompile Include="Unit_Files\f1\f1_warblade.cpp">
+      <Filter>Unit files\f1</Filter>
+    </ClCompile>
+    <ClCompile Include="Unit_Files\f1\f1_windbladecommander.cpp">
+      <Filter>Unit files\f1</Filter>
+    </ClCompile>
+    <ClCompile Include="Unit_Files\f1\f1_xylestormblade.cpp">
+      <Filter>Unit files\f1</Filter>
+    </ClCompile>
+    <ClCompile Include="Unit_Files\critter\critter_1.cpp">
+      <Filter>Unit files\critter</Filter>
+    </ClCompile>
+    <ClCompile Include="Unit_Files\critter\critter_2.cpp">
+      <Filter>Unit files\critter</Filter>
+    </ClCompile>
+    <ClCompile Include="Unit_Files\boss\boss_wujin.cpp">
+      <Filter>Unit files\boss</Filter>
+    </ClCompile>
+    <ClCompile Include="Unit_Files\boss\boss_andromeda.cpp">
+      <Filter>Unit files\boss</Filter>
+    </ClCompile>
+    <ClCompile Include="Unit_Files\boss\boss_antiswarm.cpp">
+      <Filter>Unit files\boss</Filter>
+    </ClCompile>
+    <ClCompile Include="Unit_Files\boss\boss_borealjuggernaut.cpp">
+      <Filter>Unit files\boss</Filter>
+    </ClCompile>
+    <ClCompile Include="Unit_Files\boss\boss_candypanda.cpp">
+      <Filter>Unit files\boss</Filter>
+    </ClCompile>
+    <ClCompile Include="Unit_Files\boss\boss_chaosknight.cpp">
+      <Filter>Unit files\boss</Filter>
+    </ClCompile>
+    <ClCompile Include="Unit_Files\boss\boss_christmas.cpp">
+      <Filter>Unit files\boss</Filter>
+    </ClCompile>
+    <ClCompile Include="Unit_Files\boss\boss_cindera.cpp">
+      <Filter>Unit files\boss</Filter>
+    </ClCompile>
+    <ClCompile Include="Unit_Files\boss\boss_city.cpp">
+      <Filter>Unit files\boss</Filter>
+    </ClCompile>
+    <ClCompile Include="Unit_Files\boss\boss_crystal.cpp">
+      <Filter>Unit files\boss</Filter>
+    </ClCompile>
+    <ClCompile Include="Unit_Files\boss\boss_decepticle.cpp">
+      <Filter>Unit files\boss</Filter>
+    </ClCompile>
+    <ClCompile Include="Unit_Files\boss\boss_decepticlechassis.cpp">
+      <Filter>Unit files\boss</Filter>
+    </ClCompile>
+    <ClCompile Include="Unit_Files\boss\boss_decepticlehelm.cpp">
+      <Filter>Unit files\boss</Filter>
+    </ClCompile>
+    <ClCompile Include="Unit_Files\boss\boss_decepticleprime.cpp">
+      <Filter>Unit files\boss</Filter>
+    </ClCompile>
+    <ClCompile Include="Unit_Files\boss\boss_decepticlesword.cpp">
+      <Filter>Unit files\boss</Filter>
+    </ClCompile>
+    <ClCompile Include="Unit_Files\boss\boss_decepticlewings.cpp">
+      <Filter>Unit files\boss</Filter>
+    </ClCompile>
+    <ClCompile Include="Unit_Files\boss\boss_dissonance.cpp">
+      <Filter>Unit files\boss</Filter>
+    </ClCompile>
+    <ClCompile Include="Unit_Files\boss\boss_emp.cpp">
+      <Filter>Unit files\boss</Filter>
+    </ClCompile>
+    <ClCompile Include="Unit_Files\boss\boss_gol.cpp">
+      <Filter>Unit files\boss</Filter>
+    </ClCompile>
+    <ClCompile Include="Unit_Files\boss\boss_grym.cpp">
+      <Filter>Unit files\boss</Filter>
+    </ClCompile>
+    <ClCompile Include="Unit_Files\boss\boss_harmony.cpp">
+      <Filter>Unit files\boss</Filter>
+    </ClCompile>
+    <ClCompile Include="Unit_Files\boss\boss_invader.cpp">
+      <Filter>Unit files\boss</Filter>
+    </ClCompile>
+    <ClCompile Include="Unit_Files\boss\boss_kane.cpp">
+      <Filter>Unit files\boss</Filter>
+    </ClCompile>
+    <ClCompile Include="Unit_Files\boss\boss_kron.cpp">
+      <Filter>Unit files\boss</Filter>
+    </ClCompile>
+    <ClCompile Include="Unit_Files\boss\boss_legion.cpp">
+      <Filter>Unit files\boss</Filter>
+    </ClCompile>
+    <ClCompile Include="Unit_Files\boss\boss_malyk.cpp">
+      <Filter>Unit files\boss</Filter>
+    </ClCompile>
+    <ClCompile Include="Unit_Files\boss\boss_manaman.cpp">
+      <Filter>Unit files\boss</Filter>
+    </ClCompile>
+    <ClCompile Include="Unit_Files\boss\boss_orias.cpp">
+      <Filter>Unit files\boss</Filter>
+    </ClCompile>
+    <ClCompile Include="Unit_Files\boss\boss_oriasidol.cpp">
+      <Filter>Unit files\boss</Filter>
+    </ClCompile>
+    <ClCompile Include="Unit_Files\boss\boss_paragon.cpp">
+      <Filter>Unit files\boss</Filter>
+    </ClCompile>
+    <ClCompile Include="Unit_Files\boss\boss_protector.cpp">
+      <Filter>Unit files\boss</Filter>
+    </ClCompile>
+    <ClCompile Include="Unit_Files\boss\boss_sandpanther.cpp">
+      <Filter>Unit files\boss</Filter>
+    </ClCompile>
+    <ClCompile Include="Unit_Files\boss\boss_serpenti.cpp">
+      <Filter>Unit files\boss</Filter>
+    </ClCompile>
+    <ClCompile Include="Unit_Files\boss\boss_shadowlord.cpp">
+      <Filter>Unit files\boss</Filter>
+    </ClCompile>
+    <ClCompile Include="Unit_Files\boss\boss_shinkagezendo.cpp">
+      <Filter>Unit files\boss</Filter>
+    </ClCompile>
+    <ClCompile Include="Unit_Files\boss\boss_skurge.cpp">
+      <Filter>Unit files\boss</Filter>
+    </ClCompile>
+    <ClCompile Include="Unit_Files\boss\boss_skyfalltyrant.cpp">
+      <Filter>Unit files\boss</Filter>
+    </ClCompile>
+    <ClCompile Include="Unit_Files\boss\boss_solfist.cpp">
+      <Filter>Unit files\boss</Filter>
+    </ClCompile>
+    <ClCompile Include="Unit_Files\boss\boss_soulstealer.cpp">
+      <Filter>Unit files\boss</Filter>
+    </ClCompile>
+    <ClCompile Include="Unit_Files\boss\boss_spelleater.cpp">
+      <Filter>Unit files\boss</Filter>
+    </ClCompile>
+    <ClCompile Include="Unit_Files\boss\boss_taskmaster.cpp">
+      <Filter>Unit files\boss</Filter>
+    </ClCompile>
+    <ClCompile Include="Unit_Files\boss\boss_treatdemon.cpp">
+      <Filter>Unit files\boss</Filter>
+    </ClCompile>
+    <ClCompile Include="Unit_Files\boss\boss_treatdrake.cpp">
+      <Filter>Unit files\boss</Filter>
+    </ClCompile>
+    <ClCompile Include="Unit_Files\boss\boss_treatoni.cpp">
+      <Filter>Unit files\boss</Filter>
+    </ClCompile>
+    <ClCompile Include="Unit_Files\boss\boss_umbra.cpp">
+      <Filter>Unit files\boss</Filter>
+    </ClCompile>
+    <ClCompile Include="Unit_Files\boss\boss_unhallowed.cpp">
+      <Filter>Unit files\boss</Filter>
+    </ClCompile>
+    <ClCompile Include="Unit_Files\boss\boss_valiant.cpp">
+      <Filter>Unit files\boss</Filter>
+    </ClCompile>
+    <ClCompile Include="Unit_Files\boss\boss_vampire.cpp">
+      <Filter>Unit files\boss</Filter>
+    </ClCompile>
+    <ClCompile Include="Unit_Files\boss\boss_wolfpunch.cpp">
+      <Filter>Unit files\boss</Filter>
+    </ClCompile>
+    <ClCompile Include="Unit_Files\boss\boss_wraith.cpp">
+      <Filter>Unit files\boss</Filter>
+    </ClCompile>
+    <ClCompile Include="Unit.cpp">
+      <Filter>Unit files</Filter>
+    </ClCompile>
+    <ClCompile Include="UnitManager.cpp">
+      <Filter>SystemsManagers</Filter>
+    </ClCompile>
+    <ClCompile Include="UnitAnimator.cpp">
+      <Filter>Unit files</Filter>
+    </ClCompile>
+    <ClCompile Include="Grid.cpp">
+      <Filter>Unit files</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -182,51 +494,6 @@
     <ClInclude Include="AllEffects.h">
       <Filter>Effects</Filter>
     </ClInclude>
-    <ClInclude Include="UnitAnimator.h">
-      <Filter>Unit Files</Filter>
-    </ClInclude>
-    <ClInclude Include="UnitManager.h">
-      <Filter>Unit Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Unit.h">
-      <Filter>Unit Files</Filter>
-    </ClInclude>
-    <ClInclude Include="boss_spelleater.h">
-      <Filter>Unit Files\Units implemented</Filter>
-    </ClInclude>
-    <ClInclude Include="boss_wraith.h">
-      <Filter>Unit Files\Units implemented</Filter>
-    </ClInclude>
-    <ClInclude Include="boss_vampire.h">
-      <Filter>Unit Files\Units implemented</Filter>
-    </ClInclude>
-    <ClInclude Include="boss_soulstealer.h">
-      <Filter>Unit Files\Units implemented</Filter>
-    </ClInclude>
-    <ClInclude Include="boss_solfist.h">
-      <Filter>Unit Files\Units implemented</Filter>
-    </ClInclude>
-    <ClInclude Include="boss_shinkagezendo.h">
-      <Filter>Unit Files\Units implemented</Filter>
-    </ClInclude>
-    <ClInclude Include="boss_skurge.h">
-      <Filter>Unit Files\Units implemented</Filter>
-    </ClInclude>
-    <ClInclude Include="boss_skyfalltyrant.h">
-      <Filter>Unit Files\Units implemented</Filter>
-    </ClInclude>
-    <ClInclude Include="boss_shadowlord.h">
-      <Filter>Unit Files\Units implemented</Filter>
-    </ClInclude>
-    <ClInclude Include="boss_serpenti.h">
-      <Filter>Unit Files\Units implemented</Filter>
-    </ClInclude>
-    <ClInclude Include="boss_sandpanther.h">
-      <Filter>Unit Files\Units implemented</Filter>
-    </ClInclude>
-    <ClInclude Include="AllUnits.h">
-      <Filter>Unit Files\Units implemented</Filter>
-    </ClInclude>
     <ClInclude Include="MouseManager.h">
       <Filter>Helpers</Filter>
     </ClInclude>
@@ -235,6 +502,357 @@
     </ClInclude>
     <ClInclude Include="MapHelpers.h">
       <Filter>SystemsManagers</Filter>
+    </ClInclude>
+    <ClInclude Include="Unit_Files\AllUnits.h">
+      <Filter>Unit files</Filter>
+    </ClInclude>
+    <ClInclude Include="Unit_Files\f1\f1_xylestormblade.h">
+      <Filter>Unit files\f1</Filter>
+    </ClInclude>
+    <ClInclude Include="Unit_Files\f1\f1_3rdgeneral.h">
+      <Filter>Unit files\f1</Filter>
+    </ClInclude>
+    <ClInclude Include="Unit_Files\f1\f1_altgeneral.h">
+      <Filter>Unit files\f1</Filter>
+    </ClInclude>
+    <ClInclude Include="Unit_Files\f1\f1_altgeneraltier2.h">
+      <Filter>Unit files\f1</Filter>
+    </ClInclude>
+    <ClInclude Include="Unit_Files\f1\f1_archdeacon.h">
+      <Filter>Unit files\f1</Filter>
+    </ClInclude>
+    <ClInclude Include="Unit_Files\f1\f1_auroralioness.h">
+      <Filter>Unit files\f1</Filter>
+    </ClInclude>
+    <ClInclude Include="Unit_Files\f1\f1_azuritelion.h">
+      <Filter>Unit files\f1</Filter>
+    </ClInclude>
+    <ClInclude Include="Unit_Files\f1\f1_baastchampion.h">
+      <Filter>Unit files\f1</Filter>
+    </ClInclude>
+    <ClInclude Include="Unit_Files\f1\f1_backlinearcher.h">
+      <Filter>Unit files\f1</Filter>
+    </ClInclude>
+    <ClInclude Include="Unit_Files\f1\f1_bromemk2.h">
+      <Filter>Unit files\f1</Filter>
+    </ClInclude>
+    <ClInclude Include="Unit_Files\f1\f1_buildcommon.h">
+      <Filter>Unit files\f1</Filter>
+    </ClInclude>
+    <ClInclude Include="Unit_Files\f1\f1_buildminion.h">
+      <Filter>Unit files\f1</Filter>
+    </ClInclude>
+    <ClInclude Include="Unit_Files\f1\f1_caliber_o.h">
+      <Filter>Unit files\f1</Filter>
+    </ClInclude>
+    <ClInclude Include="Unit_Files\f1\f1_caster.h">
+      <Filter>Unit files\f1</Filter>
+    </ClInclude>
+    <ClInclude Include="Unit_Files\f1\f1_elyxstormblade.h">
+      <Filter>Unit files\f1</Filter>
+    </ClInclude>
+    <ClInclude Include="Unit_Files\f1\f1_elyxstormblademk2.h">
+      <Filter>Unit files\f1</Filter>
+    </ClInclude>
+    <ClInclude Include="Unit_Files\f1\f1_excelsious.h">
+      <Filter>Unit files\f1</Filter>
+    </ClInclude>
+    <ClInclude Include="Unit_Files\f1\f1_fiz.h">
+      <Filter>Unit files\f1</Filter>
+    </ClInclude>
+    <ClInclude Include="Unit_Files\f1\f1_friendsguard.h">
+      <Filter>Unit files\f1</Filter>
+    </ClInclude>
+    <ClInclude Include="Unit_Files\f1\f1_general.h">
+      <Filter>Unit files\f1</Filter>
+    </ClInclude>
+    <ClInclude Include="Unit_Files\f1\f1_general_skinroguelegacy.h">
+      <Filter>Unit files\f1</Filter>
+    </ClInclude>
+    <ClInclude Include="Unit_Files\f1\f1_grandmasterzir.h">
+      <Filter>Unit files\f1</Filter>
+    </ClInclude>
+    <ClInclude Include="Unit_Files\f1\f1_groundbreaker.h">
+      <Filter>Unit files\f1</Filter>
+    </ClInclude>
+    <ClInclude Include="Unit_Files\f1\f1_gryphinox.h">
+      <Filter>Unit files\f1</Filter>
+    </ClInclude>
+    <ClInclude Include="Unit_Files\f1\f1_invincibuddy.h">
+      <Filter>Unit files\f1</Filter>
+    </ClInclude>
+    <ClInclude Include="Unit_Files\f1\f1_ironcliffeguardian.h">
+      <Filter>Unit files\f1</Filter>
+    </ClInclude>
+    <ClInclude Include="Unit_Files\f1\f1_ironcliffemonument.h">
+      <Filter>Unit files\f1</Filter>
+    </ClInclude>
+    <ClInclude Include="Unit_Files\f1\f1_kaisergladiator.h">
+      <Filter>Unit files\f1</Filter>
+    </ClInclude>
+    <ClInclude Include="Unit_Files\f1\f1_kingsguard.h">
+      <Filter>Unit files\f1</Filter>
+    </ClInclude>
+    <ClInclude Include="Unit_Files\f1\f1_leovoyant.h">
+      <Filter>Unit files\f1</Filter>
+    </ClInclude>
+    <ClInclude Include="Unit_Files\f1\f1_mech.h">
+      <Filter>Unit files\f1</Filter>
+    </ClInclude>
+    <ClInclude Include="Unit_Files\f1\f1_melee.h">
+      <Filter>Unit files\f1</Filter>
+    </ClInclude>
+    <ClInclude Include="Unit_Files\f1\f1_peacekeeper.h">
+      <Filter>Unit files\f1</Filter>
+    </ClInclude>
+    <ClInclude Include="Unit_Files\f1\f1_peacekeeper2.h">
+      <Filter>Unit files\f1</Filter>
+    </ClInclude>
+    <ClInclude Include="Unit_Files\f1\f1_radiantdragoon.h">
+      <Filter>Unit files\f1</Filter>
+    </ClInclude>
+    <ClInclude Include="Unit_Files\f1\f1_ranged.h">
+      <Filter>Unit files\f1</Filter>
+    </ClInclude>
+    <ClInclude Include="Unit_Files\f1\f1_rightfulheir.h">
+      <Filter>Unit files\f1</Filter>
+    </ClInclude>
+    <ClInclude Include="Unit_Files\f1\f1_scintilla.h">
+      <Filter>Unit files\f1</Filter>
+    </ClInclude>
+    <ClInclude Include="Unit_Files\f1\f1_shieldforger.h">
+      <Filter>Unit files\f1</Filter>
+    </ClInclude>
+    <ClInclude Include="Unit_Files\f1\f1_silverguardsquire.h">
+      <Filter>Unit files\f1</Filter>
+    </ClInclude>
+    <ClInclude Include="Unit_Files\f1\f1_silvermanevanguard.h">
+      <Filter>Unit files\f1</Filter>
+    </ClInclude>
+    <ClInclude Include="Unit_Files\f1\f1_sinergyunit.h">
+      <Filter>Unit files\f1</Filter>
+    </ClInclude>
+    <ClInclude Include="Unit_Files\f1\f1_sister.h">
+      <Filter>Unit files\f1</Filter>
+    </ClInclude>
+    <ClInclude Include="Unit_Files\f1\f1_slo.h">
+      <Filter>Unit files\f1</Filter>
+    </ClInclude>
+    <ClInclude Include="Unit_Files\f1\f1_solarius.h">
+      <Filter>Unit files\f1</Filter>
+    </ClInclude>
+    <ClInclude Include="Unit_Files\f1\f1_solpontiff.h">
+      <Filter>Unit files\f1</Filter>
+    </ClInclude>
+    <ClInclude Include="Unit_Files\f1\f1_special.h">
+      <Filter>Unit files\f1</Filter>
+    </ClInclude>
+    <ClInclude Include="Unit_Files\f1\f1_spellbladeadept.h">
+      <Filter>Unit files\f1</Filter>
+    </ClInclude>
+    <ClInclude Include="Unit_Files\f1\f1_sunbreaker.h">
+      <Filter>Unit files\f1</Filter>
+    </ClInclude>
+    <ClInclude Include="Unit_Files\f1\f1_sunbreakguardian.h">
+      <Filter>Unit files\f1</Filter>
+    </ClInclude>
+    <ClInclude Include="Unit_Files\f1\f1_sunforgelancer.h">
+      <Filter>Unit files\f1</Filter>
+    </ClInclude>
+    <ClInclude Include="Unit_Files\f1\f1_sunriser.h">
+      <Filter>Unit files\f1</Filter>
+    </ClInclude>
+    <ClInclude Include="Unit_Files\f1\f1_sunstonemaiden.h">
+      <Filter>Unit files\f1</Filter>
+    </ClInclude>
+    <ClInclude Include="Unit_Files\f1\f1_sunstonetemplar.h">
+      <Filter>Unit files\f1</Filter>
+    </ClInclude>
+    <ClInclude Include="Unit_Files\f1\f1_sunwisp.h">
+      <Filter>Unit files\f1</Filter>
+    </ClInclude>
+    <ClInclude Include="Unit_Files\f1\f1_support.h">
+      <Filter>Unit files\f1</Filter>
+    </ClInclude>
+    <ClInclude Include="Unit_Files\f1\f1_tank.h">
+      <Filter>Unit files\f1</Filter>
+    </ClInclude>
+    <ClInclude Include="Unit_Files\f1\f1_tier2general.h">
+      <Filter>Unit files\f1</Filter>
+    </ClInclude>
+    <ClInclude Include="Unit_Files\f1\f1_warblade.h">
+      <Filter>Unit files\f1</Filter>
+    </ClInclude>
+    <ClInclude Include="Unit_Files\f1\f1_windbladecommander.h">
+      <Filter>Unit files\f1</Filter>
+    </ClInclude>
+    <ClInclude Include="Unit_Files\critter\critter_1.h">
+      <Filter>Unit files\critter</Filter>
+    </ClInclude>
+    <ClInclude Include="Unit_Files\critter\critter_2.h">
+      <Filter>Unit files\critter</Filter>
+    </ClInclude>
+    <ClInclude Include="Unit_Files\boss\boss_wujin.h">
+      <Filter>Unit files\boss</Filter>
+    </ClInclude>
+    <ClInclude Include="Unit_Files\boss\boss_andromeda.h">
+      <Filter>Unit files\boss</Filter>
+    </ClInclude>
+    <ClInclude Include="Unit_Files\boss\boss_antiswarm.h">
+      <Filter>Unit files\boss</Filter>
+    </ClInclude>
+    <ClInclude Include="Unit_Files\boss\boss_borealjuggernaut.h">
+      <Filter>Unit files\boss</Filter>
+    </ClInclude>
+    <ClInclude Include="Unit_Files\boss\boss_candypanda.h">
+      <Filter>Unit files\boss</Filter>
+    </ClInclude>
+    <ClInclude Include="Unit_Files\boss\boss_chaosknight.h">
+      <Filter>Unit files\boss</Filter>
+    </ClInclude>
+    <ClInclude Include="Unit_Files\boss\boss_christmas.h">
+      <Filter>Unit files\boss</Filter>
+    </ClInclude>
+    <ClInclude Include="Unit_Files\boss\boss_cindera.h">
+      <Filter>Unit files\boss</Filter>
+    </ClInclude>
+    <ClInclude Include="Unit_Files\boss\boss_city.h">
+      <Filter>Unit files\boss</Filter>
+    </ClInclude>
+    <ClInclude Include="Unit_Files\boss\boss_crystal.h">
+      <Filter>Unit files\boss</Filter>
+    </ClInclude>
+    <ClInclude Include="Unit_Files\boss\boss_decepticle.h">
+      <Filter>Unit files\boss</Filter>
+    </ClInclude>
+    <ClInclude Include="Unit_Files\boss\boss_decepticlechassis.h">
+      <Filter>Unit files\boss</Filter>
+    </ClInclude>
+    <ClInclude Include="Unit_Files\boss\boss_decepticlehelm.h">
+      <Filter>Unit files\boss</Filter>
+    </ClInclude>
+    <ClInclude Include="Unit_Files\boss\boss_decepticleprime.h">
+      <Filter>Unit files\boss</Filter>
+    </ClInclude>
+    <ClInclude Include="Unit_Files\boss\boss_decepticlesword.h">
+      <Filter>Unit files\boss</Filter>
+    </ClInclude>
+    <ClInclude Include="Unit_Files\boss\boss_decepticlewings.h">
+      <Filter>Unit files\boss</Filter>
+    </ClInclude>
+    <ClInclude Include="Unit_Files\boss\boss_dissonance.h">
+      <Filter>Unit files\boss</Filter>
+    </ClInclude>
+    <ClInclude Include="Unit_Files\boss\boss_emp.h">
+      <Filter>Unit files\boss</Filter>
+    </ClInclude>
+    <ClInclude Include="Unit_Files\boss\boss_gol.h">
+      <Filter>Unit files\boss</Filter>
+    </ClInclude>
+    <ClInclude Include="Unit_Files\boss\boss_grym.h">
+      <Filter>Unit files\boss</Filter>
+    </ClInclude>
+    <ClInclude Include="Unit_Files\boss\boss_harmony.h">
+      <Filter>Unit files\boss</Filter>
+    </ClInclude>
+    <ClInclude Include="Unit_Files\boss\boss_invader.h">
+      <Filter>Unit files\boss</Filter>
+    </ClInclude>
+    <ClInclude Include="Unit_Files\boss\boss_kane.h">
+      <Filter>Unit files\boss</Filter>
+    </ClInclude>
+    <ClInclude Include="Unit_Files\boss\boss_kron.h">
+      <Filter>Unit files\boss</Filter>
+    </ClInclude>
+    <ClInclude Include="Unit_Files\boss\boss_legion.h">
+      <Filter>Unit files\boss</Filter>
+    </ClInclude>
+    <ClInclude Include="Unit_Files\boss\boss_malyk.h">
+      <Filter>Unit files\boss</Filter>
+    </ClInclude>
+    <ClInclude Include="Unit_Files\boss\boss_manaman.h">
+      <Filter>Unit files\boss</Filter>
+    </ClInclude>
+    <ClInclude Include="Unit_Files\boss\boss_orias.h">
+      <Filter>Unit files\boss</Filter>
+    </ClInclude>
+    <ClInclude Include="Unit_Files\boss\boss_oriasidol.h">
+      <Filter>Unit files\boss</Filter>
+    </ClInclude>
+    <ClInclude Include="Unit_Files\boss\boss_paragon.h">
+      <Filter>Unit files\boss</Filter>
+    </ClInclude>
+    <ClInclude Include="Unit_Files\boss\boss_protector.h">
+      <Filter>Unit files\boss</Filter>
+    </ClInclude>
+    <ClInclude Include="Unit_Files\boss\boss_sandpanther.h">
+      <Filter>Unit files\boss</Filter>
+    </ClInclude>
+    <ClInclude Include="Unit_Files\boss\boss_serpenti.h">
+      <Filter>Unit files\boss</Filter>
+    </ClInclude>
+    <ClInclude Include="Unit_Files\boss\boss_shadowlord.h">
+      <Filter>Unit files\boss</Filter>
+    </ClInclude>
+    <ClInclude Include="Unit_Files\boss\boss_shinkagezendo.h">
+      <Filter>Unit files\boss</Filter>
+    </ClInclude>
+    <ClInclude Include="Unit_Files\boss\boss_skurge.h">
+      <Filter>Unit files\boss</Filter>
+    </ClInclude>
+    <ClInclude Include="Unit_Files\boss\boss_skyfalltyrant.h">
+      <Filter>Unit files\boss</Filter>
+    </ClInclude>
+    <ClInclude Include="Unit_Files\boss\boss_solfist.h">
+      <Filter>Unit files\boss</Filter>
+    </ClInclude>
+    <ClInclude Include="Unit_Files\boss\boss_soulstealer.h">
+      <Filter>Unit files\boss</Filter>
+    </ClInclude>
+    <ClInclude Include="Unit_Files\boss\boss_spelleater.h">
+      <Filter>Unit files\boss</Filter>
+    </ClInclude>
+    <ClInclude Include="Unit_Files\boss\boss_taskmaster.h">
+      <Filter>Unit files\boss</Filter>
+    </ClInclude>
+    <ClInclude Include="Unit_Files\boss\boss_treatdemon.h">
+      <Filter>Unit files\boss</Filter>
+    </ClInclude>
+    <ClInclude Include="Unit_Files\boss\boss_treatdrake.h">
+      <Filter>Unit files\boss</Filter>
+    </ClInclude>
+    <ClInclude Include="Unit_Files\boss\boss_treatoni.h">
+      <Filter>Unit files\boss</Filter>
+    </ClInclude>
+    <ClInclude Include="Unit_Files\boss\boss_umbra.h">
+      <Filter>Unit files\boss</Filter>
+    </ClInclude>
+    <ClInclude Include="Unit_Files\boss\boss_unhallowed.h">
+      <Filter>Unit files\boss</Filter>
+    </ClInclude>
+    <ClInclude Include="Unit_Files\boss\boss_valiant.h">
+      <Filter>Unit files\boss</Filter>
+    </ClInclude>
+    <ClInclude Include="Unit_Files\boss\boss_vampire.h">
+      <Filter>Unit files\boss</Filter>
+    </ClInclude>
+    <ClInclude Include="Unit_Files\boss\boss_wolfpunch.h">
+      <Filter>Unit files\boss</Filter>
+    </ClInclude>
+    <ClInclude Include="Unit_Files\boss\boss_wraith.h">
+      <Filter>Unit files\boss</Filter>
+    </ClInclude>
+    <ClInclude Include="Unit.h">
+      <Filter>Unit files</Filter>
+    </ClInclude>
+    <ClInclude Include="UnitManager.h">
+      <Filter>SystemsManagers</Filter>
+    </ClInclude>
+    <ClInclude Include="UnitAnimator.h">
+      <Filter>Unit files</Filter>
+    </ClInclude>
+    <ClInclude Include="Grid.h">
+      <Filter>Unit files</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

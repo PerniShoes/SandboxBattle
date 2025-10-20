@@ -47,19 +47,6 @@ struct MapData
     std::vector<MapLayer> layers;
 };
 
-// Might scratch this idea for string based keys
-enum class MapList
-{
-    Default = 0,
-    Selected,
-    HoverEnemy,
-    Move,
-    HoverAlly,
-
-    TotalMaps
-};
-
-// FIX, it's public, not good
 struct LayerOverride;
 
 class MapManager final

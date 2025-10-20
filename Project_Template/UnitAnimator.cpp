@@ -4,8 +4,8 @@ UnitAnimator::UnitAnimator(Atlas* atlas,std::unique_ptr<Texture> texture)
     :atlas{atlas},texture{std::move(texture)}
 {
     // Set any frame as deafult (since all frames have same sizes for one unit
-    current = &(atlas->animations.find("idle")->second);
-    currentAnimPlaying = "idle";
+    current = &(atlas->animations.find("breathing")->second);
+    currentAnimPlaying = "breathing";
 }
 
 void UnitAnimator::Play(const std::string actionName)
@@ -33,7 +33,16 @@ void UnitAnimator::Update(float elapsedTime)
 {
     if (!current) return;
     elapsed += elapsedTime;
-    if (elapsed >= current->frameTime)
+    float targetFrameTime{};
+    if (generalFrameTime > 0.0f)
+    {
+        targetFrameTime = generalFrameTime;
+    }
+    else
+    {
+        targetFrameTime = current->frameTime;
+    }
+    if (elapsed >= targetFrameTime)
     {
         elapsed = 0.0f;
         frameIndex++;
@@ -82,4 +91,9 @@ float UnitAnimator::GetSpriteWidth()
 std::string UnitAnimator::GetCurrentAnimation()
 {
     return currentAnimPlaying;
+}
+
+void UnitAnimator::SetFrameTime(float frameTimeTarget)
+{
+    generalFrameTime = frameTimeTarget;
 }

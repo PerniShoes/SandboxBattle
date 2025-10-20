@@ -17,7 +17,7 @@ public:
 
     ~TimeClass() = default;
 
-    void Update(float elaspedTimeClass);
+    void Update(float elaspedTime);
     
     void Start();
     void Pause();
