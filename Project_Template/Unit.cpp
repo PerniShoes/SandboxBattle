@@ -5,6 +5,8 @@ Unit::Unit(std::string unitName,UnitType type, Transform transform,Stats baseSta
     :m_Type{type}
     ,m_Target{nullptr}
     ,m_IsAttacking{false}
+    ,m_IsCounterAttacking{false}
+    ,m_WillCounterAttack{false}
     ,m_Stats{baseStats}
     ,m_Destination{}
     ,m_Transform{transform}
@@ -229,10 +231,38 @@ void Unit::Update(float elapsedTime)
         if (m_Animator->GetCurrentAnimation() != "attack")
         {
             m_Target->TakeDamage(m_Stats.m_CurrentDamage);
+
+            if (!this->m_IsCounterAttacking)
+            {
+                m_Target->CounterAttack(this);
+            }
+            else
+            {
+                // After counter attacking check if alive (can counterattack before dying)
+                if (!m_IsAlive)
+                {
+                    m_Animator->Play("death");
+                }
+                if (m_Target->m_IsAlive == false)
+                {
+                    m_Target->PlayAnim("death");
+                }
+            }
+
+            m_IsCounterAttacking = false;
             m_Target = nullptr;
             m_IsAttacking = false;
         }
     }
+    if (m_WillCounterAttack)
+    {
+        if (m_Animator->GetCurrentAnimation() != "hit")
+        {
+            Attack(m_Target);
+            m_WillCounterAttack = false;
+        }
+    }
+
     m_Animator->Update(elapsedTime);
 }
 
@@ -301,15 +331,8 @@ void Unit::TakeDamage(int amount)
 
    UpdateHealthTexture();
 
-   if (!m_IsAlive)
-   {
-       m_Animator->Play("death");
-   }
-   else
-   {
-       m_Animator->Play("hit");
-   }
-
+   m_Animator->Play("hit");
+   
 }
 void Unit::Heal(int amount)
 {
@@ -347,6 +370,13 @@ void Unit::Attack(Unit* target)
     m_Target = target;
     m_IsAttacking = true;
 }
+void Unit::CounterAttack(Unit* target)
+{
+    m_IsCounterAttacking = true;
+    m_WillCounterAttack = true;
+    m_Target = target;
+}
+
 Transform Unit::GetTransform()const
 {
     return m_Transform;

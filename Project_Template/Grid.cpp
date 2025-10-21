@@ -142,26 +142,38 @@ void Grid::DrawGrid()const
         SetColor(gridColor);
         FillPolygon(tile.vertices);
 
-        if (tile.spacingOnLeftVertices.size() != 0) 
-        {
-            SetColor(GetColor(green));
-            FillPolygon(tile.spacingOnLeftVertices);
-        }
+        // GAPS
+        //if (tile.spacingOnLeftVertices.size() != 0) 
+        //{
+        //    SetColor(GetColor(green));
+        //    FillPolygon(tile.spacingOnLeftVertices);
+        //}
 
-        if (tile.spacingBellowVertices.size() != 0)
-        {
-            SetColor(GetColor(red));
-            FillPolygon(tile.spacingBellowVertices);
-        }
+        //if (tile.spacingBellowVertices.size() != 0)
+        //{
+        //    SetColor(GetColor(red));
+        //    FillPolygon(tile.spacingBellowVertices);
+        //}
     }
 
-    // If there are any
-    DrawHighlighted();
-
+    DrawHighlights();
 }
-void Grid::DrawHighlighted() const
+void Grid::DrawHighlights() const
 {
-    // Check if there are any
+    using namespace utils;
+    using namespace PrettyColors;
+
+    Color4f highlightColor{GetColor(white)};
+    highlightColor.a = 0.5f; 
+
+    SetColor(highlightColor);
+    for (auto& tile : m_Tiles)
+    {
+        if (tile.highlightTile)
+        {
+            FillPolygon(tile.vertices);
+        }
+    }
 
 }
 
@@ -194,27 +206,30 @@ void Grid::HighlightReachableTiles(std::vector<int> reachableTilesIds)
     using namespace utils;
     using namespace PrettyColors;
 
-    // Call once per unit select
+    // Unpolished version
+    for (auto reachableId : reachableTilesIds)
+    {
+        m_Tiles[reachableId].highlightTile = true;
+    }
 
-    int neighbourId{0};
-    auto itterator = std::find(reachableTilesIds.begin(),reachableTilesIds.end(),neighbourId);
 
     // ORDER MATTERS
     // BL, BR, TR, TL
 
 
-    // Get ids of all reachable tiles (with your calc method of going max range one dir, then 0 up, 
-    // max range -1 one dir, then 1 up and so on, checking if an obstacle is in a tile
-
+    // Polish: 
+    // Do all bellow to make it pretty
+     
+    // Get ids of all reachable tiles 
 
     // One by one, calc Rects (or polygons rather), check if it has a neighbor on left or bellow
     // On a side there is a neighbour -> "fill" the spacing
-     
-    // If there is no neighbour on a side -> draw edge (later will have to extend edges to connect, 
+    int neighbourId{0};
+    auto itterator = std::find(reachableTilesIds.begin(),reachableTilesIds.end(),neighbourId);
+
+    // If there is no neighbour on a side -> draw edge (later will have to extend edges to connect, since there is offset between tiles
     // probably just drawing up/down half the missing distance for each)
 
-
-    // Polish
     // Check if a tile has neighbours on left + down + downLeft diagonal. If so, fill the gap between those four 
     // This might cause issues with overlap and alpha, if so, you can adjust spacingVertices to fill the gaps instead
     // either here or have some "one time call" func that sets this up after creating them
@@ -226,7 +241,11 @@ void Grid::HighlightReachableTiles(std::vector<int> reachableTilesIds)
 }
 void Grid::UnHighlightTiles()
 {
+    for (auto& tile : m_Tiles)
+    {
+        tile.highlightTile = false;
 
+    }
 }
 
 bool Grid::IsValidTileId(int tileIndex) const

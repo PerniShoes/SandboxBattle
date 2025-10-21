@@ -41,6 +41,7 @@ public:
     bool MoveTowardsDestination(Point2f destination,float elapsedTime);
     void MoveTo(Point2f destination);
     void Attack(Unit* target);
+    void CounterAttack(Unit* target);
 
     void TeleportTo(Point2f position);
     void TakeDamage(int amount);
@@ -68,6 +69,8 @@ protected:
     Stats m_Stats;
     Unit* m_Target;
     bool m_IsAttacking;
+    bool m_IsCounterAttacking;
+    bool m_WillCounterAttack;
 
     Point2f m_Destination;
     Transform m_Transform;
