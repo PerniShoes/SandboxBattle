@@ -200,17 +200,21 @@ void UnitManager::OnRightButtonDown()
                         return;
                     }
 
+                    // Counter attack range check
+                    int rangeCounter{unitPtr->GetStats().m_AttackRangeTiles};
+                    bool canEnemyCounter = IsTileInRange(tileOccupiedTarget,tileOccupiedSelected,rangeCounter);
+           
                     // Issue attack
-                    // LATER
-                    // LATER to check range/if can attack etc. ... For now it *just* attacks
-                    unitSelectedPtr->Attack(unitPtr.get());
+                    unitSelectedPtr->Attack(unitPtr.get(),canEnemyCounter);
 
-                    println("Unit with teamNr: {}, dealt: {} damage to unit with teamNr: {}, health of both: first one: {}, second one: {}"
-                        ,unitSelectedPtr->GetTeamID()
-                        ,unitSelectedPtr->GetStats().m_CurrentDamage
-                        ,unitPtr->GetTeamID()
-                        ,unitSelectedPtr->GetStats().m_CurrentHealth
-                        ,unitPtr->GetStats().m_CurrentHealth);
+                    // Debug
+                    //println("Unit with teamNr: {}, dealt: {} damage to unit with teamNr: {}, health of both: first one: {}, second one: {}"
+                    //    ,unitSelectedPtr->GetTeamID()
+                    //    ,unitSelectedPtr->GetStats().m_CurrentDamage
+                    //    ,unitPtr->GetTeamID()
+                    //    ,unitSelectedPtr->GetStats().m_CurrentHealth
+                    //    ,unitPtr->GetStats().m_CurrentHealth);
+                    
                     toRemove.push_back(unitSelectedPtr);
 
                     // Skip move command since clicked on unit

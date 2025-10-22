@@ -154,6 +154,7 @@
     <ClCompile Include="MapManager.cpp" />
     <ClCompile Include="MouseManager.cpp" />
     <ClCompile Include="MoveCommand.cpp" />
+    <ClCompile Include="neutral_arrowwhistler.cpp" />
     <ClCompile Include="OrientationManager.cpp" />
     <ClCompile Include="SandboxBattler.cpp" />
     <ClCompile Include="Stats.cpp" />
@@ -291,6 +292,7 @@
     <ClInclude Include="MapManager.h" />
     <ClInclude Include="MouseManager.h" />
     <ClInclude Include="MoveCommand.h" />
+    <ClInclude Include="neutral_arrowwhistler.h" />
     <ClInclude Include="OrientationManager.h" />
     <ClInclude Include="PrettyColors.h" />
     <ClInclude Include="SandboxBattler.h" />

@@ -117,3 +117,6 @@
 // Critters
 #include "critter_1.h"
 #include "critter_2.h"
+
+// Neutral
+#include "neutral_arrowwhistler.h"

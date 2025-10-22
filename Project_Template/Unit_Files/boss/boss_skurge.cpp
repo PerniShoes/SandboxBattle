@@ -5,7 +5,7 @@ boss_skurge::boss_skurge()
     : Unit("boss_skurge")
 {
     Stats newStats{this->GetStats()};
-    newStats.m_AttackRangeTiles=3;
+    newStats.m_AttackRangeTiles=1000;
     this->SetStats(newStats);
 }
 

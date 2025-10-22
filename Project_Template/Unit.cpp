@@ -7,6 +7,7 @@ Unit::Unit(std::string unitName,UnitType type, Transform transform,Stats baseSta
     ,m_IsAttacking{false}
     ,m_IsCounterAttacking{false}
     ,m_WillCounterAttack{false}
+    ,m_IsCounterAttackable{false}
     ,m_Stats{baseStats}
     ,m_Destination{}
     ,m_Transform{transform}
@@ -234,7 +235,18 @@ void Unit::Update(float elapsedTime)
 
             if (!this->m_IsCounterAttacking)
             {
-                m_Target->CounterAttack(this);
+                if (m_IsCounterAttackable)
+                {
+                    m_Target->CounterAttack(this);
+                }
+                // If target can't counter attack, check it's alive status
+                else 
+                {
+                    if (m_Target->m_IsAlive == false)
+                    {
+                        m_Target->PlayAnim("death");
+                    }
+                }
             }
             else
             {
@@ -247,9 +259,10 @@ void Unit::Update(float elapsedTime)
                 {
                     m_Target->PlayAnim("death");
                 }
+                m_IsCounterAttacking = false;
+                m_WillCounterAttack = false;
             }
 
-            m_IsCounterAttacking = false;
             m_Target = nullptr;
             m_IsAttacking = false;
         }
@@ -258,7 +271,7 @@ void Unit::Update(float elapsedTime)
     {
         if (m_Animator->GetCurrentAnimation() != "hit")
         {
-            Attack(m_Target);
+            Attack(m_Target, false);
             m_WillCounterAttack = false;
         }
     }
@@ -354,7 +367,7 @@ void Unit::ChangeTeam(int newID)
 {
     m_TeamNumber = newID;
 }
-void Unit::Attack(Unit* target)
+void Unit::Attack(Unit* target, bool canBeCounterAttacked)
 {
     if (m_Transform.position.x > target->GetTransform().position.x && !m_FacingLeft)
     {
@@ -369,6 +382,7 @@ void Unit::Attack(Unit* target)
     m_Animator->Play("attack");
     m_Target = target;
     m_IsAttacking = true;
+    m_IsCounterAttackable = canBeCounterAttacked;
 }
 void Unit::CounterAttack(Unit* target)
 {

@@ -40,7 +40,7 @@ public:
 
     bool MoveTowardsDestination(Point2f destination,float elapsedTime);
     void MoveTo(Point2f destination);
-    void Attack(Unit* target);
+    void Attack(Unit* target, bool canBeCounterAttacked);
     void CounterAttack(Unit* target);
 
     void TeleportTo(Point2f position);
@@ -71,6 +71,7 @@ protected:
     bool m_IsAttacking;
     bool m_IsCounterAttacking;
     bool m_WillCounterAttack;
+    bool m_IsCounterAttackable;
 
     Point2f m_Destination;
     Transform m_Transform;

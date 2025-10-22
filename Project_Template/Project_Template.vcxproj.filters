@@ -43,6 +43,9 @@
     <Filter Include="Unit files\f1">
       <UniqueIdentifier>{880f4cec-d4b6-4f87-b63b-c33b903199e8}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Unit files\neutral">
+      <UniqueIdentifier>{a68bcc1e-6e5a-4ffe-8b9b-4435808c9790}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -440,6 +443,9 @@
     </ClCompile>
     <ClCompile Include="Grid.cpp">
       <Filter>Unit files</Filter>
+    </ClCompile>
+    <ClCompile Include="neutral_arrowwhistler.cpp">
+      <Filter>Unit files\neutral</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -853,6 +859,9 @@
     </ClInclude>
     <ClInclude Include="Grid.h">
       <Filter>Unit files</Filter>
+    </ClInclude>
+    <ClInclude Include="neutral_arrowwhistler.h">
+      <Filter>Unit files\neutral</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

@@ -52,7 +52,7 @@ void Game::Initialize()
 	// For debug purposes team 0 is ally, team 1 enemy (also commented in unit.cpp inside LoadTextures)
 	m_UnitManager.SetDefaultTeam(0);
 	//m_UnitManager.AddUnit(std::make_unique<boss_sandpanther>());
-	m_UnitManager.AddUnit(std::make_unique<boss_serpenti>());
+	m_UnitManager.AddUnit(std::make_unique<boss_andromeda>());
 	m_UnitManager.AddUnit(std::make_unique<boss_shadowlord>());
 	m_UnitManager.AddUnit(std::make_unique<f1_3rdgeneral>());
 	m_UnitManager.AddUnit(std::make_unique<boss_skurge>());
@@ -65,7 +65,7 @@ void Game::Initialize()
 	m_UnitManager.SetDefaultTeam(1);
 	//m_UnitManager.AddUnit(std::make_unique<boss_chaosknight>());
 	m_UnitManager.AddUnit(std::make_unique<boss_borealjuggernaut>());
-	m_UnitManager.AddUnit(std::make_unique<boss_andromeda>());
+	m_UnitManager.AddUnit(std::make_unique<neutral_arrowwhistler>());
 	//m_UnitManager.AddUnit(std::make_unique<boss_antiswarm>());
 	m_UnitManager.AddUnit(std::make_unique<boss_cindera>());
 	//m_UnitManager.AddUnit(std::make_unique<boss_crystal>());
