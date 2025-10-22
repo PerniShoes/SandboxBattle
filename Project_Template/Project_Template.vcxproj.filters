@@ -447,6 +447,12 @@
     <ClCompile Include="neutral_arrowwhistler.cpp">
       <Filter>Unit files\neutral</Filter>
     </ClCompile>
+    <ClCompile Include="neutral_zurael.cpp">
+      <Filter>Unit files\neutral</Filter>
+    </ClCompile>
+    <ClCompile Include="neutral_jaxtruesight.cpp">
+      <Filter>Unit files\neutral</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="OrientationManager.h">
@@ -861,6 +867,12 @@
       <Filter>Unit files</Filter>
     </ClInclude>
     <ClInclude Include="neutral_arrowwhistler.h">
+      <Filter>Unit files\neutral</Filter>
+    </ClInclude>
+    <ClInclude Include="neutral_zurael.h">
+      <Filter>Unit files\neutral</Filter>
+    </ClInclude>
+    <ClInclude Include="neutral_jaxtruesight.h">
       <Filter>Unit files\neutral</Filter>
     </ClInclude>
   </ItemGroup>

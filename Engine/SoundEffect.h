@@ -1,5 +1,12 @@
 #pragma once
 #include <string>
+
+// Disable warnings for SDL
+#pragma warning(push, 0) // All warnings
+//#pragma warning(disable: 5262) // implicit fall-through warning
+#include "SDL_mixer.h"
+#pragma warning(pop)
+
 struct Mix_Chunk;
 class SoundEffect final
 {

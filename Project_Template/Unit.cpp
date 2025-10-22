@@ -25,9 +25,13 @@ Unit::Unit(std::string unitName,UnitType type, Transform transform,Stats baseSta
     ,m_TeamNumber{0}
     ,m_SelectionRect{}
     ,m_IsMoving{false}
+    ,m_UnitSoundPack{&GameResources::m_AudioManager.GetSoundPack(unitName)}
 
 {
     using namespace PrettyColors;
+
+    m_SoundPrefix = {m_UnitSoundPack->sfx.begin()->first}; // Up to F I X 
+
     if (GameResources::m_AtlasManager.GetAtlas(unitName)->name != unitName)
     {
         m_UnitAnimatorLoadedCorrectly = false;
@@ -231,6 +235,14 @@ void Unit::Update(float elapsedTime)
         // Finished attack anim
         if (m_Animator->GetCurrentAnimation() != "attack")
         {
+            for (auto& [key,sound] : m_UnitSoundPack->sfx)
+            {
+                if (key.find("attack_impact") != std::string::npos)
+                {
+                    sound.Play(0);
+                    break;
+                }
+            }
             m_Target->TakeDamage(m_Stats.m_CurrentDamage);
 
             if (!this->m_IsCounterAttacking)
@@ -245,6 +257,14 @@ void Unit::Update(float elapsedTime)
                     if (m_Target->m_IsAlive == false)
                     {
                         m_Target->PlayAnim("death");
+                        for (auto& [key,sound] : m_UnitSoundPack->sfx)
+                        {
+                            if (key.find("death") != std::string::npos)
+                            {
+                                sound.Play(0);
+                                break;
+                            }
+                        }
                     }
                 }
             }
@@ -345,6 +365,15 @@ void Unit::TakeDamage(int amount)
    UpdateHealthTexture();
 
    m_Animator->Play("hit");
+
+   for (auto& [key,sound] : m_UnitSoundPack->sfx)
+   {
+       if (key.find("hit") != std::string::npos)
+       {
+           sound.Play(0);
+           break;
+       }
+   }
    
 }
 void Unit::Heal(int amount)
@@ -380,6 +409,17 @@ void Unit::Attack(Unit* target, bool canBeCounterAttacked)
         m_Transform.FlipX();
     }
     m_Animator->Play("attack");
+
+    // Up to F I X
+    for (auto& [key,sound] : m_UnitSoundPack->sfx)
+    {
+        if (key.find("attack_swing") != std::string::npos)
+        {
+            sound.Play(0);
+            break;
+        }
+    }
+
     m_Target = target;
     m_IsAttacking = true;
     m_IsCounterAttackable = canBeCounterAttacked;

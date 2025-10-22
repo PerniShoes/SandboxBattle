@@ -117,7 +117,7 @@
     <Link>
       <SubSystem>Console</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalLibraryDirectories>$(SolutionDir)\Libraries\SDLMain\SDL2-2.26.3\lib\x64;$(SolutionDir)\Libraries\SDLImage\SDL2_image-2.6.3\lib\x64;$(SolutionDir)\Libraries\SDLMixer\SDL2_mixer-2.6.3\lib\x64;$(SolutionDir)\Libraries\SDLTtf\SDL2_ttf-2.20.2\lib\x64;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalLibraryDirectories>$(SolutionDir)\Libraries\SDLMain\SDL2-2.26.3\lib\x64;$(SolutionDir)\Libraries\SDLImage\SDL2_image-2.6.3\lib\x64;$(SolutionDir)\Libraries\SDLMixer\SDL2_mixer-2.6.3\lib\x64;$(SolutionDir)\Libraries\SDLTtf\SDL2_ttf-2.20.2\lib\x64;C:\Users\marek\source\repos\SandboxBattle\Libraries\SDLMixer\SDL2_mixer-2.6.3\lib\x64\optional;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
       <AdditionalDependencies>SDL2.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
@@ -137,7 +137,7 @@
     <Link>
       <SubSystem>Console</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalLibraryDirectories>$(SolutionDir)\Libraries\SDLMain\SDL2-2.26.3\lib\x64;$(SolutionDir)\Libraries\SDLImage\SDL2_image-2.6.3\lib\x64;$(SolutionDir)\Libraries\SDLMixer\SDL2_mixer-2.6.3\lib\x64;$(SolutionDir)\Libraries\SDLTtf\SDL2_ttf-2.20.2\lib\x64;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalLibraryDirectories>$(SolutionDir)\Libraries\SDLMain\SDL2-2.26.3\lib\x64;$(SolutionDir)\Libraries\SDLImage\SDL2_image-2.6.3\lib\x64;$(SolutionDir)\Libraries\SDLMixer\SDL2_mixer-2.6.3\lib\x64;$(SolutionDir)\Libraries\SDLTtf\SDL2_ttf-2.20.2\lib\x64;C:\Users\marek\source\repos\SandboxBattle\Libraries\SDLMixer\SDL2_mixer-2.6.3\lib\x64\optional;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
       <AdditionalDependencies>SDL2.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
@@ -155,6 +155,8 @@
     <ClCompile Include="MouseManager.cpp" />
     <ClCompile Include="MoveCommand.cpp" />
     <ClCompile Include="neutral_arrowwhistler.cpp" />
+    <ClCompile Include="neutral_jaxtruesight.cpp" />
+    <ClCompile Include="neutral_zurael.cpp" />
     <ClCompile Include="OrientationManager.cpp" />
     <ClCompile Include="SandboxBattler.cpp" />
     <ClCompile Include="Stats.cpp" />
@@ -293,6 +295,8 @@
     <ClInclude Include="MouseManager.h" />
     <ClInclude Include="MoveCommand.h" />
     <ClInclude Include="neutral_arrowwhistler.h" />
+    <ClInclude Include="neutral_jaxtruesight.h" />
+    <ClInclude Include="neutral_zurael.h" />
     <ClInclude Include="OrientationManager.h" />
     <ClInclude Include="PrettyColors.h" />
     <ClInclude Include="SandboxBattler.h" />

@@ -98,7 +98,8 @@ protected:
     std::unique_ptr<Texture>m_HealthUiNumber;
     std::unique_ptr<Texture>m_CircleShadow;
 
-
+    const SoundPack* m_UnitSoundPack;
+    std::string m_SoundPrefix;
 
     // Buffs and Debuffs and vector with effects, like buring, slowed, strength and so on
     // Class like "Abbilities" that would allow me to do stuff like: FireBall(this, target) (as in: (caster, target))

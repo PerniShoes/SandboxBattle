@@ -44,6 +44,13 @@ void Game::Initialize()
 	// LOAD ALL
 	GameResources::m_AtlasManager.LoadFolder("../Resources/DuelystResc/units");
 
+	GameResources::m_AudioManager.LoadMusic("../Resources/DuelystResc/ConvertedMusic");
+	GameResources::m_AudioManager.LoadSounds("../Resources/DuelystResc/ConvertedSfx");
+	GameResources::m_AudioManager.SetDefaultVolumeMusic(5);
+	GameResources::m_AudioManager.SetDefaultVolumeSounds(5);
+
+	m_MusicPlayer = &GameResources::m_AudioManager.GetMusicPack();
+
 	m_MapManager.SetMap("battlemap5");
 
 	// ChatGPT helped of course xd
@@ -53,10 +60,10 @@ void Game::Initialize()
 	m_UnitManager.SetDefaultTeam(0);
 	//m_UnitManager.AddUnit(std::make_unique<boss_sandpanther>());
 	m_UnitManager.AddUnit(std::make_unique<boss_andromeda>());
-	m_UnitManager.AddUnit(std::make_unique<boss_shadowlord>());
+	m_UnitManager.AddUnit(std::make_unique<f1_general>());
 	m_UnitManager.AddUnit(std::make_unique<f1_3rdgeneral>());
 	m_UnitManager.AddUnit(std::make_unique<boss_skurge>());
-	m_UnitManager.AddUnit(std::make_unique<boss_skyfalltyrant>());
+	m_UnitManager.AddUnit(std::make_unique<neutral_jaxtruesight>());
 	m_UnitManager.AddUnit(std::make_unique<boss_solfist>());
 	//m_UnitManager.AddUnit(std::make_unique<boss_spelleater>());
 	//m_UnitManager.AddUnit(std::make_unique<boss_vampire>());
@@ -64,7 +71,7 @@ void Game::Initialize()
 
 	m_UnitManager.SetDefaultTeam(1);
 	//m_UnitManager.AddUnit(std::make_unique<boss_chaosknight>());
-	m_UnitManager.AddUnit(std::make_unique<boss_borealjuggernaut>());
+	m_UnitManager.AddUnit(std::make_unique<f1_altgeneral>());
 	m_UnitManager.AddUnit(std::make_unique<neutral_arrowwhistler>());
 	//m_UnitManager.AddUnit(std::make_unique<boss_antiswarm>());
 	m_UnitManager.AddUnit(std::make_unique<boss_cindera>());
@@ -72,7 +79,7 @@ void Game::Initialize()
 	//m_UnitManager.AddUnit(std::make_unique<boss_kron>());
 	m_UnitManager.AddUnit(std::make_unique<boss_emp>());
 	m_UnitManager.AddUnit(std::make_unique<boss_invader>());
-	m_UnitManager.AddUnit(std::make_unique<boss_harmony>());
+	m_UnitManager.AddUnit(std::make_unique<neutral_zurael>());
 
 	m_UnitManager.ScaleAllUnits(1.5f,1.5f);
 	m_UnitManager.SetFrameTimeAll(0.020f);
@@ -215,6 +222,7 @@ void Game::Draw() const
 	ClearBackground();
 	glPushMatrix();
 
+
 	// This could work as a zoom
 	// Camera movement can still be separate or ignored
 	// It seems to work perfectly, only issue being mouse position reading (which should be easy to fix by using scale somewhere in mouse reading)
@@ -272,7 +280,7 @@ void Game::ProcessKeyDownEvent(const SDL_KeyboardEvent& e)
 
 		break;
 	case SDLK_y:
-
+		
 		break;
 	case SDLK_u:
 		m_UnitManager.DeSellectAll();
@@ -291,7 +299,7 @@ void Game::ProcessKeyDownEvent(const SDL_KeyboardEvent& e)
 
 		break;
 	case SDLK_m:
-
+		m_MusicPlayer->begin()->second.Play(true);
 		break;
 	case SDLK_COMMA:
 		m_TargetFPS -= 5.0f;
