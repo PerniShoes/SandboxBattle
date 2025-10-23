@@ -48,7 +48,7 @@ Unit::Unit(std::string unitName,UnitType type, Transform transform,Stats baseSta
     Rectf{0.0f+(m_HitBoxWidth/2.0f)-25.0f
         ,10.0f
         ,50.0f // (left*2)(-25.0f * 2) to make it centered
-        ,30.0f
+        ,35.0f
         }
     };
 
@@ -274,10 +274,29 @@ void Unit::Update(float elapsedTime)
                 if (!m_IsAlive)
                 {
                     m_Animator->Play("death");
+
+                    for (auto& [key,sound] : m_UnitSoundPack->sfx)
+                    {
+                        if (key.find("death") != std::string::npos)
+                        {
+                            sound.Play(0);
+                            break;
+                        }
+                    }
                 }
                 if (m_Target->m_IsAlive == false)
                 {
                     m_Target->PlayAnim("death");
+                    auto targetSoundPack = m_Target->m_UnitSoundPack;
+                    for (auto& [key,sound] : targetSoundPack->sfx)
+                    {
+                        if (key.find("death") != std::string::npos)
+                        {
+                            sound.Play(0);
+                            break;
+                        }
+                    }
+
                 }
                 m_IsCounterAttacking = false;
                 m_WillCounterAttack = false;

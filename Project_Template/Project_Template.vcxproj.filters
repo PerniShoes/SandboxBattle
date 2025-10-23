@@ -46,6 +46,15 @@
     <Filter Include="Unit files\neutral">
       <UniqueIdentifier>{a68bcc1e-6e5a-4ffe-8b9b-4435808c9790}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Unit files\f3">
+      <UniqueIdentifier>{0080cb0f-e2b6-422d-b12e-bab7ffe1c2af}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Unit files\f4">
+      <UniqueIdentifier>{265c8373-4556-45a5-8fe2-3a7031c4b23e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Unit files\f5">
+      <UniqueIdentifier>{288a6dcc-7724-42a6-afa4-c25bf1f21863}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -451,6 +460,60 @@
       <Filter>Unit files\neutral</Filter>
     </ClCompile>
     <ClCompile Include="neutral_jaxtruesight.cpp">
+      <Filter>Unit files\neutral</Filter>
+    </ClCompile>
+    <ClCompile Include="neutral_sunelemental.cpp">
+      <Filter>Unit files\neutral</Filter>
+    </ClCompile>
+    <ClCompile Include="neutral_firestarter.cpp">
+      <Filter>Unit files\neutral</Filter>
+    </ClCompile>
+    <ClCompile Include="neutral_wingsofparadise.cpp">
+      <Filter>Unit files\neutral</Filter>
+    </ClCompile>
+    <ClCompile Include="f4_blacksolus.cpp">
+      <Filter>Unit files\f4</Filter>
+    </ClCompile>
+    <ClCompile Include="f3_anubis.cpp">
+      <Filter>Unit files\f3</Filter>
+    </ClCompile>
+    <ClCompile Include="neutral_ubo.cpp">
+      <Filter>Unit files\neutral</Filter>
+    </ClCompile>
+    <ClCompile Include="neutral_whitewidow.cpp">
+      <Filter>Unit files\neutral</Filter>
+    </ClCompile>
+    <ClCompile Include="neutral_syvrel.cpp">
+      <Filter>Unit files\neutral</Filter>
+    </ClCompile>
+    <ClCompile Include="f4_reaperninemoons.cpp">
+      <Filter>Unit files\f4</Filter>
+    </ClCompile>
+    <ClCompile Include="f4_engulfingshadow.cpp">
+      <Filter>Unit files\f4</Filter>
+    </ClCompile>
+    <ClCompile Include="f4_daemongate.cpp">
+      <Filter>Unit files\f4</Filter>
+    </ClCompile>
+    <ClCompile Include="f5_kujata.cpp">
+      <Filter>Unit files\f5</Filter>
+    </ClCompile>
+    <ClCompile Include="f5_silitharelder.cpp">
+      <Filter>Unit files\f5</Filter>
+    </ClCompile>
+    <ClCompile Include="f3_orbweaver.cpp">
+      <Filter>Unit files\f3</Filter>
+    </ClCompile>
+    <ClCompile Include="neutral_spiritscribe.cpp">
+      <Filter>Unit files\neutral</Filter>
+    </ClCompile>
+    <ClCompile Include="neutral_amu.cpp">
+      <Filter>Unit files\neutral</Filter>
+    </ClCompile>
+    <ClCompile Include="neutral_chaoselemental.cpp">
+      <Filter>Unit files\neutral</Filter>
+    </ClCompile>
+    <ClCompile Include="neutral_gro.cpp">
       <Filter>Unit files\neutral</Filter>
     </ClCompile>
   </ItemGroup>
@@ -873,6 +936,60 @@
       <Filter>Unit files\neutral</Filter>
     </ClInclude>
     <ClInclude Include="neutral_jaxtruesight.h">
+      <Filter>Unit files\neutral</Filter>
+    </ClInclude>
+    <ClInclude Include="neutral_sunelemental.h">
+      <Filter>Unit files\neutral</Filter>
+    </ClInclude>
+    <ClInclude Include="neutral_firestarter.h">
+      <Filter>Unit files\neutral</Filter>
+    </ClInclude>
+    <ClInclude Include="neutral_wingsofparadise.h">
+      <Filter>Unit files\neutral</Filter>
+    </ClInclude>
+    <ClInclude Include="f4_blacksolus.h">
+      <Filter>Unit files\f4</Filter>
+    </ClInclude>
+    <ClInclude Include="f3_anubis.h">
+      <Filter>Unit files\f3</Filter>
+    </ClInclude>
+    <ClInclude Include="neutral_ubo.h">
+      <Filter>Unit files\neutral</Filter>
+    </ClInclude>
+    <ClInclude Include="neutral_whitewidow.h">
+      <Filter>Unit files\neutral</Filter>
+    </ClInclude>
+    <ClInclude Include="neutral_syvrel.h">
+      <Filter>Unit files\neutral</Filter>
+    </ClInclude>
+    <ClInclude Include="f4_daemongate.h">
+      <Filter>Unit files\f4</Filter>
+    </ClInclude>
+    <ClInclude Include="f4_engulfingshadow.h">
+      <Filter>Unit files\f4</Filter>
+    </ClInclude>
+    <ClInclude Include="f4_reaperninemoons.h">
+      <Filter>Unit files\f4</Filter>
+    </ClInclude>
+    <ClInclude Include="f5_kujata.h">
+      <Filter>Unit files\f5</Filter>
+    </ClInclude>
+    <ClInclude Include="f5_silitharelder.h">
+      <Filter>Unit files\f5</Filter>
+    </ClInclude>
+    <ClInclude Include="f3_orbweaver.h">
+      <Filter>Unit files\f3</Filter>
+    </ClInclude>
+    <ClInclude Include="neutral_spiritscribe.h">
+      <Filter>Unit files\neutral</Filter>
+    </ClInclude>
+    <ClInclude Include="neutral_gro.h">
+      <Filter>Unit files\neutral</Filter>
+    </ClInclude>
+    <ClInclude Include="neutral_chaoselemental.h">
+      <Filter>Unit files\neutral</Filter>
+    </ClInclude>
+    <ClInclude Include="neutral_amu.h">
       <Filter>Unit files\neutral</Filter>
     </ClInclude>
   </ItemGroup>

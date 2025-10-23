@@ -46,7 +46,7 @@ void UnitManager::DrawAll()const
     m_Grid->DrawGrid();
     for (const auto unitPtr : m_SelectedUnits)
     {
-        unitPtr->DrawHighlight();
+        //unitPtr->DrawHighlight();
     }
 
     for (const auto& unitPtr : m_Units)
