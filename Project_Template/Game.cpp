@@ -51,34 +51,31 @@ void Game::Initialize()
 	GameResources::m_AudioManager.SetDefaultVolumeMusic(10);
 	GameResources::m_AudioManager.SetDefaultVolumeSounds(10);
 	m_MusicPlayer = &GameResources::m_AudioManager.GetMusicPack();
-	m_MusicPlayer->find("battlemap_vetruv")->second.Play(true);
-	m_MapManager.SetMap("redrock");
-
+	//m_MusicPlayer->find("battlemap_bluemonolith")->second.Play(true);
+	m_MapManager.SetMap("battlemap5");
+	m_UnitManager.SetSoundPack(&GameResources::m_AudioManager.GetSoundPack("unit"));
 
 	// There has to be a way to make it easier to choose the class (and create them too)
 	// For debug purposes team 0 is ally, team 1 enemy (also commented in unit.cpp inside LoadTextures)
 	m_UnitManager.SetDefaultTeam(0);
-	m_UnitManager.AddUnit(std::make_unique<neutral_sunelemental>());
-	m_UnitManager.AddUnit(std::make_unique<neutral_firestarter>());
-	m_UnitManager.AddUnit(std::make_unique<neutral_wingsofparadise>());
-	m_UnitManager.AddUnit(std::make_unique<neutral_ubo>());
-	m_UnitManager.AddUnit(std::make_unique<neutral_whitewidow>());
-	m_UnitManager.AddUnit(std::make_unique<neutral_jaxtruesight>());
-	m_UnitManager.AddUnit(std::make_unique<neutral_gro>());
-	m_UnitManager.AddUnit(std::make_unique<neutral_chaoselemental>());
-	m_UnitManager.AddUnit(std::make_unique<neutral_amu>());
+
+	m_UnitManager.AddUnit(std::make_unique<f1_altgeneraltier2>());
+	m_UnitManager.AddUnit(std::make_unique<f1_ranged>());
+	m_UnitManager.AddUnit(std::make_unique<f1_backlinearcher>());
+	m_UnitManager.AddUnit(std::make_unique<f1_scintilla>());
+	m_UnitManager.AddUnit(std::make_unique<f1_scintilla>());
+	m_UnitManager.AddUnit(std::make_unique<f1_sunbreakguardian>());
+	m_UnitManager.AddUnit(std::make_unique<f1_sunbreakguardian>());
+	m_UnitManager.AddUnit(std::make_unique<f1_sunbreakguardian>());
+
 
 	m_UnitManager.SetDefaultTeam(1);
-	m_UnitManager.AddUnit(std::make_unique<neutral_spiritscribe>());
-	m_UnitManager.AddUnit(std::make_unique<f3_anubis>());
-	m_UnitManager.AddUnit(std::make_unique<f3_orbweaver>());
-	m_UnitManager.AddUnit(std::make_unique<f4_blacksolus>());
-	m_UnitManager.AddUnit(std::make_unique<f4_daemongate>());
-	m_UnitManager.AddUnit(std::make_unique<f4_engulfingshadow>());
-	m_UnitManager.AddUnit(std::make_unique<f5_kujata>());
-	m_UnitManager.AddUnit(std::make_unique<f5_silitharelder>());
-	m_UnitManager.AddUnit(std::make_unique<neutral_zurael>());
-	m_UnitManager.AddUnit(std::make_unique<boss_skurge>());
+	m_UnitManager.AddUnit(std::make_unique<boss_invader>());
+	m_UnitManager.AddUnit(std::make_unique<boss_legion>());
+	m_UnitManager.AddUnit(std::make_unique<boss_shadowlord>());
+	m_UnitManager.AddUnit(std::make_unique<boss_solfist>());
+	m_UnitManager.AddUnit(std::make_unique<boss_cindera>());
+
 
 	m_UnitManager.ScaleAllUnits(1.5f,1.5f);
 	m_UnitManager.SetFrameTimeAll(0.020f);
@@ -90,11 +87,13 @@ void Game::Initialize()
 	{
 		Unit* currentUnit = m_UnitManager.GetUnit(i);
 		Stats newStats = currentUnit->GetStats();
-		newStats.m_CurrentHealth = (1 + std::rand() % 4);     // 1 to 4
-		newStats.m_CurrentDamage = (2 + std::rand() % 3); // 2 to 4
-		newStats.m_MaxHealth = 2;
+		newStats.m_CurrentHealth = (1 + std::rand() % 12);    
+		newStats.m_CurrentDamage = (2 + std::rand() % 12); 
+		newStats.m_InitialDamage = newStats.m_CurrentDamage + 1 - std::rand() % 3;
+		newStats.m_MaxHealth = newStats.m_CurrentHealth + 1 - std::rand() % 3;
 
 		newStats.m_MoveSpeed = 550;
+		newStats.m_MoveRangeTiles = 550;
 		currentUnit->SetStats(newStats);
 		currentUnit->UpdateHealthTexture();
 		currentUnit->UpdateAttackTexture();

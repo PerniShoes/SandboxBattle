@@ -9,6 +9,7 @@
 
 class Grid;
 class Command;
+struct SoundPack;
 class UnitManager
 {
 public:
@@ -48,6 +49,7 @@ public:
 	int GetUnitCount() const;
 	void ScaleAllUnits(float x, float y);
 	std::vector<int> GetReachableTilesId(Unit* unitToMove);
+	void SetSoundPack(const SoundPack* unitSoundPack);
 
 	// Probably could be better:
 	bool IsAnySelected() const;
@@ -70,6 +72,7 @@ private:
 	std::vector<Unit*> m_SelectedUnits;
 	std::vector<std::unique_ptr<Unit>> m_Units;
 	std::unordered_map<Unit*,std::queue<CommandPtr>> m_Queues;
+	const SoundPack* m_UnitSounds;
 	int m_DefaultTeam;
 
 	bool m_HoverEnemy;

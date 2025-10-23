@@ -12,6 +12,7 @@ UnitManager::UnitManager(Rectf screenRect)
     ,m_SelectedUnits{}
     ,m_Units{}
     ,m_Queues{}
+    ,m_UnitSounds{}
     ,m_DefaultTeam{0}
     ,m_HoverEnemy{false}
     ,m_HoverAlly{false}
@@ -28,7 +29,7 @@ UnitManager::UnitManager(Rectf screenRect)
     defaultTileSize.x *= scale.x;
     defaultTileSize.y *= scale.y;
 
-    Point2f startingPointGrid{screenRect.width*0.29f,screenRect.height*0.29f};
+    Point2f startingPointGrid{screenRect.width*0.29f,screenRect.height*0.29f}; // 0.29f
     m_Grid = std::make_unique<Grid>(startingPointGrid,m_TilesPerColumn,m_TilesPerRow,Rectf{screenRect},defaultTileSize);
     m_ObjectsInTiles.resize(m_Grid->GetTileAmount(),nullptr);
 
@@ -111,11 +112,21 @@ void UnitManager::SelectClickedUnit()
                 m_SelectedUnits.push_back(unit);
 
                 m_Grid->HighlightReachableTiles(GetReachableTilesId(unit));
+
+                // TEMP solution
+                for (auto& [key,sound] : m_UnitSounds->sfx)
+                {
+                    if (key.find("unit_onclick") != std::string::npos)
+                    {
+                        sound.Play(0);
+                        break;
+                    }
+                }
             }
             break;
         }
     }
-    // Remove raw pointers when units die 
+    // Remove raw pointers when units die (so just clear them from selected
 }
 
 void UnitManager::OnMouseMotion(const Point2f& mousePos)
@@ -248,6 +259,19 @@ void UnitManager::OnRightButtonDown()
             IssueCommand(unitPtr,std::make_unique<MoveCommand>(targetTileCenter));
             toRemove.push_back(unitPtr);
             m_Grid->UnHighlightTiles();
+
+            // TEMP solution
+            int randomIndex = 1 + std::rand() % 4;
+            std::string searchKey = "sfx_unit_physical_" + std::to_string(randomIndex);
+
+            for (auto& [key,sound] : m_UnitSounds->sfx)
+            {
+                if (key.find(searchKey) != std::string::npos)
+                {
+                    sound.Play(0);
+                    break;
+                }
+            }
 
             // FIX debug
             int tileOccupied{m_Grid->GetHoverTileId(unitPtr->GetTransform().position)};
@@ -573,4 +597,8 @@ bool UnitManager::IsTileInRange(int targetTileId,int currentTileId,int range)
 
     return distance <= range;
 
+}
+void UnitManager::SetSoundPack(const SoundPack* unitSoundPack)
+{
+    m_UnitSounds = unitSoundPack;
 }

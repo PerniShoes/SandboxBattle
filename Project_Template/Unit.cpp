@@ -235,6 +235,7 @@ void Unit::Update(float elapsedTime)
         // Finished attack anim
         if (m_Animator->GetCurrentAnimation() != "attack")
         {
+            // ALL THESE LOOPS ARE TEMP
             for (auto& [key,sound] : m_UnitSoundPack->sfx)
             {
                 if (key.find("attack_impact") != std::string::npos)
