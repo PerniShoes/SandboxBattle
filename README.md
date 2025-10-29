@@ -1,5 +1,5 @@
-### Duelyst Remake
-
+### Duelyst Remake (work in progress)  
+#
 Solo project covering almost the entirety of game development (excluding networking).
 
 Self-made systems for animation, audio, combat, and more.  
