@@ -8,6 +8,8 @@
 #include "MouseManager.h"
 #include "MapManager.h"
 
+#include <unordered_map>
+
 class UnitAnimator;
 class TimeClass;
 class Texture;
@@ -56,6 +58,7 @@ private:
 	UnitManager m_UnitManager;
 	MouseManager m_MouseManager;
 	MapManager m_MapManager;
+	const std::unordered_map<std::string,SoundStream>* m_MusicPlayer;
 
 	//////////////// TEST
 

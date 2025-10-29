@@ -1,7 +1,7 @@
 //#include <iostream>
 //#include <gmock/gmock.h>
 //
-//// Idk I tried everything to make it work with header files. 
+//// Idk I tried a lot of things to make it work with header files. 
 //// It works with those .cpp files included, so I guess I will use test like this, for now
 //#include "Texture.h"
 //#include "utils.cpp"
@@ -12,7 +12,8 @@
 //#include "Unit.cpp"
 ////
 //// 
-//// //  REFACTORING CODE NOW A LOT 
+
+//// //  REFACTORING CODE NOW A LOT    - will bring back Unit tests soon
 ////TEST(UnitTest,Overheal)
 ////{
 ////    Transform transform{};

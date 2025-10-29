@@ -10,6 +10,7 @@
 #include "GameResources.h"
 #include "UnitAnimator.h"
 #include "PrettyColors.h"
+// Way too many includes
 
 // Useless?
 enum class UnitType
@@ -40,7 +41,8 @@ public:
 
     bool MoveTowardsDestination(Point2f destination,float elapsedTime);
     void MoveTo(Point2f destination);
-    void Attack(Unit* target);
+    void Attack(Unit* target, bool canBeCounterAttacked);
+    void CounterAttack(Unit* target);
 
     void TeleportTo(Point2f position);
     void TakeDamage(int amount);
@@ -68,6 +70,9 @@ protected:
     Stats m_Stats;
     Unit* m_Target;
     bool m_IsAttacking;
+    bool m_IsCounterAttacking;
+    bool m_WillCounterAttack;
+    bool m_IsCounterAttackable;
 
     Point2f m_Destination;
     Transform m_Transform;
@@ -94,7 +99,8 @@ protected:
     std::unique_ptr<Texture>m_HealthUiNumber;
     std::unique_ptr<Texture>m_CircleShadow;
 
-
+    const SoundPack* m_UnitSoundPack;
+    std::string m_SoundPrefix;
 
     // Buffs and Debuffs and vector with effects, like buring, slowed, strength and so on
     // Class like "Abbilities" that would allow me to do stuff like: FireBall(this, target) (as in: (caster, target))

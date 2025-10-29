@@ -24,6 +24,7 @@
     <ClCompile Include="GameResources.cpp" />
     <ClCompile Include="Matrix2x3.cpp" />
     <ClCompile Include="SoundEffect.cpp" />
+    <ClCompile Include="AudioManager.cpp" />
     <ClCompile Include="SoundStream.cpp" />
     <ClCompile Include="SpriteAtlasManager.cpp" />
     <ClCompile Include="structs.cpp" />
@@ -40,6 +41,7 @@
     <ClInclude Include="Matrix2x3.h" />
     <ClInclude Include="base.h" />
     <ClInclude Include="SoundEffect.h" />
+    <ClInclude Include="AudioManager.h" />
     <ClInclude Include="SoundStream.h" />
     <ClInclude Include="SpriteAtlasManager.h" />
     <ClInclude Include="structs.h" />
@@ -151,7 +153,7 @@
       <PrecompiledHeader>NotUsing</PrecompiledHeader>
       <PrecompiledHeaderFile>pch.h</PrecompiledHeaderFile>
       <TreatWarningAsError>false</TreatWarningAsError>
-      <AdditionalIncludeDirectories>$(SolutionDir)\Libraries\SDLTtf\SDL2_ttf-2.20.2\include;$(SolutionDir)\Libraries\SDLMixer\SDL2_mixer-2.6.3\include;$(SolutionDir)\Libraries\SDLImage\SDL2_image-2.6.3\include;$(SolutionDir)\Libraries\SDLMain\SDL2-2.26.3\include;$(SolutionDir)\Engine;$(IncludePath);$(SolutionDir)\Project_Template</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)\Libraries\SDLTtf\SDL2_ttf-2.20.2\include;$(SolutionDir)\Libraries\SDLMixer\SDL2_mixer-2.6.3\include;$(SolutionDir)\Libraries\SDLImage\SDL2_image-2.6.3\include;$(SolutionDir)\Libraries\SDLMain\SDL2-2.26.3\include;$(SolutionDir)\Engine;$(IncludePath);$(SolutionDir)\Project_Template;C:\Users\marek\Desktop\C++\Libraries\libxmp-ce107d522ee1bd40331b5cba8f81a0aeaf7e1008\include;C:\Users\marek\source\repos\SandboxBattle\Libraries\SDLMixer\SDL2_mixer-2.6.3\lib\x64\optional</AdditionalIncludeDirectories>
       <LanguageStandard>stdcpp23</LanguageStandard>
     </ClCompile>
     <Link>
@@ -170,7 +172,7 @@
       <ConformanceMode>true</ConformanceMode>
       <PrecompiledHeader>NotUsing</PrecompiledHeader>
       <PrecompiledHeaderFile>pch.h</PrecompiledHeaderFile>
-      <AdditionalIncludeDirectories>$(SolutionDir)\Libraries\SDLTtf\SDL2_ttf-2.20.2\include;$(SolutionDir)\Libraries\SDLMixer\SDL2_mixer-2.6.3\include;$(SolutionDir)\Libraries\SDLImage\SDL2_image-2.6.3\include;$(SolutionDir)\Libraries\SDLMain\SDL2-2.26.3\include;$(SolutionDir)\Engine;$(IncludePath);$(SolutionDir)\Project_Template</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)\Libraries\SDLTtf\SDL2_ttf-2.20.2\include;$(SolutionDir)\Libraries\SDLMixer\SDL2_mixer-2.6.3\include;$(SolutionDir)\Libraries\SDLImage\SDL2_image-2.6.3\include;$(SolutionDir)\Libraries\SDLMain\SDL2-2.26.3\include;$(SolutionDir)\Engine;$(IncludePath);$(SolutionDir)\Project_Template;C:\Users\marek\Desktop\C++\Libraries\libxmp-ce107d522ee1bd40331b5cba8f81a0aeaf7e1008\include;C:\Users\marek\source\repos\SandboxBattle\Libraries\SDLMixer\SDL2_mixer-2.6.3\lib\x64\optional</AdditionalIncludeDirectories>
       <LanguageStandard>stdcpp23</LanguageStandard>
     </ClCompile>
     <Link>

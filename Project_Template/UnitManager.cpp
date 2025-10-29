@@ -12,6 +12,7 @@ UnitManager::UnitManager(Rectf screenRect)
     ,m_SelectedUnits{}
     ,m_Units{}
     ,m_Queues{}
+    ,m_UnitSounds{}
     ,m_DefaultTeam{0}
     ,m_HoverEnemy{false}
     ,m_HoverAlly{false}
@@ -28,9 +29,9 @@ UnitManager::UnitManager(Rectf screenRect)
     defaultTileSize.x *= scale.x;
     defaultTileSize.y *= scale.y;
 
-    Point2f startingPointGrid{screenRect.width*0.29f,screenRect.height*0.29f};
+    Point2f startingPointGrid{screenRect.width*0.29f,screenRect.height*0.29f}; // 0.29f
     m_Grid = std::make_unique<Grid>(startingPointGrid,m_TilesPerColumn,m_TilesPerRow,Rectf{screenRect},defaultTileSize);
-    m_TilesTaken.resize(m_Grid->GetTileAmount(),false);
+    m_ObjectsInTiles.resize(m_Grid->GetTileAmount(),nullptr);
 
     std::srand(static_cast<unsigned int>(std::time(nullptr)));
 }
@@ -46,7 +47,7 @@ void UnitManager::DrawAll()const
     m_Grid->DrawGrid();
     for (const auto unitPtr : m_SelectedUnits)
     {
-        unitPtr->DrawHighlight();
+        //unitPtr->DrawHighlight();
     }
 
     for (const auto& unitPtr : m_Units)
@@ -102,7 +103,6 @@ void UnitManager::SelectClickedUnit()
         // If m_TilesTaken is rewriten to store what Unit/obstacle is in it, I can just check for tile polygon, not unit selectionbox
         // Makes it easier since otherwise I would have to update Unit selc boxes to match the tiles they stand on
 
-
         if (utils::IsPointInRect(m_LastMousePos,unitPtr->GetSelectionBox()))
         {
             auto unit = unitPtr.get();
@@ -110,11 +110,23 @@ void UnitManager::SelectClickedUnit()
             {
                 unit->PlayAnim("idle");
                 m_SelectedUnits.push_back(unit);
+
+                m_Grid->HighlightReachableTiles(GetReachableTilesId(unit));
+
+                // TEMP solution
+                for (auto& [key,sound] : m_UnitSounds->sfx)
+                {
+                    if (key.find("unit_onclick") != std::string::npos)
+                    {
+                        sound.Play(0);
+                        break;
+                    }
+                }
             }
             break;
         }
     }
-    // Remove raw pointers when units die 
+    // Remove raw pointers when units die (so just clear them from selected
 }
 
 void UnitManager::OnMouseMotion(const Point2f& mousePos)
@@ -177,7 +189,8 @@ void UnitManager::OnRightButtonDown()
     // Add checks for things like range (attack range, move range)
     bool unitAttacked{false};
     std::vector<Unit*> toRemove;
-    // Check if clicked on a Unit
+
+    // CLICKED ON UNIT
     for (const auto& unitPtr : m_Units)
     {
         // Unit clicked found
@@ -185,41 +198,81 @@ void UnitManager::OnRightButtonDown()
         {
             for (const auto& unitSelectedPtr : m_SelectedUnits)
             {
+                // Enemy team:
                 if (unitSelectedPtr->GetTeamID() != unitPtr->GetTeamID())
                 {
-                    // Issue attack
-                    // LATER
-                    // LATER to check range/if can attack etc. ... For now it *just* attacks
-                    unitSelectedPtr->Attack(unitPtr.get());
+                    // Attack range check
+                    int range{unitSelectedPtr->GetStats().m_AttackRangeTiles};
+                    int tileOccupiedSelected{m_Grid->GetHoverTileId(unitSelectedPtr->GetTransform().position)};
+                    int tileOccupiedTarget{m_Grid->GetHoverTileId(unitPtr->GetTransform().position)};
 
-                    println("Unit with teamNr: {}, dealt: {} damage to unit with teamNr: {}, health of both: first one: {}, second one: {}"
-                        ,unitSelectedPtr->GetTeamID()
-                        ,unitSelectedPtr->GetStats().m_CurrentDamage
-                        ,unitPtr->GetTeamID()
-                        ,unitSelectedPtr->GetStats().m_CurrentHealth
-                        ,unitPtr->GetStats().m_CurrentHealth);
+                    if (!IsTileInRange(tileOccupiedTarget,tileOccupiedSelected,range))
+                    {
+                        return;
+                    }
+
+                    // Counter attack range check
+                    int rangeCounter{unitPtr->GetStats().m_AttackRangeTiles};
+                    bool canEnemyCounter = IsTileInRange(tileOccupiedTarget,tileOccupiedSelected,rangeCounter);
+           
+                    // Issue attack
+                    unitSelectedPtr->Attack(unitPtr.get(),canEnemyCounter);
+
+                    // Debug
+                    //println("Unit with teamNr: {}, dealt: {} damage to unit with teamNr: {}, health of both: first one: {}, second one: {}"
+                    //    ,unitSelectedPtr->GetTeamID()
+                    //    ,unitSelectedPtr->GetStats().m_CurrentDamage
+                    //    ,unitPtr->GetTeamID()
+                    //    ,unitSelectedPtr->GetStats().m_CurrentHealth
+                    //    ,unitPtr->GetStats().m_CurrentHealth);
+                    
                     toRemove.push_back(unitSelectedPtr);
+
+                    // Skip move command since clicked on unit
+                    unitAttacked = true;
+                    m_Grid->UnHighlightTiles();
                 }
             }
-            // Skip move command since clicked on unit
-            unitAttacked = true;
         }
     }
 
+    // CLICKED ON GROUND
     if (!unitAttacked)
     {
-        // If clicked on ground
         int tileClicked = {m_Grid->GetHoverTileId(m_LastMousePos)};
         if (tileClicked <= -1)
         {
             // Clicked not in tiles
             return;
         }
+  
         Point2f targetTileCenter = {m_Grid->GetTileCenter(tileClicked)};
         for (const auto& unitPtr : m_SelectedUnits)
         {
+            std::vector<int> reachableTiles = GetReachableTilesId(unitPtr);
+            auto itterator = std::find(reachableTiles.begin(),reachableTiles.end(),tileClicked);
+            if (itterator == reachableTiles.end() || m_ObjectsInTiles[*itterator] == unitPtr)
+            {
+                return;
+            }
+
             IssueCommand(unitPtr,std::make_unique<MoveCommand>(targetTileCenter));
             toRemove.push_back(unitPtr);
+            m_Grid->UnHighlightTiles();
+
+            // TEMP solution
+            int randomIndex = 1 + std::rand() % 4;
+            std::string searchKey = "sfx_unit_physical_" + std::to_string(randomIndex);
+
+            for (auto& [key,sound] : m_UnitSounds->sfx)
+            {
+                if (key.find(searchKey) != std::string::npos)
+                {
+                    sound.Play(0);
+                    break;
+                }
+            }
+
             // FIX debug
             int tileOccupied{m_Grid->GetHoverTileId(unitPtr->GetTransform().position)};
             if (tileOccupied <= -1)
@@ -228,14 +281,11 @@ void UnitManager::OnRightButtonDown()
             }
             else
             {
-                m_TilesTaken[tileOccupied] = false;
+                m_ObjectsInTiles[tileOccupied] = nullptr;
             }
             //
+            m_ObjectsInTiles[tileClicked] = unitPtr;
         }
-
-        // Debug
-        m_TilesTaken[tileClicked] = true;
-        //
     }
     for (auto* ptr : toRemove)
     {
@@ -263,6 +313,7 @@ void UnitManager::DeSellectAll()
     {
         unitPtr->PlayAnim("breathing");
     }
+    m_Grid->UnHighlightTiles();
     m_SelectedUnits.clear();
 }
 void UnitManager::IssueCommand(Unit* unit, CommandPtr command)
@@ -345,7 +396,7 @@ void UnitManager::PlaceOnGrid(int unitId, int tileId,bool randomFreeTile)
         {
             // FIX debug (poorly optimaized)
             randomId = {std::rand() % (m_Grid->GetTileAmount() - 1)};
-            if (!m_TilesTaken[randomId])
+            if (m_ObjectsInTiles[randomId]==nullptr)
             {
                 break;
             }
@@ -359,8 +410,8 @@ void UnitManager::PlaceOnGrid(int unitId, int tileId,bool randomFreeTile)
     {
         TeleportTo(unitId,m_Grid->GetTileCenter(tileId));
     }
-    // FIX debug (whole fun is poorly written)
-    m_TilesTaken[tileTaken] = true;
+    // FIX debug (whole func is poorly written)
+    m_ObjectsInTiles[tileTaken] = m_Units[unitId-1].get();
     //
 }
 
@@ -409,4 +460,145 @@ void UnitManager::BucketSortByY(std::vector<std::unique_ptr<Unit>>& units)
         }
     }
 
+}
+
+std::vector<int> UnitManager::GetReachableTilesId(Unit* unitToMove)
+{
+
+    // Polish:
+    // Rn it checks a lot of *theoretically* reachable tiles, but ofc in a regular grid if one tile bellow doesn't exist, 
+    // Then there won't be any tiles further down, and no tiles in the same row on the right of left
+
+    // FIX check for border of grid (if on the right edge +1 id IS VALID, but it's on the left side)
+
+    int moveRange{unitToMove->GetStats().m_MoveRangeTiles};
+    int tileOccupiedId{m_Grid->GetHoverTileId(unitToMove->GetTransform().position)};
+    if (tileOccupiedId == -1)
+    {
+        return std::vector<int>();
+    }
+    std::vector<int> reachableTilesId;
+    reachableTilesId.push_back(tileOccupiedId);
+
+    bool goRight{true};
+    bool goLeft{true};
+    // Reachable tiles
+    for (int horizontalIndex{0}; horizontalIndex <= moveRange ; ++horizontalIndex)
+    {
+        int rightSideTile{tileOccupiedId + horizontalIndex};
+        int leftSideTile{tileOccupiedId - horizontalIndex};
+        if (horizontalIndex > 0)
+        {
+            if (!m_Grid->IsValidTileId(rightSideTile) || rightSideTile % m_TilesPerRow == 0)
+            {
+                goRight = false;
+            }
+            if (!m_Grid->IsValidTileId(leftSideTile) || (leftSideTile + 1) % m_TilesPerRow == 0)
+            {
+                goLeft = false;
+            }
+            if (!goRight && !goLeft)
+            {
+                break;
+            }
+        }
+        // Horizontal directions
+        if (horizontalIndex > 0)
+        { 
+            if (goRight)
+            {
+                if (m_ObjectsInTiles[rightSideTile] == nullptr) 
+                {
+                    reachableTilesId.push_back(rightSideTile);
+                }
+            }
+            if (goLeft)
+            {
+                if (m_ObjectsInTiles[leftSideTile] == nullptr)
+                {
+                    reachableTilesId.push_back(leftSideTile);
+                }
+            }
+        }
+
+        // Vertical directions
+        for (int verticalIndex{moveRange-horizontalIndex}; verticalIndex > 0; --verticalIndex)
+        {
+            int tileUp{rightSideTile + m_TilesPerRow * verticalIndex};
+            int tileDown{rightSideTile - m_TilesPerRow * verticalIndex};
+
+            if (goRight)
+            {
+                if (m_Grid->IsValidTileId(tileUp))
+                {
+                    if (m_ObjectsInTiles[tileUp] == nullptr)
+                    {
+                        reachableTilesId.push_back(tileUp);
+                    }
+                }
+                if (m_Grid->IsValidTileId(tileDown))
+                {
+                    if (m_ObjectsInTiles[tileDown] == nullptr)
+                    {
+                        reachableTilesId.push_back(tileDown);
+                    }
+                }
+            }
+
+            if (goLeft)
+            {
+                tileUp = leftSideTile + m_TilesPerRow * verticalIndex;
+                tileDown = leftSideTile - m_TilesPerRow * verticalIndex;
+
+                if (horizontalIndex > 0)
+                {
+                    if (m_Grid->IsValidTileId(tileUp))
+                    {
+                        if (m_ObjectsInTiles[tileUp] == nullptr)
+                        {
+                            reachableTilesId.push_back(tileUp);
+                        }
+                    }
+
+                    if (m_Grid->IsValidTileId(tileDown))
+                    {
+                        if (m_ObjectsInTiles[tileDown] == nullptr)
+                        {
+                            reachableTilesId.push_back(tileDown);
+                        }
+                    }
+                }
+            }
+        }
+    }
+
+
+    // Check for obstacles (ally, obstacle, enemy, etc.)
+
+    return reachableTilesId;
+}
+bool UnitManager::IsTileInRange(int targetTileId,int currentTileId,int range)
+{
+    // I assume I get correct ids, but just in case:
+    if (!m_Grid->IsValidTileId(targetTileId) || !m_Grid->IsValidTileId(currentTileId))
+        return false;
+
+
+    int currentRow = currentTileId / m_TilesPerRow;
+    int currentCol = currentTileId % m_TilesPerRow;
+
+    int targetRow = targetTileId / m_TilesPerRow;
+    int targetCol = targetTileId % m_TilesPerRow;
+
+    int distanceRow = abs(targetRow - currentRow);
+    int distanceCol = abs(targetCol - currentCol);
+
+    int distance = std::max(distanceRow,distanceCol); // Diagonal-inclusive range
+
+    return distance <= range;
+
+}
+void UnitManager::SetSoundPack(const SoundPack* unitSoundPack)
+{
+    m_UnitSounds = unitSoundPack;
 }

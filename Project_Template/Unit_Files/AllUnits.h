@@ -117,3 +117,35 @@
 // Critters
 #include "critter_1.h"
 #include "critter_2.h"
+
+// Neutral
+#include "neutral_arrowwhistler.h"
+
+// With sfx:
+#include "neutral_zurael.h"
+#include "neutral_jaxtruesight.h"
+#include "neutral_sunelemental.h"
+#include "neutral_firestarter.h"
+#include "neutral_wingsofparadise.h"
+#include "neutral_ubo.h"
+#include "neutral_whitewidow.h"
+#include "neutral_syvrel.h"
+#include "neutral_gro.h"
+#include "neutral_chaoselemental.h"
+#include "neutral_amu.h"
+#include "neutral_spiritscribe.h"
+
+// F3
+#include "f3_anubis.h"
+#include "f3_orbweaver.h"
+
+// F4
+#include "f4_blacksolus.h"
+#include "f4_reaperninemoons.h"
+#include "f4_daemongate.h"
+#include "f4_engulfingshadow.h"
+
+// F5
+#include "f5_kujata.h"
+#include "f5_silitharelder.h"
+

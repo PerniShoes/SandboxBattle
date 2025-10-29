@@ -37,6 +37,9 @@
     <ClCompile Include="GameResources.cpp">
       <Filter>MyCode</Filter>
     </ClCompile>
+    <ClCompile Include="AudioManager.cpp">
+      <Filter>MyCode</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="base.h">
@@ -79,6 +82,9 @@
       <Filter>MyCode</Filter>
     </ClInclude>
     <ClInclude Include="AnimationClip.h">
+      <Filter>MyCode</Filter>
+    </ClInclude>
+    <ClInclude Include="AudioManager.h">
       <Filter>MyCode</Filter>
     </ClInclude>
   </ItemGroup>

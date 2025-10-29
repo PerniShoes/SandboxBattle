@@ -14,6 +14,9 @@ struct Tile
     Point2f tileCenter;
     std::vector<Point2f> spacingOnLeftVertices;
     std::vector<Point2f> spacingBellowVertices;
+    bool fillLeft{false};
+    bool fillRight{false};
+    bool highlightTile{false};
 };
 
 class Grid final
@@ -28,7 +31,7 @@ public:
 
     void InitializeGrid(int tilesPerRow,int tilesPerCol,Point2f tileSize);
     void DrawGrid()const;
-    void DrawHighlighted()const;
+    void DrawHighlights()const;
     Point2f GetTileCenter(int tileIndex);
     int GetHoverTileId(Point2f mousePos);
     int GetTileAmount() const;

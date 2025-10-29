@@ -5,6 +5,9 @@ Unit::Unit(std::string unitName,UnitType type, Transform transform,Stats baseSta
     :m_Type{type}
     ,m_Target{nullptr}
     ,m_IsAttacking{false}
+    ,m_IsCounterAttacking{false}
+    ,m_WillCounterAttack{false}
+    ,m_IsCounterAttackable{false}
     ,m_Stats{baseStats}
     ,m_Destination{}
     ,m_Transform{transform}
@@ -22,9 +25,13 @@ Unit::Unit(std::string unitName,UnitType type, Transform transform,Stats baseSta
     ,m_TeamNumber{0}
     ,m_SelectionRect{}
     ,m_IsMoving{false}
+    ,m_UnitSoundPack{&GameResources::m_AudioManager.GetSoundPack(unitName)}
 
 {
     using namespace PrettyColors;
+
+    m_SoundPrefix = {m_UnitSoundPack->sfx.begin()->first}; // Up to F I X 
+
     if (GameResources::m_AtlasManager.GetAtlas(unitName)->name != unitName)
     {
         m_UnitAnimatorLoadedCorrectly = false;
@@ -41,7 +48,7 @@ Unit::Unit(std::string unitName,UnitType type, Transform transform,Stats baseSta
     Rectf{0.0f+(m_HitBoxWidth/2.0f)-25.0f
         ,10.0f
         ,50.0f // (left*2)(-25.0f * 2) to make it centered
-        ,30.0f
+        ,35.0f
         }
     };
 
@@ -228,11 +235,87 @@ void Unit::Update(float elapsedTime)
         // Finished attack anim
         if (m_Animator->GetCurrentAnimation() != "attack")
         {
+            // ALL THESE LOOPS ARE TEMP
+            for (auto& [key,sound] : m_UnitSoundPack->sfx)
+            {
+                if (key.find("attack_impact") != std::string::npos)
+                {
+                    sound.Play(0);
+                    break;
+                }
+            }
             m_Target->TakeDamage(m_Stats.m_CurrentDamage);
+
+            if (!this->m_IsCounterAttacking)
+            {
+                if (m_IsCounterAttackable)
+                {
+                    m_Target->CounterAttack(this);
+                }
+                // If target can't counter attack, check it's alive status
+                else 
+                {
+                    if (m_Target->m_IsAlive == false)
+                    {
+                        m_Target->PlayAnim("death");
+                        for (auto& [key,sound] : m_UnitSoundPack->sfx)
+                        {
+                            if (key.find("death") != std::string::npos)
+                            {
+                                sound.Play(0);
+                                break;
+                            }
+                        }
+                    }
+                }
+            }
+            else
+            {
+                // After counter attacking check if alive (can counterattack before dying)
+                if (!m_IsAlive)
+                {
+                    m_Animator->Play("death");
+
+                    for (auto& [key,sound] : m_UnitSoundPack->sfx)
+                    {
+                        if (key.find("death") != std::string::npos)
+                        {
+                            sound.Play(0);
+                            break;
+                        }
+                    }
+                }
+                if (m_Target->m_IsAlive == false)
+                {
+                    m_Target->PlayAnim("death");
+                    auto targetSoundPack = m_Target->m_UnitSoundPack;
+                    for (auto& [key,sound] : targetSoundPack->sfx)
+                    {
+                        if (key.find("death") != std::string::npos)
+                        {
+                            sound.Play(0);
+                            break;
+                        }
+                    }
+
+                }
+                m_IsCounterAttacking = false;
+                m_WillCounterAttack = false;
+            }
+
             m_Target = nullptr;
             m_IsAttacking = false;
         }
     }
+    if (m_WillCounterAttack)
+    {
+        if (m_Animator->GetCurrentAnimation() != "hit")
+        {
+            Attack(m_Target, false);
+            m_WillCounterAttack = false;
+        }
+    }
+
     m_Animator->Update(elapsedTime);
 }
 
@@ -301,15 +384,17 @@ void Unit::TakeDamage(int amount)
 
    UpdateHealthTexture();
 
-   if (!m_IsAlive)
-   {
-       m_Animator->Play("death");
-   }
-   else
-   {
-       m_Animator->Play("hit");
-   }
+   m_Animator->Play("hit");
 
+   for (auto& [key,sound] : m_UnitSoundPack->sfx)
+   {
+       if (key.find("hit") != std::string::npos)
+       {
+           sound.Play(0);
+           break;
+       }
+   }
+   
 }
 void Unit::Heal(int amount)
 {
@@ -331,7 +416,7 @@ void Unit::ChangeTeam(int newID)
 {
     m_TeamNumber = newID;
 }
-void Unit::Attack(Unit* target)
+void Unit::Attack(Unit* target, bool canBeCounterAttacked)
 {
     if (m_Transform.position.x > target->GetTransform().position.x && !m_FacingLeft)
     {
@@ -344,9 +429,28 @@ void Unit::Attack(Unit* target)
         m_Transform.FlipX();
     }
     m_Animator->Play("attack");
+
+    // Up to F I X
+    for (auto& [key,sound] : m_UnitSoundPack->sfx)
+    {
+        if (key.find("attack_swing") != std::string::npos)
+        {
+            sound.Play(0);
+            break;
+        }
+    }
+
     m_Target = target;
     m_IsAttacking = true;
+    m_IsCounterAttackable = canBeCounterAttacked;
 }
+void Unit::CounterAttack(Unit* target)
+{
+    m_IsCounterAttacking = true;
+    m_WillCounterAttack = true;
+    m_Target = target;
+}
+
 Transform Unit::GetTransform()const
 {
     return m_Transform;

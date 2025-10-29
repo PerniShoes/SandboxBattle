@@ -11,12 +11,13 @@
 #include <print>
 #include <thread>
 #include <chrono>
-
+#include <cstdlib> 
+#include <ctime>  
 
 // Umbrella header for all units???
 #include "AllUnits.h" // Yes
 
-// TESTING:
+// TESTING: delete?
 #include "UnitAnimator.h"
 
 Game::Game(const Window& window)
@@ -29,6 +30,7 @@ Game::Game(const Window& window)
 	
 {
 	Initialize();
+
 }
 
 Game::~Game()
@@ -44,44 +46,57 @@ void Game::Initialize()
 	// LOAD ALL
 	GameResources::m_AtlasManager.LoadFolder("../Resources/DuelystResc/units");
 
+	GameResources::m_AudioManager.LoadMusic("../Resources/DuelystResc/ConvertedMusic");
+	GameResources::m_AudioManager.LoadSounds("../Resources/DuelystResc/ConvertedSfx");
+	GameResources::m_AudioManager.SetDefaultVolumeMusic(10);
+	GameResources::m_AudioManager.SetDefaultVolumeSounds(10);
+	m_MusicPlayer = &GameResources::m_AudioManager.GetMusicPack();
+	//m_MusicPlayer->find("battlemap_bluemonolith")->second.Play(true);
 	m_MapManager.SetMap("battlemap5");
+	m_UnitManager.SetSoundPack(&GameResources::m_AudioManager.GetSoundPack("unit"));
 
-	// ChatGPT helped of course xd
 	// There has to be a way to make it easier to choose the class (and create them too)
-
 	// For debug purposes team 0 is ally, team 1 enemy (also commented in unit.cpp inside LoadTextures)
 	m_UnitManager.SetDefaultTeam(0);
-	//m_UnitManager.AddUnit(std::make_unique<boss_sandpanther>());
-	m_UnitManager.AddUnit(std::make_unique<boss_serpenti>());
-	m_UnitManager.AddUnit(std::make_unique<boss_shadowlord>());
-	m_UnitManager.AddUnit(std::make_unique<f1_3rdgeneral>());
-	m_UnitManager.AddUnit(std::make_unique<boss_skurge>());
-	m_UnitManager.AddUnit(std::make_unique<boss_skyfalltyrant>());
-	m_UnitManager.AddUnit(std::make_unique<boss_solfist>());
-	//m_UnitManager.AddUnit(std::make_unique<boss_spelleater>());
-	//m_UnitManager.AddUnit(std::make_unique<boss_vampire>());
-	//m_UnitManager.AddUnit(std::make_unique<boss_wraith>());
+
+	m_UnitManager.AddUnit(std::make_unique<f1_altgeneraltier2>());
+	m_UnitManager.AddUnit(std::make_unique<f1_ranged>());
+	m_UnitManager.AddUnit(std::make_unique<f1_backlinearcher>());
+	m_UnitManager.AddUnit(std::make_unique<f1_scintilla>());
+	m_UnitManager.AddUnit(std::make_unique<f1_scintilla>());
+	m_UnitManager.AddUnit(std::make_unique<f1_sunbreakguardian>());
+	m_UnitManager.AddUnit(std::make_unique<f1_sunbreakguardian>());
+	m_UnitManager.AddUnit(std::make_unique<f1_sunbreakguardian>());
+
 
 	m_UnitManager.SetDefaultTeam(1);
-	//m_UnitManager.AddUnit(std::make_unique<boss_chaosknight>());
-	m_UnitManager.AddUnit(std::make_unique<boss_borealjuggernaut>());
-	m_UnitManager.AddUnit(std::make_unique<boss_andromeda>());
-	//m_UnitManager.AddUnit(std::make_unique<boss_antiswarm>());
-	m_UnitManager.AddUnit(std::make_unique<boss_cindera>());
-	//m_UnitManager.AddUnit(std::make_unique<boss_crystal>());
-	//m_UnitManager.AddUnit(std::make_unique<boss_kron>());
-	m_UnitManager.AddUnit(std::make_unique<boss_emp>());
 	m_UnitManager.AddUnit(std::make_unique<boss_invader>());
-	m_UnitManager.AddUnit(std::make_unique<boss_harmony>());
+	m_UnitManager.AddUnit(std::make_unique<boss_legion>());
+	m_UnitManager.AddUnit(std::make_unique<boss_shadowlord>());
+	m_UnitManager.AddUnit(std::make_unique<boss_solfist>());
+	m_UnitManager.AddUnit(std::make_unique<boss_cindera>());
+
 
 	m_UnitManager.ScaleAllUnits(1.5f,1.5f);
 	m_UnitManager.SetFrameTimeAll(0.020f);
 
+	std::srand(static_cast<unsigned int>(std::time(nullptr)));
+
+	// Unit stat setting for debug
 	for (int i{1}; i <= m_UnitManager.GetUnitCount(); ++i)
 	{
-		Stats newStats = m_UnitManager.GetUnit(i)->GetStats();
+		Unit* currentUnit = m_UnitManager.GetUnit(i);
+		Stats newStats = currentUnit->GetStats();
+		newStats.m_CurrentHealth = (1 + std::rand() % 12);    
+		newStats.m_CurrentDamage = (2 + std::rand() % 12); 
+		newStats.m_InitialDamage = newStats.m_CurrentDamage + 1 - std::rand() % 3;
+		newStats.m_MaxHealth = newStats.m_CurrentHealth + 1 - std::rand() % 3;
+
 		newStats.m_MoveSpeed = 550;
-		m_UnitManager.GetUnit(i)->SetStats(newStats);
+		newStats.m_MoveRangeTiles = 550;
+		currentUnit->SetStats(newStats);
+		currentUnit->UpdateHealthTexture();
+		currentUnit->UpdateAttackTexture();
 	}
 
 
@@ -215,6 +230,7 @@ void Game::Draw() const
 	ClearBackground();
 	glPushMatrix();
 
+
 	// This could work as a zoom
 	// Camera movement can still be separate or ignored
 	// It seems to work perfectly, only issue being mouse position reading (which should be easy to fix by using scale somewhere in mouse reading)
@@ -246,7 +262,7 @@ void Game::Draw() const
 void Game::DrawUI() const
 {
 	DrawPausedText();
-	m_SandboxBattler->DrawUI(GetViewPort());
+	// m_SandboxBattler->DrawUI(GetViewPort());
 	m_FPSCounter->Draw(Point2f{10.0f, GetViewPort().height - m_FPSCounter->GetHeight() - 4.0f},Rectf{});
 
 
@@ -272,7 +288,7 @@ void Game::ProcessKeyDownEvent(const SDL_KeyboardEvent& e)
 
 		break;
 	case SDLK_y:
-
+		
 		break;
 	case SDLK_u:
 		m_UnitManager.DeSellectAll();
@@ -291,7 +307,7 @@ void Game::ProcessKeyDownEvent(const SDL_KeyboardEvent& e)
 
 		break;
 	case SDLK_m:
-
+		m_MusicPlayer->begin()->second.Play(true);
 		break;
 	case SDLK_COMMA:
 		m_TargetFPS -= 5.0f;

@@ -9,6 +9,7 @@
 
 class Grid;
 class Command;
+struct SoundPack;
 class UnitManager
 {
 public:
@@ -47,6 +48,8 @@ public:
 	void ChangeUnitTeam(int unitIndex, int newTeamID);
 	int GetUnitCount() const;
 	void ScaleAllUnits(float x, float y);
+	std::vector<int> GetReachableTilesId(Unit* unitToMove);
+	void SetSoundPack(const SoundPack* unitSoundPack);
 
 	// Probably could be better:
 	bool IsAnySelected() const;
@@ -54,6 +57,8 @@ public:
 	bool GetHoverEnemy() const;
 	bool GetHoverGround() const;
 	//
+
+	bool IsTileInRange(int targetTileId,int currentTileId,int range);
 	Unit* GetUnit(int unitIndex,bool lastAdded = false) const;
 
 	void SetFrameTimeAll(float frameTimeTarget);
@@ -67,6 +72,7 @@ private:
 	std::vector<Unit*> m_SelectedUnits;
 	std::vector<std::unique_ptr<Unit>> m_Units;
 	std::unordered_map<Unit*,std::queue<CommandPtr>> m_Queues;
+	const SoundPack* m_UnitSounds;
 	int m_DefaultTeam;
 
 	bool m_HoverEnemy;
@@ -76,7 +82,7 @@ private:
 	int m_TilesPerRow;
 	int m_TilesPerColumn;
 	std::unique_ptr<Grid> m_Grid;
-	std::vector<bool> m_TilesTaken; // FIX just for debug, later has to support checking if enemy is on tile or ally etc.
+	std::vector<Unit*> m_ObjectsInTiles; 
 
 	// Can sort based on tiles instead of Y
 	// Called after a unit moves
